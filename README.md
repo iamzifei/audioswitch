@@ -1,254 +1,235 @@
 <div align="center">
 
-<img src="docs/icon.png" width="128" alt="AudioSwitch icon">
+<img src="docs/icon.png" width="128" alt="AudioSwitch 图标">
 
 # AudioSwitch
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2T024VDBG)
 
-**Switch macOS audio devices from the menu bar.**
+**在 macOS 菜单栏里切换音频设备。**
 
-Native, Apple Silicon, zero dependencies. English · 简体中文 · 繁體中文
+原生、Apple Silicon、零依赖。界面支持 English · 简体中文 · 繁體中文
 
-<img src="docs/panel.png" width="340" alt="AudioSwitch panel">
+**中文** · [English](README.en.md)
+
+<img src="docs/panel.png" width="340" alt="AudioSwitch 面板">
 
 </div>
 
 ---
 
-macOS buries input device switching several clicks deep in System Settings, and
-the built-in volume menu only covers output. AudioSwitch puts both in one panel:
-every input and output device, a volume slider and mute for each, a live
-microphone level meter, and a one-click switch — without opening System
-Settings.
+macOS 把输入设备的切换埋在系统设置好几层之下，而菜单栏自带的音量菜单只管输出。
+AudioSwitch 把两边放进同一个面板：所有输入和输出设备、各自的音量滑块与静音、
+实时麦克风电平表，点一下就切完，不用再打开系统设置。
 
-## Features
+## 功能
 
-**Devices**
+**设备**
 
-- Every input and output device in one panel, each with an icon for *the kind of
-  device it is* — AirPods (and Pro/Max), headphones, hi-fi speaker, your Mac's
-  own speakers, display, microphone, virtual device — the way the system
-  Bluetooth menu does, rather than one glyph per connection type.
-- The list matches System Settings → Sound exactly, because it filters on the
-  same CoreAudio property the system uses
-  (`kAudioDevicePropertyDeviceCanBeDefaultDevice`). Virtual devices the system
-  hides stay hidden here too.
-- Switching the output also moves the *system alert* output, so notification
-  sounds follow the device instead of staying on the old one.
-- **Right-click the menu bar icon** to cycle to the next output device without
-  opening the panel.
+- 所有输入和输出设备在同一个面板里，每个都带**按设备类型区分的图标** ——
+  AirPods（含 Pro / Max）、耳机、音箱、你 Mac 自己的扬声器、显示器、麦克风、
+  虚拟设备 —— 和系统蓝牙菜单的做法一致，而不是一种连接方式一个图标。
+- 列表与「系统设置 → 声音」**完全一致**，因为用的是系统同一个判据
+  （`kAudioDevicePropertyDeviceCanBeDefaultDevice`）。系统不显示的虚拟设备，
+  这里同样不显示。
+- 切换输出时会一并切换**系统提示音**的输出，通知声跟着设备走，不会留在旧设备上。
+- **右键点击菜单栏图标**可以直接跳到下一个输出设备，不用展开面板。
 
-**Volume and levels**
+**音量与电平**
 
-- A volume slider and mute button per direction, with the level in dB.
-- A **live input level meter** so you can see whether your microphone is
-  actually picking you up. The microphone is only tapped while the panel is
-  open — the app never holds it in the background.
-- The menu bar icon tracks the output level using SF Symbols' variable-value
-  rendering, exactly as the system volume icon does.
-- Volume changed anywhere else (volume keys, System Settings, another app)
-  updates the panel and the icon immediately.
+- 输入、输出各有一条音量滑块和静音按钮，数值以 dB 显示。
+- **实时麦克风电平表**，一眼看出麦克风到底有没有收到你的声音。
+  只在面板打开时占用麦克风，关掉即释放，不会常驻。
+- 菜单栏图标跟随输出音量变化，用的是 SF Symbols 的 variable value 渲染 ——
+  和系统音量图标完全相同的机制。
+- 在别处改音量（音量键、系统设置、其他 app），面板和图标即时跟随。
 
-**Privacy and convenience**
+**隐私与便利**
 
-- **Disable Microphone** — a hard off switch. Mutes the current input device
-  system-wide, re-mutes whichever device becomes default later, and survives a
-  reboot. Devices with no mute switch get their gain zeroed instead.
-- **Lock Output / Input Device** — pins the chosen device. If another app grabs
-  it (conferencing apps are the usual offender), it is switched straight back.
-  Stored by device UID, so it survives unplugging and reboots.
-- **Launch at Login**, **Sound Settings…** (⌘,), **Refresh** (⌘R), **Quit** (⌘Q).
-- Interface language: English, 简体中文, 繁體中文, or follow the system.
-- **Automatic updates** via Sparkle — checked daily in the background, with the
-  download authenticated by an EdDSA signature before anything is installed.
+- **停用麦克风** —— 一个硬开关。系统级静音当前输入设备，之后成为默认的设备也会
+  被自动重新静音，重启后依然保持。设备若没有静音开关，则改为把增益归零。
+- **锁定输出 / 输入设备** —— 把选定设备钉住。别的 app（会议软件是常见元凶）
+  抢走它，会被立刻切回来。按设备 UID 记录，拔插和重启都不失效。
+- **登录时启动**、**声音设置…**（⌘,）、**刷新**（⌘R）、**退出**（⌘Q）。
+- 界面语言：English、简体中文、繁體中文，或跟随系统。
+- **自动更新**（基于 Sparkle）—— 每天后台检查，下载包经 EdDSA 签名验证后才会安装。
 
-## Install
+## 安装
 
-Download the latest `AudioSwitch.zip` from
-[Releases](https://github.com/iamzifei/audioswitch/releases/latest), unzip, and
-drag `AudioSwitch.app` to `/Applications`.
+到 [Releases](https://github.com/iamzifei/audioswitch/releases/latest) 下载
+`AudioSwitch.zip`，解压后把 `AudioSwitch.app` 拖进 `/Applications`。
 
-> **First launch.** Releases are signed with a Developer ID and, once
-> notarised, open normally. If you get "cannot be opened because the developer
-> cannot be verified", the build you downloaded was not notarised —
-> **right-click the app → Open**, then confirm. You only need to do this once.
+发布版经过 Developer ID 签名与 Apple 公证，**双击即可打开**，不需要右键→打开，
+也不用改 `xattr`。
 
-The icon appears in the menu bar — there is no Dock icon and no window.
+图标出现在菜单栏 —— 没有 Dock 图标，也没有窗口。
 
-**If you use a menu bar manager** (Ice, Bartender, Hidden Bar), it may hide the
-new icon automatically. Open its settings and move AudioSwitch to the visible
-section.
+**如果你在用菜单栏管理工具**（Ice、Bartender、Hidden Bar），它可能会自动把新图标
+折叠隐藏。打开它的设置，把 AudioSwitch 移到可见区即可。
 
-**Microphone access** is requested the first time you open the panel. It powers
-the input level meter only — audio is measured, never recorded or stored. The
-app works fine if you decline; the meter just stays empty.
+**麦克风权限**在你第一次打开面板时申请，只用于电平表 —— 音频只做测量，
+不录制也不保存。拒绝也不影响使用，只是电平表一直是空的。
 
-## Build from source
+## 从源码构建
 
-Requires macOS 14+ and Xcode's Swift toolchain.
+需要 macOS 14 以上和 Xcode 的 Swift 工具链。
 
 ```bash
 git clone https://github.com/iamzifei/audioswitch.git
 cd audioswitch
-./build.sh --install     # test → build → render icon → bundle → sign → /Applications
+./build.sh --install     # 测试 → 构建 → 生成图标 → 打包 → 签名 → /Applications
 ```
 
-`./build.sh` alone builds `AudioSwitch.app` in the project directory without
-installing it. It is ad-hoc signed by default, which is fine for running on the
-machine that built it.
+只跑 `./build.sh` 则在项目目录里生成 `AudioSwitch.app`，不安装。默认 ad-hoc 签名，
+在构建它的机器上跑够用。
 
-### Releasing a signed build
+### 发布正式版
 
 ```bash
-# One-time: store notary credentials in the keychain
+# 一次性：把公证凭据存进钥匙串
 xcrun notarytool store-credentials audioswitch \
-  --apple-id <apple-id> --team-id <TEAMID> --password <app-specific-password>
+  --apple-id <apple-id> --team-id <TEAMID> --password <app 专用密码>
 
 CODESIGN_IDENTITY="Developer ID Application: … (TEAMID)" \
 NOTARY_PROFILE=audioswitch \
-./release.sh 1.3.0
+./release.sh 1.4.0
 ```
 
-`release.sh` bumps the bundle version, builds with the hardened runtime and the
-microphone entitlement, zips, notarises, staples the ticket, regenerates the
-Sparkle `appcast.xml` with a fresh EdDSA signature, and reports what Gatekeeper
-will make of the result. Without `NOTARY_PROFILE` it still produces a signed
-build, but users get the "unidentified developer" prompt on first launch.
+`release.sh` 会依次完成：版本号递增、以 hardened runtime 和麦克风 entitlement 构建、
+打包、公证、staple 票据、用新签名重新生成 Sparkle 的 `appcast.xml`，
+最后报告 Gatekeeper 的判定结果。不带 `NOTARY_PROFILE` 也能产出签名版本，
+但用户首次打开会看到「无法验证开发者」。
 
-The appcast has to be committed to `main` before any installed copy will see
-the update — that URL is what `SUFeedURL` in Info.plist points at.
+**appcast 必须先提交到 `main`**，已安装的副本才看得到更新 ——
+Info.plist 里的 `SUFeedURL` 指向的就是那个地址。
 
-The first release from a new machine blocks on a keychain authorisation dialog,
-because `sign_update` needs the EdDSA private key. Choose **Always Allow** and
-subsequent releases run unattended.
+新机器上第一次发布会卡在钥匙串授权对话框上，因为 `sign_update` 需要读 EdDSA 私钥。
+选「**始终允许**」，之后就能无人值守地跑。
 
-### Releasing from CI
+### 用 CI 发布
 
-Pushing a `vX.Y.Z` tag runs `.github/workflows/release.yml`, which does all of
-the above on a runner and commits the regenerated appcast back to `main`. It
-needs these repository secrets:
+推送 `vX.Y.Z` 标签会触发 `.github/workflows/release.yml`，在 runner 上完成上述全部
+步骤，并把重新生成的 appcast 提交回 `main`。需要这些仓库 secrets：
 
-| Secret | What it is |
+| Secret | 是什么 |
 | --- | --- |
-| `MACOS_CERT_P12_BASE64` | base64 of the Developer ID Application `.p12` export |
-| `MACOS_CERT_PASSWORD` | password protecting that `.p12` |
-| `APPLE_ID` | Apple ID used for notarisation |
-| `APPLE_ID_PASSWORD` | app-specific password for that Apple ID |
-| `APPLE_TEAM_ID` | 10-character Apple Developer Team ID |
-| `SPARKLE_ED_PRIVATE_KEY` | Sparkle EdDSA private key (`generate_keys -x`) |
+| `MACOS_CERT_P12_BASE64` | Developer ID Application 证书导出的 `.p12` 的 base64 |
+| `MACOS_CERT_PASSWORD` | 保护该 `.p12` 的密码 |
+| `APPLE_ID` | 用于公证的 Apple ID |
+| `APPLE_ID_PASSWORD` | 该 Apple ID 的 app 专用密码 |
+| `APPLE_TEAM_ID` | 10 位 Apple Developer Team ID |
+| `SPARKLE_ED_PRIVATE_KEY` | Sparkle 的 EdDSA 私钥（`generate_keys -x` 导出） |
 
-## Tests
+## 测试
 
 ```bash
 swift test
 ```
 
-73 tests covering device filtering and System-Settings parity, per-device icon
-resolution, volume/dB conversion, menu bar symbol behaviour, level metering
-maths, and settings persistence. The integration tests run against the real
-CoreAudio server but never change your active device or its volume — the write
-path is exercised by re-selecting the device that is already default.
+73 个测试，覆盖设备过滤与「系统设置」一致性、按设备类型的图标推断、音量与 dB 转换、
+菜单栏图标行为、电平计算，以及设置持久化。集成测试跑在真实的 CoreAudio 上，
+但**不会改动你正在用的设备或音量** —— 写入路径是通过「重新选中已经是默认的那个设备」
+来验证的。
 
-## Known limits
+## 已知限制
 
-**AirPlay targets are not listed.** System Settings → Sound shows AirPlay
-speakers alongside local devices. They are not reachable through public APIs: a
-full CoreAudio enumeration returns no AirPlay devices at all, because macOS only
-instantiates one after it has been selected. The system panel gets that list
-from a private framework. Use **Sound Settings…** in the panel to pick an
-AirPlay target; once it is active it appears in AudioSwitch like any other
-device.
+**不列出 AirPlay 设备。**「系统设置 → 声音」会把 AirPlay 音箱和本地设备列在一起，
+但公开 API 拿不到它们：完整枚举 CoreAudio 返回的设备里没有任何一个是 AirPlay，
+因为 macOS 只在你选中之后才会实例化 AirPlay 设备。系统面板那份列表来自私有框架。
+需要用 AirPlay 时，点面板里的**声音设置…**去选；选中之后它就会像普通设备一样
+出现在 AudioSwitch 里。
 
-## How it works
+## 实现
 
 ```
-Sources/AudioSwitchCore/     CoreAudio layer (testable, no UI)
-  CoreAudioProperty.swift    typed wrappers over AudioObjectGet/SetPropertyData
-  AudioDevice.swift          device model, per-device icon resolution
-  VolumeController.swift     volume / mute read + write, dB conversion
-  AudioDeviceManager.swift   enumeration, switching, locking, hot-plug listeners
-  InputLevelMeter.swift      live microphone metering via AVAudioEngine
-  Preferences.swift          UserDefaults storage + SMAppService login item
-Sources/AudioSwitch/         menu bar shell
-  main.swift                 NSApplication entry, .accessory activation policy
-  AppDelegate.swift          NSStatusItem + NSPopover host, menu bar glyph
-  DevicePanel.swift          SwiftUI panel
-  AboutPage.swift            about + update status
-  Localization.swift         runtime language switching
-  Updater.swift              Sparkle auto-update wrapper
-  AppMetadata.swift          repository / version constants
-scripts/
-  update_appcast.py          rewrites appcast.xml for one release
+Sources/AudioSwitchCore/     CoreAudio 层（可测试，无 UI）
+  CoreAudioProperty.swift    AudioObjectGet/SetPropertyData 的类型化封装
+  AudioDevice.swift          设备模型、按设备类型的图标推断
+  VolumeController.swift     音量 / 静音读写、dB 换算
+  AudioDeviceManager.swift   枚举、切换、锁定、热插拔监听
+  InputLevelMeter.swift      基于 AVAudioEngine 的实时麦克风电平
+  Preferences.swift          UserDefaults 存储 + SMAppService 登录项
+Sources/AudioSwitch/         菜单栏外壳
+  main.swift                 NSApplication 入口，.accessory 激活策略
+  AppDelegate.swift          NSStatusItem + NSPopover 宿主、菜单栏图标
+  DevicePanel.swift          SwiftUI 面板
+  AboutPage.swift            关于页与更新状态
+  Localization.swift         运行时语言切换
+  Updater.swift              Sparkle 自动更新封装
+  AppMetadata.swift          仓库 / 版本常量
 packaging/
-  Info.plist                 LSUIElement bundle metadata
-  make_icon.swift            draws AppIcon.icns (Apple squircle geometry)
+  Info.plist                 LSUIElement 包元数据
+  make_icon.swift            绘制 AppIcon.icns（Apple squircle 几何）
+scripts/
+  update_appcast.py          为单次发布重写 appcast.xml
 ```
 
-### Notes from building it
+### 界面
 
-A few things that were not obvious, kept here because they cost real debugging
-time:
+按 macOS 26 的设计语言来做，和控制中心同一套：半透明卡片分组浮在弹出面板自身的
+Liquid Glass 材质上、全程 continuous（squircle）圆角、持久设置用真开关、
+底部一条紧凑的图标命令条。所有颜色都用语义色
+（`.primary`/`.secondary`/`.accentColor`/`.separator`/`.selection`），
+浅色模式、深色模式和强调色变化交给系统处理，不写死任何一个值。
 
-**SwiftUI's `MenuBarExtra` never registered a status item** on macOS 26 — the
-process ran, no status item was created, no error was raised. `NSStatusItem`
-works, and it also allows intercepting right-clicks, which `MenuBarExtra` does
-not expose.
+### 踩过的坑
 
-**`kAudioDevicePropertyVolumeDecibels` is unreliable.** One USB DAC at 12.5%
-volume reported `1.38e-30` dB from it, inside a stated range of -40…0 dB, which
-renders as "0 dB" next to a slider near the bottom. Decibels are derived from
-`kAudioDevicePropertyVolumeScalarToDecibels` instead, so the number and the
-slider can never disagree.
+几个不显然、且实打实花了调试时间的点：
 
-**Subscribe to `@Published` values, not `objectWillChange`.** The latter fires
-*before* the property updates, so the menu bar icon lagged one change behind and
-looked like it only reacted to large volume jumps.
+**SwiftUI 的 `MenuBarExtra` 在 macOS 26 上根本没注册 status item** —— 进程在跑、
+没有 status item、也没有任何报错。换成 `NSStatusItem` 就正常，而且它还能拦截右键，
+这是 `MenuBarExtra` 不提供的。
 
-**The menu bar glyph is padded to a constant width.** `speaker.wave.1/2/3` are
-three different widths; swapping between them made the status item — and every
-icon to its left — shift sideways. One variable-value `speaker.wave.3.fill`
-solves both the width and the granularity.
+**`kAudioDevicePropertyVolumeDecibels` 不可靠。** 一台 USB DAC 在 12.5% 音量下，
+从这个属性读到的是 `1.38e-30` dB —— 而它自报的范围是 -40…0 dB。渲染出来就是
+「0 dB」，而滑块明明在底部。现在 dB 一律由
+`kAudioDevicePropertyVolumeScalarToDecibels` 换算得出，数字和滑块位置不可能再打架。
 
-**SwiftPM lowercases `.lproj` directory names** in its resource bundle:
-`zh-Hans.lproj` ships as `zh-hans.lproj`. Looking up only the canonical spelling
-silently falls back to the base language.
+**要订阅 `@Published` 的值，不要订阅 `objectWillChange`。** 后者在属性更新**之前**
+触发，于是菜单栏图标永远慢一拍，表现出来像是「只有大幅调音量才会变」。
 
-**The app icon is drawn in code** (`packaging/make_icon.swift`) rather than
-exported from a design tool, so it follows Apple's template exactly: 1024pt
-canvas, 824pt art area, 185.4pt continuous-curvature corners, every iconset size
-rasterised from vectors instead of resampled.
+**菜单栏字形要垫到固定宽度。** `speaker.wave.1/2/3` 是三个不同宽度的符号，
+来回切换会让 status item —— 连同它左边所有图标 —— 横向漂移。
+改用单个 variable value 的 `speaker.wave.3.fill`，宽度和档位粒度两个问题一起解决。
 
-### Verifying UI changes
+**SwiftPM 会把 `.lproj` 目录名转成小写**：源码里的 `zh-Hans.lproj` 打进资源包后
+变成 `zh-hans.lproj`。只按原始拼写查找会静默回退到基础语言，不报任何错。
 
-A transient popover closes the instant any screenshot tool takes focus, so the
-panel cannot be captured normally:
+**hardened runtime 会拦掉麦克风。** 必须显式声明
+`com.apple.security.device.audio-input` entitlement，否则电平表**收不到任何信号**
+—— 而且 ad-hoc 签名时一切正常，一换成 Developer ID 就坏。
+
+**应用图标是用代码画的**（`packaging/make_icon.swift`），而不是从设计工具导出，
+这样能严格符合 Apple 的模板：1024pt 画布、824pt 图形区、185.4pt 连续曲率圆角，
+每个尺寸都从矢量重新光栅化，而不是缩放位图。
+
+### 验证界面改动
+
+弹出面板是 transient 的，任何截图工具一夺取焦点它就关闭，所以没法正常截图：
 
 ```bash
-# Render the panel straight to a PNG and exit
+# 直接把面板渲染成 PNG 后退出
 AUDIOSWITCH_RENDER_PANEL=/tmp/panel.png AudioSwitch.app/Contents/MacOS/AudioSwitch
 
-# Pick a language, or render the About page
+# 指定语言，或渲染关于页
 AUDIOSWITCH_RENDER_LANG=simplifiedChinese AUDIOSWITCH_RENDER_ABOUT=1 ...
 
-# Or run with a panel that does not close when focus moves away
+# 或者让面板在失去焦点时不关闭
 AUDIOSWITCH_STICKY_PANEL=1 AudioSwitch.app/Contents/MacOS/AudioSwitch
 ```
 
-`ImageRenderer` cannot draw AppKit-backed controls, so sliders and switches
-appear as placeholders in rendered PNGs; everything else is accurate.
+`ImageRenderer` 画不了 AppKit 支撑的控件，所以渲染出的 PNG 里滑块和开关是占位块，
+其余部分是准确的。
 
-## Also by the same author
+## 同系列
 
-**[ClipStack](https://github.com/iamzifei/clipstack)** — a macOS menu bar
-clipboard history manager. ⇧⌘V brings up a searchable panel of everything you
-have copied, with a full preview pane; pressing return copies it back. Built to
-pair with Claude Code's clipboard-delivery workflow, where several snippets get
-copied in sequence and you need all of them, not just the last one. Same
-approach: native Apple Silicon, zero third-party dependencies.
+**[ClipStack](https://github.com/iamzifei/clipstack)** —— macOS 菜单栏剪贴板历史管理器。
+⇧⌘V 呼出一个可搜索的面板，列出你复制过的所有内容，右侧带完整预览，回车即粘回。
+为配合 Claude Code 的剪贴板交付流程而写 —— 那种场景下会连续复制好几段，
+而你需要的是全部，不只是最后一段。同样是原生 Apple Silicon、零第三方依赖。
 
-## License
+## 许可
 
-MIT — see [LICENSE](LICENSE).
+MIT，见 [LICENSE](LICENSE)。
 
-Made by [James](https://github.com/iamzifei).
+由 [James](https://github.com/iamzifei) 制作。
