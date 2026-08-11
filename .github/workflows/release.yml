@@ -28,7 +28,8 @@ permissions:
 
 jobs:
   release:
-    runs-on: macos-14
+    # macos-14 ships Swift 5.10; Package.swift declares swift-tools-version 6.0.
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -94,7 +95,14 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
           set -euo pipefail
-          VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            # Manual runs are dispatched against a branch, so GITHUB_REF_NAME is
+            # a branch name. Verify whatever version is currently committed.
+            VERSION=$(plutil -extract CFBundleShortVersionString raw packaging/Info.plist)
+          fi
+          echo "Building version $VERSION"
           # Tags cut from a release commit already carry the right version, so
           # release.sh leaves Info.plist alone in that case.
           ./release.sh "$VERSION"
