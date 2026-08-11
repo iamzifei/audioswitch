@@ -1,0 +1,201 @@
+<div align="center">
+
+<img src="docs/icon.png" width="128" alt="AudioSwitch icon">
+
+# AudioSwitch
+
+**Switch macOS audio devices from the menu bar.**
+
+Native, Apple Silicon, zero dependencies. English · 简体中文 · 繁體中文
+
+<img src="docs/panel.png" width="340" alt="AudioSwitch panel">
+
+</div>
+
+---
+
+macOS buries input device switching several clicks deep in System Settings, and
+the built-in volume menu only covers output. AudioSwitch puts both in one panel:
+every input and output device, a volume slider and mute for each, a live
+microphone level meter, and a one-click switch — without opening System
+Settings.
+
+## Features
+
+**Devices**
+
+- Every input and output device in one panel, each with an icon for *the kind of
+  device it is* — AirPods (and Pro/Max), headphones, hi-fi speaker, your Mac's
+  own speakers, display, microphone, virtual device — the way the system
+  Bluetooth menu does, rather than one glyph per connection type.
+- The list matches System Settings → Sound exactly, because it filters on the
+  same CoreAudio property the system uses
+  (`kAudioDevicePropertyDeviceCanBeDefaultDevice`). Virtual devices the system
+  hides stay hidden here too.
+- Switching the output also moves the *system alert* output, so notification
+  sounds follow the device instead of staying on the old one.
+- **Right-click the menu bar icon** to cycle to the next output device without
+  opening the panel.
+
+**Volume and levels**
+
+- A volume slider and mute button per direction, with the level in dB.
+- A **live input level meter** so you can see whether your microphone is
+  actually picking you up. The microphone is only tapped while the panel is
+  open — the app never holds it in the background.
+- The menu bar icon tracks the output level using SF Symbols' variable-value
+  rendering, exactly as the system volume icon does.
+- Volume changed anywhere else (volume keys, System Settings, another app)
+  updates the panel and the icon immediately.
+
+**Privacy and convenience**
+
+- **Disable Microphone** — a hard off switch. Mutes the current input device
+  system-wide, re-mutes whichever device becomes default later, and survives a
+  reboot. Devices with no mute switch get their gain zeroed instead.
+- **Lock Output / Input Device** — pins the chosen device. If another app grabs
+  it (conferencing apps are the usual offender), it is switched straight back.
+  Stored by device UID, so it survives unplugging and reboots.
+- **Launch at Login**, **Sound Settings…** (⌘,), **Refresh** (⌘R), **Quit** (⌘Q).
+- Interface language: English, 简体中文, 繁體中文, or follow the system.
+
+## Install
+
+Download the latest `AudioSwitch.zip` from
+[Releases](https://github.com/iamzifei/audioswitch/releases/latest), unzip, and
+drag `AudioSwitch.app` to `/Applications`.
+
+> **First launch.** The app is ad-hoc signed rather than notarised, so macOS
+> will refuse to open it on the first try. **Right-click the app → Open**, then
+> confirm. You only need to do this once. (Or run
+> `xattr -dr com.apple.quarantine /Applications/AudioSwitch.app`.)
+
+The icon appears in the menu bar — there is no Dock icon and no window.
+
+**If you use a menu bar manager** (Ice, Bartender, Hidden Bar), it may hide the
+new icon automatically. Open its settings and move AudioSwitch to the visible
+section.
+
+**Microphone access** is requested the first time you open the panel. It powers
+the input level meter only — audio is measured, never recorded or stored. The
+app works fine if you decline; the meter just stays empty.
+
+## Build from source
+
+Requires macOS 14+ and Xcode's Swift toolchain.
+
+```bash
+git clone https://github.com/iamzifei/audioswitch.git
+cd audioswitch
+./build.sh --install     # test → build → render icon → bundle → sign → /Applications
+```
+
+`./build.sh` alone builds `AudioSwitch.app` in the project directory without
+installing it.
+
+## Tests
+
+```bash
+swift test
+```
+
+73 tests covering device filtering and System-Settings parity, per-device icon
+resolution, volume/dB conversion, menu bar symbol behaviour, level metering
+maths, and settings persistence. The integration tests run against the real
+CoreAudio server but never change your active device or its volume — the write
+path is exercised by re-selecting the device that is already default.
+
+## Known limits
+
+**AirPlay targets are not listed.** System Settings → Sound shows AirPlay
+speakers alongside local devices. They are not reachable through public APIs: a
+full CoreAudio enumeration returns no AirPlay devices at all, because macOS only
+instantiates one after it has been selected. The system panel gets that list
+from a private framework. Use **Sound Settings…** in the panel to pick an
+AirPlay target; once it is active it appears in AudioSwitch like any other
+device.
+
+**Updates are checked, not installed.** The app checks GitHub Releases and
+points you at the download. A silent in-place updater would install a build that
+Gatekeeper then refuses to launch, since the app is not notarised.
+
+## How it works
+
+```
+Sources/AudioSwitchCore/     CoreAudio layer (testable, no UI)
+  CoreAudioProperty.swift    typed wrappers over AudioObjectGet/SetPropertyData
+  AudioDevice.swift          device model, per-device icon resolution
+  VolumeController.swift     volume / mute read + write, dB conversion
+  AudioDeviceManager.swift   enumeration, switching, locking, hot-plug listeners
+  InputLevelMeter.swift      live microphone metering via AVAudioEngine
+  Preferences.swift          UserDefaults storage + SMAppService login item
+Sources/AudioSwitch/         menu bar shell
+  main.swift                 NSApplication entry, .accessory activation policy
+  AppDelegate.swift          NSStatusItem + NSPopover host, menu bar glyph
+  DevicePanel.swift          SwiftUI panel
+  AboutPage.swift            about + update status
+  Localization.swift         runtime language switching
+  UpdateChecker.swift        GitHub Releases version check
+packaging/
+  Info.plist                 LSUIElement bundle metadata
+  make_icon.swift            draws AppIcon.icns (Apple squircle geometry)
+```
+
+### Notes from building it
+
+A few things that were not obvious, kept here because they cost real debugging
+time:
+
+**SwiftUI's `MenuBarExtra` never registered a status item** on macOS 26 — the
+process ran, no status item was created, no error was raised. `NSStatusItem`
+works, and it also allows intercepting right-clicks, which `MenuBarExtra` does
+not expose.
+
+**`kAudioDevicePropertyVolumeDecibels` is unreliable.** One USB DAC at 12.5%
+volume reported `1.38e-30` dB from it, inside a stated range of -40…0 dB, which
+renders as "0 dB" next to a slider near the bottom. Decibels are derived from
+`kAudioDevicePropertyVolumeScalarToDecibels` instead, so the number and the
+slider can never disagree.
+
+**Subscribe to `@Published` values, not `objectWillChange`.** The latter fires
+*before* the property updates, so the menu bar icon lagged one change behind and
+looked like it only reacted to large volume jumps.
+
+**The menu bar glyph is padded to a constant width.** `speaker.wave.1/2/3` are
+three different widths; swapping between them made the status item — and every
+icon to its left — shift sideways. One variable-value `speaker.wave.3.fill`
+solves both the width and the granularity.
+
+**SwiftPM lowercases `.lproj` directory names** in its resource bundle:
+`zh-Hans.lproj` ships as `zh-hans.lproj`. Looking up only the canonical spelling
+silently falls back to the base language.
+
+**The app icon is drawn in code** (`packaging/make_icon.swift`) rather than
+exported from a design tool, so it follows Apple's template exactly: 1024pt
+canvas, 824pt art area, 185.4pt continuous-curvature corners, every iconset size
+rasterised from vectors instead of resampled.
+
+### Verifying UI changes
+
+A transient popover closes the instant any screenshot tool takes focus, so the
+panel cannot be captured normally:
+
+```bash
+# Render the panel straight to a PNG and exit
+AUDIOSWITCH_RENDER_PANEL=/tmp/panel.png AudioSwitch.app/Contents/MacOS/AudioSwitch
+
+# Pick a language, or render the About page
+AUDIOSWITCH_RENDER_LANG=simplifiedChinese AUDIOSWITCH_RENDER_ABOUT=1 ...
+
+# Or run with a panel that does not close when focus moves away
+AUDIOSWITCH_STICKY_PANEL=1 AudioSwitch.app/Contents/MacOS/AudioSwitch
+```
+
+`ImageRenderer` cannot draw AppKit-backed controls, so sliders and switches
+appear as placeholders in rendered PNGs; everything else is accurate.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+Made by [James](https://github.com/iamzifei).

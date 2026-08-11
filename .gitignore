@@ -1,0 +1,11 @@
+.build/
+AudioSwitch.app/
+*.xcuserdatad
+.DS_Store
+
+# Local planning notes, not part of the published project.
+docs/plans/
+
+# Build products of packaging/make_icon.swift
+packaging/AppIcon.icns
+packaging/icon-preview.png

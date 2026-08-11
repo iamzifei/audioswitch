@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>AudioSwitch</string>
+    <key>CFBundleDisplayName</key>
+    <string>AudioSwitch</string>
+    <key>CFBundleExecutable</key>
+    <string>AudioSwitch</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.iamzifei.audioswitch</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>zh-Hans</string>
+        <string>zh-Hant</string>
+    </array>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.utilities</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.2.0</string>
+    <key>CFBundleVersion</key>
+    <string>3</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    <!-- Menu bar only: no Dock icon, no main window, no app switcher entry. -->
+    <key>LSUIElement</key>
+    <true/>
+    <!-- Required for the live input level meter. The audio is only measured,
+         never recorded or stored. -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>AudioSwitch shows a live level meter for the selected microphone.</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>MIT Licensed</string>
+    <key>NSSupportsAutomaticTermination</key>
+    <false/>
+    <key>NSSupportsSuddenTermination</key>
+    <false/>
+</dict>
+</plist>

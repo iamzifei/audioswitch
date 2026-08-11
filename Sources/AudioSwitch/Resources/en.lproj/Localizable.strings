@@ -1,0 +1,61 @@
+/* Section headers */
+"section.output" = "Output";
+"section.input" = "Input";
+"section.none" = "None";
+"section.no_output_devices" = "No output devices";
+"section.no_input_devices" = "No input devices";
+
+/* Volume and level meter */
+"volume.mute" = "Mute";
+"volume.unmute" = "Unmute";
+"volume.no_control" = "No volume control";
+"meter.live_level" = "Live input level";
+"meter.microphone_disabled" = "Microphone disabled";
+"meter.no_access" = "no access";
+"meter.off" = "off";
+
+/* Options */
+"option.disable_microphone" = "Disable Microphone";
+"option.lock_output" = "Lock Output Device";
+"option.lock_input" = "Lock Input Device";
+"option.launch_at_login" = "Launch at Login";
+"option.language" = "Language";
+
+/* Language names */
+"language.system" = "System";
+"language.english" = "English";
+"language.simplified_chinese" = "简体中文";
+"language.traditional_chinese" = "繁體中文";
+
+/* Commands */
+"command.sound_settings" = "Sound Settings…";
+"command.refresh" = "Refresh";
+"command.quit" = "Quit";
+"command.about" = "About";
+"command.check_for_updates" = "Check for Updates";
+
+/* About */
+"about.title" = "AudioSwitch";
+"about.tagline" = "Switch audio devices from the menu bar.";
+"about.author" = "Made by %@";
+"about.github" = "View on GitHub";
+"about.version" = "Version %@ (%@)";
+"about.back" = "Back";
+
+/* Updates */
+"update.checking" = "Checking…";
+"update.up_to_date" = "You're up to date";
+"update.available" = "Version %@ available";
+"update.download" = "Download";
+"update.failed" = "Could not check for updates";
+
+/* Menu bar */
+"menubar.tooltip" = "AudioSwitch — click to pick a device, right-click to cycle output";
+"menubar.muted" = "Audio muted, %@";
+"menubar.output" = "Audio output: %@, %d percent";
+"menubar.no_device" = "no output device";
+
+/* Errors */
+"error.cannot_be_default" = "%@ cannot be the default %@ device.";
+"error.switch_failed" = "Could not switch %1$@ to %2$@ (OSStatus %3$d).";
+"error.microphone_cannot_be_disabled" = "This microphone cannot be switched off from software.";

@@ -1,0 +1,61 @@
+/* Section headers */
+"section.output" = "輸出";
+"section.input" = "輸入";
+"section.none" = "無";
+"section.no_output_devices" = "沒有輸出裝置";
+"section.no_input_devices" = "沒有輸入裝置";
+
+/* Volume and level meter */
+"volume.mute" = "靜音";
+"volume.unmute" = "取消靜音";
+"volume.no_control" = "此裝置不支援音量調整";
+"meter.live_level" = "即時輸入電平";
+"meter.microphone_disabled" = "麥克風已停用";
+"meter.no_access" = "無權限";
+"meter.off" = "已關閉";
+
+/* Options */
+"option.disable_microphone" = "停用麥克風";
+"option.lock_output" = "鎖定輸出裝置";
+"option.lock_input" = "鎖定輸入裝置";
+"option.launch_at_login" = "登入時啟動";
+"option.language" = "語言";
+
+/* Language names */
+"language.system" = "跟隨系統";
+"language.english" = "English";
+"language.simplified_chinese" = "简体中文";
+"language.traditional_chinese" = "繁體中文";
+
+/* Commands */
+"command.sound_settings" = "聲音設定…";
+"command.refresh" = "重新整理";
+"command.quit" = "結束";
+"command.about" = "關於";
+"command.check_for_updates" = "檢查更新";
+
+/* About */
+"about.title" = "AudioSwitch";
+"about.tagline" = "在選單列切換音訊裝置。";
+"about.author" = "作者：%@";
+"about.github" = "在 GitHub 上檢視";
+"about.version" = "版本 %@（%@）";
+"about.back" = "返回";
+
+/* Updates */
+"update.checking" = "正在檢查…";
+"update.up_to_date" = "已是最新版本";
+"update.available" = "有新版本 %@";
+"update.download" = "下載";
+"update.failed" = "檢查更新失敗";
+
+/* Menu bar */
+"menubar.tooltip" = "AudioSwitch —— 點按選擇裝置，按右鍵切換到下一個輸出";
+"menubar.muted" = "已靜音，%@";
+"menubar.output" = "音訊輸出：%@，%d%%";
+"menubar.no_device" = "無輸出裝置";
+
+/* Errors */
+"error.cannot_be_default" = "%@ 無法作為預設%@裝置。";
+"error.switch_failed" = "無法將%1$@切換至 %2$@（OSStatus %3$d）。";
+"error.microphone_cannot_be_disabled" = "此麥克風無法透過軟體關閉。";
