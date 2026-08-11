@@ -8,7 +8,7 @@ import SwiftUI
 /// same place the user already has open.
 struct AboutPage: View {
     @ObservedObject var l10n: Localization
-    @ObservedObject var updates: UpdateChecker
+    @ObservedObject var updater: Updater
     let onBack: () -> Void
 
     var body: some View {
@@ -36,8 +36,6 @@ struct AboutPage: View {
                         .foregroundStyle(.secondary)
                 }
 
-                updateStatus
-
                 HStack(spacing: 8) {
                     LinkButton(
                         title: l10n("about.github"),
@@ -50,8 +48,9 @@ struct AboutPage: View {
                         title: l10n("command.check_for_updates"),
                         symbol: "arrow.triangle.2.circlepath"
                     ) {
-                        updates.check(force: true)
+                        updater.checkForUpdates()
                     }
+                    .disabled(!updater.canCheckForUpdates)
                 }
             }
             .padding(.horizontal, 18)
@@ -98,34 +97,6 @@ struct AboutPage: View {
         .frame(width: 72, height: 72)
     }
 
-    @ViewBuilder
-    private var updateStatus: some View {
-        switch updates.state {
-        case .idle:
-            EmptyView()
-        case .checking:
-            Label(l10n("update.checking"), systemImage: "arrow.triangle.2.circlepath")
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
-        case .upToDate:
-            Label(l10n("update.up_to_date"), systemImage: "checkmark.circle")
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
-        case .failed:
-            Label(l10n("update.failed"), systemImage: "exclamationmark.triangle")
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
-        case .available(let version):
-            Button {
-                NSWorkspace.shared.open(AppMetadata.releasesURL)
-            } label: {
-                Label(l10n("update.available", version), systemImage: "arrow.down.circle.fill")
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(Color.accentColor)
-            }
-            .buttonStyle(.plain)
-        }
-    }
 }
 
 /// A pill-shaped secondary button, matching the footer's visual weight.

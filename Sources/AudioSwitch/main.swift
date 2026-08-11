@@ -23,14 +23,14 @@ if let renderPath = ProcessInfo.processInfo.environment["AUDIOSWITCH_RENDER_PANE
         let content = ZStack {
             Color(nsColor: .windowBackgroundColor)
             if showsAbout {
-                AboutPage(l10n: l10n, updates: UpdateChecker(), onBack: {})
+                AboutPage(l10n: l10n, updater: Updater(), onBack: {})
                     .frame(width: 320)
             } else {
                 DevicePanel(
                     manager: AudioDeviceManager(),
                     levelMeter: InputLevelMeter(),
                     l10n: l10n,
-                    updates: UpdateChecker(),
+                    updater: Updater(),
                     onSelect: {},
                     scrollable: false
                 )

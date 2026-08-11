@@ -10,7 +10,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let manager = AudioDeviceManager()
     private let levelMeter = InputLevelMeter()
     private let localization = Localization()
-    private let updates = UpdateChecker()
+    private let updater = Updater()
     private var statusItem: NSStatusItem?
     private var popover: NSPopover?
     private var cancellables: Set<AnyCancellable> = []
@@ -212,7 +212,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             manager: manager,
             levelMeter: levelMeter,
             l10n: localization,
-            updates: updates,
+            updater: updater,
             onSelect: { [weak self] in self?.closePopover() }
         )
         let hosting = NSHostingController(rootView: panel)

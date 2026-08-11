@@ -12,7 +12,7 @@ struct DevicePanel: View {
     @ObservedObject var manager: AudioDeviceManager
     @ObservedObject var levelMeter: InputLevelMeter
     @ObservedObject var l10n: Localization
-    @ObservedObject var updates: UpdateChecker
+    @ObservedObject var updater: Updater
 
     /// Called after the user picks a device, so the host can dismiss the popover.
     let onSelect: () -> Void
@@ -27,16 +27,13 @@ struct DevicePanel: View {
     var body: some View {
         Group {
             if isShowingAbout {
-                AboutPage(l10n: l10n, updates: updates) { isShowingAbout = false }
+                AboutPage(l10n: l10n, updater: updater) { isShowingAbout = false }
                     .frame(width: Metrics.panelWidth)
             } else {
                 mainPage
             }
         }
-        .onAppear {
-            isLaunchAtLoginEnabled = LaunchAtLogin.isEnabled
-            updates.check()
-        }
+        .onAppear { isLaunchAtLoginEnabled = LaunchAtLogin.isEnabled }
     }
 
     private var mainPage: some View {

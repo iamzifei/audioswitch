@@ -58,6 +58,8 @@ Settings.
   Stored by device UID, so it survives unplugging and reboots.
 - **Launch at Login**, **Sound Settings…** (⌘,), **Refresh** (⌘R), **Quit** (⌘Q).
 - Interface language: English, 简体中文, 繁體中文, or follow the system.
+- **Automatic updates** via Sparkle — checked daily in the background, with the
+  download authenticated by an EdDSA signature before anything is installed.
 
 ## Install
 
@@ -107,9 +109,17 @@ NOTARY_PROFILE=audioswitch \
 ```
 
 `release.sh` bumps the bundle version, builds with the hardened runtime and the
-microphone entitlement, zips, notarises, staples the ticket, and reports what
-Gatekeeper will make of the result. Without `NOTARY_PROFILE` it still produces a
-signed build, but users get the "unidentified developer" prompt on first launch.
+microphone entitlement, zips, notarises, staples the ticket, regenerates the
+Sparkle `appcast.xml` with a fresh EdDSA signature, and reports what Gatekeeper
+will make of the result. Without `NOTARY_PROFILE` it still produces a signed
+build, but users get the "unidentified developer" prompt on first launch.
+
+The appcast has to be committed to `main` before any installed copy will see
+the update — that URL is what `SUFeedURL` in Info.plist points at.
+
+The first release from a new machine blocks on a keychain authorisation dialog,
+because `sign_update` needs the EdDSA private key. Choose **Always Allow** and
+subsequent releases run unattended.
 
 ## Tests
 
@@ -133,9 +143,6 @@ from a private framework. Use **Sound Settings…** in the panel to pick an
 AirPlay target; once it is active it appears in AudioSwitch like any other
 device.
 
-**Updates are checked, not installed.** The app checks GitHub Releases and
-points you at the download rather than replacing itself in place.
-
 ## How it works
 
 ```
@@ -152,7 +159,10 @@ Sources/AudioSwitch/         menu bar shell
   DevicePanel.swift          SwiftUI panel
   AboutPage.swift            about + update status
   Localization.swift         runtime language switching
-  UpdateChecker.swift        GitHub Releases version check
+  Updater.swift              Sparkle auto-update wrapper
+  AppMetadata.swift          repository / version constants
+scripts/
+  update_appcast.py          rewrites appcast.xml for one release
 packaging/
   Info.plist                 LSUIElement bundle metadata
   make_icon.swift            draws AppIcon.icns (Apple squircle geometry)
