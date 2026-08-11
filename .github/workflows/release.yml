@@ -124,13 +124,20 @@ jobs:
           set -euo pipefail
           # The feed URL points at main, so the appcast has to land there for
           # installed copies to see the release.
+          #
+          # The freshly signed appcast only exists in the working tree at this
+          # point — the tag still carries the previous one. Stash it outside the
+          # repo so switching branches cannot clobber it.
+          cp appcast.xml "$RUNNER_TEMP/appcast.xml"
+          cp packaging/Info.plist "$RUNNER_TEMP/Info.plist"
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin main
           git checkout -B main origin/main
-          # The tag was cut from main, so only the appcast and the version
-          # bump differ; re-run the appcast step against the published archive.
-          git checkout "$GITHUB_REF_NAME" -- appcast.xml packaging/Info.plist
+
+          cp "$RUNNER_TEMP/appcast.xml" appcast.xml
+          cp "$RUNNER_TEMP/Info.plist" packaging/Info.plist
           git add appcast.xml packaging/Info.plist
           git diff --cached --quiet && { echo "nothing to commit"; exit 0; }
           git commit -m "chore: appcast for ${GITHUB_REF_NAME}"
