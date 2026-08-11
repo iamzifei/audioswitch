@@ -123,6 +123,21 @@ The first release from a new machine blocks on a keychain authorisation dialog,
 because `sign_update` needs the EdDSA private key. Choose **Always Allow** and
 subsequent releases run unattended.
 
+### Releasing from CI
+
+Pushing a `vX.Y.Z` tag runs `.github/workflows/release.yml`, which does all of
+the above on a runner and commits the regenerated appcast back to `main`. It
+needs these repository secrets:
+
+| Secret | What it is |
+| --- | --- |
+| `MACOS_CERT_P12_BASE64` | base64 of the Developer ID Application `.p12` export |
+| `MACOS_CERT_PASSWORD` | password protecting that `.p12` |
+| `APPLE_ID` | Apple ID used for notarisation |
+| `APPLE_ID_PASSWORD` | app-specific password for that Apple ID |
+| `APPLE_TEAM_ID` | 10-character Apple Developer Team ID |
+| `SPARKLE_ED_PRIVATE_KEY` | Sparkle EdDSA private key (`generate_keys -x`) |
+
 ## Tests
 
 ```bash

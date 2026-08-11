@@ -30,10 +30,16 @@ if [[ "${CODESIGN_IDENTITY:--}" == "-" ]]; then
     exit 1
 fi
 
-# Keep the bundle's version in step with the tag.
-/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${VERSION}" packaging/Info.plist
-CURRENT_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" packaging/Info.plist)
-/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $((CURRENT_BUILD + 1))" packaging/Info.plist
+# Keep the bundle's version in step with the tag. Idempotent: re-running for a
+# version that is already set does not keep inflating the build number, which
+# matters in CI where the version comes from the tag rather than from here.
+CURRENT_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" packaging/Info.plist)
+if [[ "${CURRENT_VERSION}" != "${VERSION}" ]]; then
+    /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${VERSION}" packaging/Info.plist
+    CURRENT_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" packaging/Info.plist)
+    /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $((CURRENT_BUILD + 1))" packaging/Info.plist
+    echo "==> Version set to ${VERSION} (build $((CURRENT_BUILD + 1)))"
+fi
 
 ./build.sh
 
@@ -41,9 +47,18 @@ echo "==> Packaging ${ZIP}"
 rm -f "${ZIP}"
 ditto -c -k --sequesterRsrc --keepParent "${APP}" "${ZIP}"
 
-if [[ -n "${NOTARY_PROFILE:-}" ]]; then
+if [[ -n "${NOTARY_PROFILE:-}" || -n "${APPLE_ID:-}" ]]; then
     echo "==> Notarising (this takes a few minutes)"
-    xcrun notarytool submit "${ZIP}" --keychain-profile "${NOTARY_PROFILE}" --wait
+    if [[ -n "${NOTARY_PROFILE:-}" ]]; then
+        xcrun notarytool submit "${ZIP}" --keychain-profile "${NOTARY_PROFILE}" --wait
+    else
+        # CI path: credentials arrive as environment variables instead of a
+        # keychain profile.
+        xcrun notarytool submit "${ZIP}" \
+            --apple-id "${APPLE_ID}" \
+            --team-id "${APPLE_TEAM_ID}" \
+            --password "${APPLE_ID_PASSWORD}" --wait
+    fi
 
     # The ticket staples onto the .app, not the zip, so the app has to be
     # re-zipped afterwards for the download to carry it.
@@ -54,7 +69,7 @@ if [[ -n "${NOTARY_PROFILE:-}" ]]; then
     ditto -c -k --sequesterRsrc --keepParent "${APP}" "${ZIP}"
     echo "==> Notarised and stapled"
 else
-    echo "!! NOTARY_PROFILE not set — shipping signed but un-notarised." >&2
+    echo "!! No notary credentials — shipping signed but un-notarised." >&2
     echo "   Users will need to right-click → Open on first launch." >&2
 fi
 
