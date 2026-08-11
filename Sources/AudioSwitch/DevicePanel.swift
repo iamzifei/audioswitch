@@ -145,7 +145,7 @@ private struct Card<Content: View>: View {
         .padding(Metrics.cardPadding)
         .background(
             RoundedRectangle(cornerRadius: Metrics.cardCornerRadius, style: .continuous)
-                .fill(.quaternary.opacity(0.5))
+                .fill(.quaternary.opacity(0.8))
         )
         .overlay(
             // A hairline edge keeps the card legible against a busy wallpaper.
@@ -193,7 +193,7 @@ private struct DirectionCard: View {
                 Text(l10n(direction == .output
                     ? "section.no_output_devices" : "section.no_input_devices"))
                     .font(.system(size: 12))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
                     .padding(.horizontal, Metrics.rowHorizontalPadding + 2)
                     .padding(.vertical, 6)
             } else {
@@ -225,8 +225,10 @@ private struct SectionHeader: View {
             Spacer(minLength: 8)
             if let detail {
                 Text(detail)
+                    // .tertiary is close to unreadable against the dark
+                    // material; .secondary keeps it legible in both themes.
                     .font(.system(size: 11))
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
                     .lineLimit(1)
                     .truncationMode(.middle)
             }
@@ -349,7 +351,9 @@ private struct InputLevelRow: View {
     /// Green through the working range, amber near clipping, red at the top —
     /// the convention every audio meter follows.
     private func color(at index: Int, isLit: Bool) -> Color {
-        guard isLit else { return Color.primary.opacity(0.1) }
+        // A fixed opacity on .primary nearly vanishes against the dark
+        // material; the semantic quaternary fill adapts to both themes.
+        guard isLit else { return Color(nsColor: .quaternaryLabelColor) }
         let position = Double(index) / Double(segmentCount - 1)
         if position > 0.92 { return .red }
         if position > 0.78 { return .orange }

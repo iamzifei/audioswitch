@@ -232,6 +232,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
+        // Activate *before* showing. An accessory app is inactive by default,
+        // and a popover shown from an inactive app comes up without key focus:
+        // SwiftUI then draws every control in its greyed-out inactive
+        // appearance — sliders lose their tint, the meter loses its colour —
+        // until the next click activates the app. Ordering this first is what
+        // makes the first open look the same as every subsequent one.
+        NSApp.activate(ignoringOtherApps: true)
+
         // Re-read devices and levels right before showing: something may have
         // changed while the popover was closed.
         manager.refresh()
@@ -242,9 +250,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             levelMeter.start()
         }
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-        // An accessory app is not active by default; activating lets the
-        // popover take key focus so the keyboard shortcuts work.
-        NSApp.activate(ignoringOtherApps: true)
+        // Belt and braces: make the popover's own window key so its controls
+        // render active and the keyboard shortcuts reach it.
+        popover.contentViewController?.view.window?.makeKey()
     }
 
     private func closePopover() {

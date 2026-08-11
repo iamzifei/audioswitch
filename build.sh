@@ -46,11 +46,31 @@ else
     exit 1
 fi
 
-# Ad-hoc signature. Enough for local use; replace "-" with a Developer ID
-# identity if the app is ever distributed to other machines.
-echo "==> Signing (ad-hoc)"
-codesign --force --sign - --timestamp=none "${APP_BUNDLE}"
-codesign --verify --verbose "${APP_BUNDLE}" 2>&1 | sed 's/^/    /'
+# Signing.
+#
+# Set CODESIGN_IDENTITY to a "Developer ID Application: …" identity to produce a
+# distributable build: that adds the hardened runtime and a secure timestamp,
+# both of which the notary service requires. Without it the build is ad-hoc
+# signed, which is fine for running locally but not for handing to anyone else.
+#
+# The entitlements file matters under the hardened runtime: microphone access is
+# denied without com.apple.security.device.audio-input, so the input level meter
+# would silently receive nothing.
+IDENTITY="${CODESIGN_IDENTITY:--}"
+
+if [[ "${IDENTITY}" == "-" ]]; then
+    echo "==> Signing (ad-hoc)"
+    codesign --force --sign - --timestamp=none "${APP_BUNDLE}"
+else
+    echo "==> Signing (${IDENTITY})"
+    codesign --force \
+        --options runtime \
+        --timestamp \
+        --entitlements "packaging/AudioSwitch.entitlements" \
+        --sign "${IDENTITY}" \
+        "${APP_BUNDLE}"
+fi
+codesign --verify --strict --verbose "${APP_BUNDLE}" 2>&1 | sed 's/^/    /'
 
 echo "==> Built ${APP_BUNDLE}"
 

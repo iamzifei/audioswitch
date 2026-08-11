@@ -65,10 +65,10 @@ Download the latest `AudioSwitch.zip` from
 [Releases](https://github.com/iamzifei/audioswitch/releases/latest), unzip, and
 drag `AudioSwitch.app` to `/Applications`.
 
-> **First launch.** The app is ad-hoc signed rather than notarised, so macOS
-> will refuse to open it on the first try. **Right-click the app → Open**, then
-> confirm. You only need to do this once. (Or run
-> `xattr -dr com.apple.quarantine /Applications/AudioSwitch.app`.)
+> **First launch.** Releases are signed with a Developer ID and, once
+> notarised, open normally. If you get "cannot be opened because the developer
+> cannot be verified", the build you downloaded was not notarised —
+> **right-click the app → Open**, then confirm. You only need to do this once.
 
 The icon appears in the menu bar — there is no Dock icon and no window.
 
@@ -91,7 +91,25 @@ cd audioswitch
 ```
 
 `./build.sh` alone builds `AudioSwitch.app` in the project directory without
-installing it.
+installing it. It is ad-hoc signed by default, which is fine for running on the
+machine that built it.
+
+### Releasing a signed build
+
+```bash
+# One-time: store notary credentials in the keychain
+xcrun notarytool store-credentials audioswitch \
+  --apple-id <apple-id> --team-id <TEAMID> --password <app-specific-password>
+
+CODESIGN_IDENTITY="Developer ID Application: … (TEAMID)" \
+NOTARY_PROFILE=audioswitch \
+./release.sh 1.3.0
+```
+
+`release.sh` bumps the bundle version, builds with the hardened runtime and the
+microphone entitlement, zips, notarises, staples the ticket, and reports what
+Gatekeeper will make of the result. Without `NOTARY_PROFILE` it still produces a
+signed build, but users get the "unidentified developer" prompt on first launch.
 
 ## Tests
 
@@ -116,8 +134,7 @@ AirPlay target; once it is active it appears in AudioSwitch like any other
 device.
 
 **Updates are checked, not installed.** The app checks GitHub Releases and
-points you at the download. A silent in-place updater would install a build that
-Gatekeeper then refuses to launch, since the app is not notarised.
+points you at the download rather than replacing itself in place.
 
 ## How it works
 
@@ -193,6 +210,15 @@ AUDIOSWITCH_STICKY_PANEL=1 AudioSwitch.app/Contents/MacOS/AudioSwitch
 
 `ImageRenderer` cannot draw AppKit-backed controls, so sliders and switches
 appear as placeholders in rendered PNGs; everything else is accurate.
+
+## Also by the same author
+
+**[ClipStack](https://github.com/iamzifei/clipstack)** — a macOS menu bar
+clipboard history manager. ⇧⌘V brings up a searchable panel of everything you
+have copied, with a full preview pane; pressing return copies it back. Built to
+pair with Claude Code's clipboard-delivery workflow, where several snippets get
+copied in sequence and you need all of them, not just the last one. Same
+approach: native Apple Silicon, zero third-party dependencies.
 
 ## License
 
