@@ -27,8 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// it — and every icon to its left — sideways. Computed once from the
     /// widest glyph the app can display.
     private lazy var fixedIconWidth: CGFloat = {
-        let candidates = ["speaker.wave.3.fill", "speaker.slash.fill"]
-        return candidates.compactMap { name in
+        MenuBarIcon.allSymbolNames.compactMap { name in
             NSImage(systemSymbolName: name, accessibilityDescription: nil)?
                 .withSymbolConfiguration(Self.symbolConfiguration)?
                 .size.width
@@ -57,6 +56,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // The device name is part of the tooltip and the optional title, so the
         // icon also needs refreshing when the default output device changes.
         manager.$defaultOutputID
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.updateStatusItem(with: self.manager.outputVolume)
+            }
+            .store(in: &cancellables)
+
+        // The icon is derived from the device itself, and a device can change
+        // underneath a stable ID: plugging into the built-in headphone jack
+        // keeps the same output device but flips its data source from speakers
+        // to headphones, which is exactly the case the icon must catch.
+        manager.$devices
             .removeDuplicates()
             .sink { [weak self] _ in
                 guard let self else { return }
@@ -117,9 +128,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Builds the menu bar glyph for a volume state.
     ///
-    /// Uses SF Symbols' variable-value rendering: `speaker.wave.3` is one glyph
-    /// whose arcs light up progressively with a 0...1 value, which is how the
-    /// system volume icon works. That gives finer steps than swapping between
+    /// The symbol follows the default output device: headphones get their own
+    /// glyph, anything else gets the speaker. For the speaker this uses SF
+    /// Symbols' variable-value rendering: `speaker.wave.3` is one glyph whose
+    /// arcs light up progressively with a 0...1 value, which is how the system
+    /// volume icon works. That gives finer steps than swapping between
     /// wave.1/2/3 and, because the glyph's bounding box never changes, the item
     /// stays put instead of shifting as the level changes.
     ///
@@ -127,11 +140,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// light mode, dark mode, and the tinted menu bar styles — no colour of our
     /// own is ever baked in.
     private func statusIcon(for state: VolumeState) -> NSImage? {
-        let base = NSImage(
-            systemSymbolName: state.menuBarSymbolName,
-            variableValue: state.symbolVariableValue,
-            accessibilityDescription: accessibilityDescription(for: state)
-        )?.withSymbolConfiguration(Self.symbolConfiguration)
+        let device = manager.defaultDevice(for: .output)
+        let symbol = MenuBarIcon.symbolName(for: device, volume: state)
+        let description = accessibilityDescription(for: state)
+
+        // Only the speaker symbols have a variable form; the headphone glyphs
+        // are fixed drawings, so there is no level to pass them.
+        let image = MenuBarIcon.isVariable(symbol)
+            ? NSImage(
+                systemSymbolName: symbol,
+                variableValue: state.symbolVariableValue,
+                accessibilityDescription: description
+            )
+            : NSImage(systemSymbolName: symbol, accessibilityDescription: description)
+
+        let base = image?.withSymbolConfiguration(Self.symbolConfiguration)
 
         guard let base else { return nil }
         return paddedToFixedWidth(base)

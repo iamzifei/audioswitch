@@ -42,6 +42,9 @@ AudioSwitch 把两边放进同一个面板：所有输入和输出设备、各�
   只在面板打开时占用麦克风，关掉即释放，不会常驻。
 - 菜单栏图标跟随输出音量变化，用的是 SF Symbols 的 variable value 渲染 ——
   和系统音量图标完全相同的机制。
+- 输出切到耳机时，菜单栏图标换成对应的耳机字形（AirPods / AirPods Pro /
+  AirPods Max / Beats / 通用耳机），一眼就知道声音去了头上还是房间里。
+  静音时仍然显示带斜杠的喇叭——「听不见」比「戴着什么」更要紧。
 - 在别处改音量（音量键、系统设置、其他 app），面板和图标即时跟随。
 
 **隐私与便利**
@@ -126,8 +129,8 @@ Info.plist 里的 `SUFeedURL` 指向的就是那个地址。
 swift test
 ```
 
-73 个测试，覆盖设备过滤与「系统设置」一致性、按设备类型的图标推断、音量与 dB 转换、
-菜单栏图标行为、电平计算，以及设置持久化。集成测试跑在真实的 CoreAudio 上，
+83 个测试，覆盖设备过滤与「系统设置」一致性、按设备类型的图标推断、音量与 dB 转换、
+菜单栏图标行为（含耳机字形接管）、电平计算，以及设置持久化。集成测试跑在真实的 CoreAudio 上，
 但**不会改动你正在用的设备或音量** —— 写入路径是通过「重新选中已经是默认的那个设备」
 来验证的。
 
@@ -146,6 +149,7 @@ Sources/AudioSwitchCore/     CoreAudio 层（可测试，无 UI）
   CoreAudioProperty.swift    AudioObjectGet/SetPropertyData 的类型化封装
   AudioDevice.swift          设备模型、按设备类型的图标推断
   VolumeController.swift     音量 / 静音读写、dB 换算
+  MenuBarIcon.swift          菜单栏字形选择（耳机 vs 喇叭、静音）
   AudioDeviceManager.swift   枚举、切换、锁定、热插拔监听
   InputLevelMeter.swift      基于 AVAudioEngine 的实时麦克风电平
   Preferences.swift          UserDefaults 存储 + SMAppService 登录项

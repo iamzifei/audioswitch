@@ -49,6 +49,10 @@ Settings.
   open — the app never holds it in the background.
 - The menu bar icon tracks the output level using SF Symbols' variable-value
   rendering, exactly as the system volume icon does.
+- When the output is headphones, the icon becomes the matching headphone glyph
+  (AirPods, AirPods Pro/Max, Beats, or generic headphones), so you can tell at a
+  glance whether the sound is on your head or in the room. Muted output keeps
+  the slashed speaker — "you will hear nothing" is the more urgent fact.
 - Volume changed anywhere else (volume keys, System Settings, another app)
   updates the panel and the icon immediately.
 
@@ -146,9 +150,9 @@ needs these repository secrets:
 swift test
 ```
 
-73 tests covering device filtering and System-Settings parity, per-device icon
-resolution, volume/dB conversion, menu bar symbol behaviour, level metering
-maths, and settings persistence. The integration tests run against the real
+83 tests covering device filtering and System-Settings parity, per-device icon
+resolution, volume/dB conversion, menu bar symbol behaviour (including the
+headphone takeover), level metering maths, and settings persistence. The integration tests run against the real
 CoreAudio server but never change your active device or its volume — the write
 path is exercised by re-selecting the device that is already default.
 
@@ -169,6 +173,7 @@ Sources/AudioSwitchCore/     CoreAudio layer (testable, no UI)
   CoreAudioProperty.swift    typed wrappers over AudioObjectGet/SetPropertyData
   AudioDevice.swift          device model, per-device icon resolution
   VolumeController.swift     volume / mute read + write, dB conversion
+  MenuBarIcon.swift          menu bar glyph choice (headphones vs speaker, mute)
   AudioDeviceManager.swift   enumeration, switching, locking, hot-plug listeners
   InputLevelMeter.swift      live microphone metering via AVAudioEngine
   Preferences.swift          UserDefaults storage + SMAppService login item

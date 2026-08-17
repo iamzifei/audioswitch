@@ -31,6 +31,13 @@ public struct VolumeState: Equatable, Sendable {
         return Double(min(max(scalar, 0), 1))
     }
 
+    /// Nothing will come out of the device: either muted, or turned all the way
+    /// down. The two are indistinguishable to the listener, so the icon treats
+    /// them the same.
+    public var isSilent: Bool {
+        isMuted || scalar <= 0.001
+    }
+
     /// Symbol to render in the menu bar. Silence and mute both use the slashed
     /// speaker; everything else uses the variable-value wave symbol.
     ///
@@ -38,7 +45,7 @@ public struct VolumeState: Equatable, Sendable {
     /// volume icon shows it draws a *solid* speaker cone with line-art waves.
     /// The outline variant looks visibly lighter than every neighbouring icon.
     public var menuBarSymbolName: String {
-        (isMuted || scalar <= 0.001) ? "speaker.slash.fill" : "speaker.wave.3.fill"
+        isSilent ? "speaker.slash.fill" : "speaker.wave.3.fill"
     }
 }
 
