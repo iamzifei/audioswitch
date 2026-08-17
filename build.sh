@@ -36,9 +36,11 @@ cp ".build/arm64-apple-macosx/release/${APP_NAME}" "${APP_BUNDLE}/Contents/MacOS
 cp "packaging/Info.plist" "${APP_BUNDLE}/Contents/Info.plist"
 cp "packaging/AppIcon.icns" "${APP_BUNDLE}/Contents/Resources/AppIcon.icns"
 
-# SwiftPM emits localizations into its own resource bundle. Bundle.module looks
-# for it inside Contents/Resources, so it has to be copied in — without this the
-# app silently falls back to the base language.
+# SwiftPM emits localizations into its own resource bundle, which has to be
+# copied into Contents/Resources — the standard place for it inside an .app, and
+# where Localization.resourceBundle looks first. (Not where SwiftPM's own
+# `Bundle.module` accessor looks, which is why the app resolves it by hand; see
+# the comment on Localization.resourceBundle.)
 RESOURCE_BUNDLE=".build/arm64-apple-macosx/release/AudioSwitch_AudioSwitch.bundle"
 if [[ -d "${RESOURCE_BUNDLE}" ]]; then
     cp -R "${RESOURCE_BUNDLE}" "${APP_BUNDLE}/Contents/Resources/"
@@ -97,6 +99,29 @@ sign "${FRAMEWORK}"
 sign "${APP_BUNDLE}"
 
 codesign --verify --strict --deep --verbose "${APP_BUNDLE}" 2>&1 | sed 's/^/    /'
+
+# Smoke test: does the assembled bundle stand on its own?
+#
+# This is the check that was missing when v1.2.0 and v1.3.0 shipped. SwiftPM's
+# generated `Bundle.module` falls back to the absolute path of the build
+# directory, so a build with misplaced resources runs perfectly on the machine
+# that produced it and crashes on launch everywhere else. Asserting that the
+# resources resolve to a path *inside* the .app is what catches that here rather
+# than in someone's Downloads folder.
+echo "==> Smoke-testing the assembled app"
+SMOKE_OUTPUT=$(AUDIOSWITCH_SMOKE_TEST=1 "${APP_BUNDLE}/Contents/MacOS/${APP_NAME}" 2>&1) || {
+    echo "${SMOKE_OUTPUT}" | sed 's/^/    /'
+    echo "!! The app cannot load its localizations — do not ship this build." >&2
+    exit 1
+}
+echo "${SMOKE_OUTPUT}" | sed 's/^/    /'
+
+RESOLVED_RESOURCES=$(echo "${SMOKE_OUTPUT}" | sed -n 's/^resources: //p')
+if [[ "${RESOLVED_RESOURCES}" != "$(cd "${APP_BUNDLE}" && pwd)"/* ]]; then
+    echo "!! Resources resolved to ${RESOLVED_RESOURCES}, which is outside the app." >&2
+    echo "   The build would only work on this machine." >&2
+    exit 1
+fi
 
 echo "==> Built ${APP_BUNDLE}"
 

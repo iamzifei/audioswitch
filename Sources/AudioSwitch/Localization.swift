@@ -68,16 +68,42 @@ final class Localization: ObservableObject {
         String(format: callAsFunction(key), arguments: arguments)
     }
 
+    /// The bundle SwiftPM emits the `.lproj` directories into.
+    ///
+    /// Deliberately *not* `Bundle.module`. SwiftPM generates that accessor to
+    /// look in exactly two places — `Bundle.main.bundleURL/<name>.bundle` and
+    /// the absolute path of the build directory it was compiled in — and to
+    /// call `fatalError` when neither exists. `build.sh` puts the bundle in
+    /// `Contents/Resources`, which is neither, so every copy of the app worked
+    /// only on machines that still had the original build directory: the
+    /// developer's. Shipped builds crashed on launch. Resolving it ourselves
+    /// covers both layouts and, more importantly, never traps.
+    static let resourceBundle: Bundle = {
+        let name = "AudioSwitch_AudioSwitch.bundle"
+        let candidates = [
+            // Where build.sh puts it inside the .app.
+            Bundle.main.resourceURL?.appendingPathComponent(name),
+            // Where SwiftPM expects it, i.e. next to the binary under `swift run`.
+            Bundle.main.bundleURL.appendingPathComponent(name),
+        ]
+        for url in candidates.compactMap({ $0 }) {
+            if let bundle = Bundle(url: url) { return bundle }
+        }
+        // Last resort: the app's own resources. Strings then fall back to their
+        // keys, which is ugly but is a running app rather than a crashed one.
+        return .main
+    }()
+
     /// Resolves the bundle to read strings from.
     ///
     /// `.system` follows the user's language preferences, falling back through
     /// the localizations the app actually ships.
     private static func bundle(for language: AppLanguage) -> Bundle {
-        let resources = Bundle.module
+        let resources = resourceBundle
 
         guard let code = language.localeCode else {
             // Match the system's preferred language against what we ship;
-            // Bundle.module already resolves this for the default case.
+            // CFBundle already resolves this for the default case.
             return resources
         }
 

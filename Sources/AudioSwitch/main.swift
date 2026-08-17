@@ -2,6 +2,39 @@ import AppKit
 import AudioSwitchCore
 import SwiftUI
 
+// Release guard: `AUDIOSWITCH_SMOKE_TEST=1` prints where the localization
+// resources were resolved from, checks that a string in every shipped language
+// actually loads, and exits.
+//
+// It exists because a resource bundle that resolves on the build machine and
+// nowhere else is invisible until someone downloads the app: v1.2.0 and v1.3.0
+// both shipped a bundle no downloader could find, and crashed on launch.
+// build.sh runs this against the assembled .app and refuses to package a build
+// whose resources resolve to anything outside it.
+if ProcessInfo.processInfo.environment["AUDIOSWITCH_SMOKE_TEST"] == "1" {
+    MainActor.assumeIsolated {
+        let bundle = Localization.resourceBundle
+        print("resources: \(bundle.bundleURL.path)")
+
+        var failed = false
+        // A throwaway defaults suite: switching languages persists the choice,
+        // and a smoke test must not rewrite the user's own setting.
+        let scratch = Preferences(
+            defaults: UserDefaults(suiteName: "audioswitch.smoketest") ?? .standard
+        )
+        for language in AppLanguage.allCases {
+            let l10n = Localization(preferences: scratch)
+            l10n.setLanguage(language)
+            // Every language ships this key; getting the key back means the
+            // lookup fell through to an empty bundle.
+            let value = l10n("menubar.tooltip")
+            print("  \(language.rawValue): \(value)")
+            if value == "menubar.tooltip" { failed = true }
+        }
+        exit(failed ? 1 : 0)
+    }
+}
+
 // Development aid: `AUDIOSWITCH_RENDER_PANEL=<path>` renders the panel to a PNG
 // and exits without ever showing a menu bar item.
 //
