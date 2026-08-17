@@ -10,9 +10,11 @@
 
 原生、Apple Silicon、零依赖。界面支持 English · 简体中文 · 繁體中文
 
-**中文** · [English](README.en.md)
+[**audioswitch.dev**](https://audioswitch.dev) · **中文** · [English](README.en.md)
 
-<img src="docs/panel.png" width="340" alt="AudioSwitch 面板">
+<img src="docs/panel.png" width="300" alt="AudioSwitch 面板">&nbsp;&nbsp;<img src="docs/demo.gif" width="300" alt="AudioSwitch 演示：切换输出设备、调音量、锁定设备、停用麦克风">
+
+<sub>▶ 完整演示（约 1 分钟）在 <a href="https://audioswitch.dev">audioswitch.dev</a></sub>
 
 </div>
 
@@ -161,6 +163,9 @@ Sources/AudioSwitch/         菜单栏外壳
   Localization.swift         运行时语言切换
   Updater.swift              Sparkle 自动更新封装
   AppMetadata.swift          仓库 / 版本常量
+docs/                        落地页（GitHub Pages → audioswitch.dev）
+  index.html                 单页站点，纯静态、无外部请求
+  hero.mp4 / demo.gif        面板录屏（ChatCut 剪辑）
 packaging/
   Info.plist                 LSUIElement 包元数据
   make_icon.swift            绘制 AppIcon.icns（Apple squircle 几何）

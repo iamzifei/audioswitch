@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AudioSwitch — switch macOS audio devices from the menu bar</title>
+<meta name="description" content="A native macOS menu bar app that puts every audio input and output in one panel: switch devices, set volume, mute, watch a live microphone meter, and kill the mic outright. Apple silicon, zero dependencies, MIT.">
+<meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101215" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="icon-256.png" sizes="256x256">
+<link rel="apple-touch-icon" href="icon-256.png">
+<link rel="canonical" href="https://audioswitch.dev/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://audioswitch.dev/">
+<meta property="og:title" content="AudioSwitch — switch macOS audio devices from the menu bar">
+<meta property="og:description" content="Every input and output in one panel: switch, set volume, mute, watch a live mic meter. Native, Apple silicon, MIT.">
+<meta property="og:image" content="https://audioswitch.dev/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+/* ---------------------------------------------------------------------------
+   AudioSwitch product page.
+
+   Design notes, because they are decisions rather than defaults:
+
+   * The typeface is the system UI font on purpose. This is a macOS utility;
+     rendering the page in the same face the app itself draws in makes the
+     screenshots and the prose read as one object. It also costs zero network
+     requests, which is the other half of the brief.
+   * Neutrals are tinted toward the accent hue. Nothing on the page is #000
+     or #fff.
+   * One accent colour, the system blue the app uses for its own controls.
+   * The hero motif is a menu bar with the panel hanging off it. That is what
+     the product literally is, so it is the one piece of ornament that earns
+     its place.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+
+  --bg:            #f4f5f7;
+  --bg-raised:     #fbfbfd;
+  --bg-sunken:     #eaebef;
+  --ink:           #16181d;
+  --ink-soft:      #5b606b;
+  --ink-faint:     #8b909c;
+  --rule:          #dcdee4;
+  --accent:        #0067da;
+  --accent-ink:    #ffffff;
+  --menubar:       rgba(255, 255, 255, 0.74);
+  --menubar-ink:   rgba(22, 24, 29, 0.78);
+  --menubar-edge:  rgba(22, 24, 29, 0.1);
+  --shadow-panel:  0 34px 70px -28px rgba(14, 18, 32, 0.44), 0 4px 14px -6px rgba(14, 18, 32, 0.2);
+
+  --measure: 34rem;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --section-gap: clamp(4.5rem, 11vw, 9.5rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:           #101215;
+    --bg-raised:    #17191e;
+    --bg-sunken:    #0b0c0f;
+    --ink:          #e9eaef;
+    --ink-soft:     #a0a5b1;
+    --ink-faint:    #71767f;
+    --rule:         #262931;
+    --accent:       #4d9dff;
+    --accent-ink:   #0b1220;
+    --menubar:      rgba(240, 242, 248, 0.09);
+    --menubar-ink:  rgba(255, 255, 255, 0.8);
+    --menubar-edge: rgba(255, 255, 255, 0.12);
+    --shadow-panel: 0 40px 80px -30px rgba(0, 0, 0, 0.85), 0 4px 16px -6px rgba(0, 0, 0, 0.6);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.55;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Helvetica Neue", sans-serif;
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.028em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2.1rem, 1.35rem + 3.1vw, 3.75rem); }
+h2 { font-size: clamp(1.75rem, 1.2rem + 2.4vw, 2.85rem); }
+h3 { font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem); letter-spacing: -0.018em; line-height: 1.25; }
+
+p { margin: 0; }
+a { color: inherit; }
+
+.wrap {
+  width: min(72rem, 100%);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* --- Hero ---------------------------------------------------------------- */
+
+.hero {
+  padding-block: clamp(3rem, 8vw, 6rem) 0;
+  overflow: clip;
+}
+
+.hero-grid {
+  display: grid;
+  gap: clamp(2.75rem, 6vw, 4.5rem);
+  align-items: start;
+}
+
+@media (min-width: 60rem) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
+    gap: clamp(3rem, 5vw, 5.5rem);
+  }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8125rem;
+  font-weight: 590;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+  margin-bottom: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.eyebrow img {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.lede {
+  max-width: var(--measure);
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.3125rem);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.btn {
+  --btn-bg: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.78rem 1.4rem;
+  border-radius: 980px;
+  background: var(--btn-bg);
+  color: var(--accent-ink);
+  font-weight: 590;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), filter 0.25s ease;
+}
+
+.btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn-quiet {
+  --btn-bg: transparent;
+  color: var(--ink);
+  padding-inline: 0.25rem;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.35em;
+}
+
+.btn-quiet:hover { text-decoration-color: var(--accent); filter: none; }
+
+.fineprint {
+  margin-top: 1.1rem;
+  font-size: 0.875rem;
+  color: var(--ink-faint);
+}
+
+/* --- The menu bar motif -------------------------------------------------- */
+
+.stage { position: relative; }
+
+.menubar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.15rem;
+  height: 30px;
+  padding-inline: 0.9rem;
+  border-radius: 9px 9px 0 0;
+  background: var(--menubar);
+  border: 1px solid var(--menubar-edge);
+  border-bottom: 0;
+  color: var(--menubar-ink);
+  backdrop-filter: saturate(180%) blur(14px);
+}
+
+.menubar svg { display: block; opacity: 0.6; }
+
+/* The one icon that is ours, lit the way the system lights an active item. */
+.menubar .live {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.menubar .clock {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The panel hangs off the bar, the way the real popover does. Its own rounded
+   corners and shadow are baked into the recording, so the page adds only the
+   shadow that lifts it off the background. */
+.panel-holder {
+  width: min(19.5rem, 100%);
+  margin-left: auto;
+  margin-right: clamp(0.5rem, 4%, 2.6rem);
+  margin-top: 0.4rem;
+  border-radius: 13px;
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+  background: var(--bg-sunken);
+}
+
+.panel-video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin: 1.1rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+  text-align: right;
+  padding-right: clamp(0.5rem, 4%, 2.6rem);
+}
+
+/* --- Sections ------------------------------------------------------------ */
+
+section { padding-block: var(--section-gap); }
+
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+
+.section-head { max-width: 44rem; }
+
+.section-head p {
+  margin-top: 1rem;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.1875rem);
+  color: var(--ink-soft);
+  max-width: var(--measure);
+}
+
+/* Deliberately uneven: the first item spans wide, the rest sit in a tighter
+   two-column rhythm, so the block does not read as another card grid. */
+.features {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.25rem) clamp(2rem, 5vw, 4rem);
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+@media (min-width: 46rem) {
+  .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .features > .wide { grid-column: 1 / -1; }
+}
+
+.feature h3 { margin-bottom: 0.55rem; }
+.feature p { color: var(--ink-soft); max-width: 32rem; }
+
+.feature.wide {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+}
+
+@media (min-width: 46rem) {
+  .feature.wide { grid-template-columns: minmax(0, 1fr) minmax(15rem, 21rem); }
+}
+
+.feature.wide img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: var(--shadow-panel);
+}
+
+.kbd {
+  font: inherit;
+  font-weight: 590;
+  padding: 0.1em 0.42em;
+  border-radius: 6px;
+  background: var(--bg-sunken);
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+/* --- Detail list --------------------------------------------------------- */
+
+.details {
+  margin: clamp(2.5rem, 6vw, 3.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.details li {
+  display: grid;
+  gap: 0.35rem 2.5rem;
+  padding-block: clamp(1.1rem, 2.5vw, 1.5rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 46rem) {
+  .details li { grid-template-columns: 15rem minmax(0, 1fr); align-items: baseline; }
+}
+
+.details dt, .details .term { font-weight: 590; }
+.details .desc { color: var(--ink-soft); }
+
+/* --- Closing ------------------------------------------------------------- */
+
+.closing {
+  background: var(--bg-raised);
+  border-block: 1px solid var(--rule);
+}
+
+.closing .wrap { display: grid; gap: clamp(1.75rem, 4vw, 2.5rem); }
+
+.limits {
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+  max-width: 40rem;
+}
+
+.limits strong { color: var(--ink); font-weight: 590; }
+
+footer {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  font-size: 0.875rem;
+  color: var(--ink-faint);
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.3em; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Entrance ------------------------------------------------------------ */
+
+.rise {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rise.seen { opacity: 1; transform: none; }
+
+.hero .rise { transition-delay: calc(var(--i, 0) * 80ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise { opacity: 1; transform: none; transition: none; }
+  .btn { transition: none; }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow rise" style="--i:0">
+          <img src="icon-256.png" width="30" height="30" alt="" decoding="async">
+          AudioSwitch for macOS
+        </p>
+
+        <h1 class="rise" style="--i:1">Every audio device, one click from the <span>menu&nbsp;bar</span>.</h1>
+
+        <p class="lede rise" style="--i:2">
+          macOS buries input switching several clicks deep in System Settings, and the built-in
+          volume menu only covers output. AudioSwitch puts both in one panel — with volume, mute,
+          a live microphone meter, and a hard kill switch for the mic.
+        </p>
+
+        <div class="actions rise" style="--i:3">
+          <a class="btn" href="https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip">
+            <svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 1a.75.75 0 0 1 .75.75v7.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06l2.22 2.22V1.75A.75.75 0 0 1 8 1Z"/>
+              <path d="M2.75 10.5a.75.75 0 0 1 .75.75v1.25c0 .14.11.25.25.25h8.5a.25.25 0 0 0 .25-.25V11.25a.75.75 0 0 1 1.5 0v1.25c0 .97-.78 1.75-1.75 1.75h-8.5A1.75 1.75 0 0 1 2 12.5v-1.25a.75.75 0 0 1 .75-.75Z"/>
+            </svg>
+            Download for macOS
+          </a>
+          <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch">Source on GitHub</a>
+        </div>
+
+        <p class="fineprint rise" style="--i:4">
+          macOS 14 or later · Apple silicon · signed and notarised · MIT licensed · about 1.5&nbsp;MB
+        </p>
+      </div>
+
+      <div class="stage rise" style="--i:5">
+        <div class="menubar" aria-hidden="true">
+          <svg width="17" height="13" viewBox="0 0 17 13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+            <path d="M1.6 4.7a9.6 9.6 0 0 1 13.8 0M4.2 7.5a6 6 0 0 1 8.6 0"/><circle cx="8.5" cy="10.6" r="1.1" fill="currentColor" stroke="none"/>
+          </svg>
+          <svg class="live" width="17" height="14" viewBox="0 0 17 14" fill="currentColor">
+            <path d="M7.4 1.2 4.1 4H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.1l3.3 2.8c.5.4 1.2 0 1.2-.6V1.8c0-.6-.7-1-1.2-.6Z"/>
+            <path d="M11.1 4.2a.75.75 0 0 1 1.05.15 4.4 4.4 0 0 1 0 5.3.75.75 0 1 1-1.2-.9 2.9 2.9 0 0 0 0-3.5.75.75 0 0 1 .15-1.05Z"/>
+            <path d="M13.4 2a.75.75 0 0 1 1.05.16 7.6 7.6 0 0 1 0 9.18.75.75 0 1 1-1.2-.9 6.1 6.1 0 0 0 0-7.38A.75.75 0 0 1 13.4 2Z"/>
+          </svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round">
+            <path d="M4 3.6 9 8.2 6.5 10.6V1.9L9 4.3 4 8.9"/>
+          </svg>
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="0.6" y="1.6" width="17" height="8.8" rx="2.6"/><path d="M19.4 4.4v3.2" stroke-linecap="round"/>
+            <rect x="2.2" y="3.2" width="10" height="5.6" rx="1.4" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="clock">Mon 9:41</span>
+        </div>
+
+        <div class="panel-holder">
+          <video class="panel-video" src="hero.mp4" poster="hero-poster.jpg"
+                 width="620" height="1310"
+                 autoplay muted loop playsinline preload="metadata"
+                 aria-label="The AudioSwitch panel: switching the output device, changing volume, locking a device, and toggling the microphone kill switch."></video>
+        </div>
+
+        <p class="caption">One panel. Both directions. No System Settings.</p>
+      </div>
+    </div>
+  </header>
+
+  <hr class="rule">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head rise">
+        <h2>It knows what your devices are.</h2>
+        <p>
+          Not one glyph per connection type — a distinct icon per kind of device, the way the
+          system Bluetooth menu does it.
+        </p>
+      </div>
+
+      <div class="features">
+        <article class="feature wide rise">
+          <div>
+            <h3>AirPods look like AirPods</h3>
+            <p>
+              AirPods and AirPods Pro/Max, Beats, headphones, a hi-fi speaker, your Mac's own
+              speakers, a display, a microphone, a virtual device — each gets its own glyph,
+              resolved from the device name, the CoreAudio data source, and the transport.
+              The menu bar icon follows the output: plug in headphones and the speaker becomes
+              a pair of headphones, so you can see where the sound is going without opening
+              anything.
+            </p>
+          </div>
+          <img src="panel-web.jpg" width="760" height="1334" loading="lazy" decoding="async"
+               alt="The AudioSwitch panel showing output and input devices, each with its own icon, volume sliders, a level meter, and the settings switches.">
+        </article>
+
+        <article class="feature rise">
+          <h3>The same list System Settings shows</h3>
+          <p>
+            Devices are filtered on the CoreAudio property the system itself uses, so what you
+            see here is exactly what Sound shows — the virtual devices macOS hides stay hidden.
+          </p>
+        </article>
+
+        <article class="feature rise">
+          <h3>Alerts follow the device</h3>
+          <p>
+            Switching the output moves the system alert output too, so notification sounds do
+            not stay behind on the speakers you just left.
+          </p>
+        </article>
+
+        <article class="feature rise">
+          <h3>See whether your mic hears you</h3>
+          <p>
+            A live input level meter, right under the input slider. The microphone is only
+            tapped while the panel is open — the app never holds it in the background, and the
+            recording indicator goes out when you close the panel.
+          </p>
+        </article>
+
+        <article class="feature rise">
+          <h3>A hard off switch for the mic</h3>
+          <p>
+            Disable Microphone mutes the current input system-wide, re-mutes whichever device
+            becomes default later, and survives a reboot. Devices without a mute switch get
+            their gain zeroed instead.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head rise">
+        <h2>Built for the way you actually use it.</h2>
+        <p>The parts you only notice when they are missing.</p>
+      </div>
+
+      <ul class="details rise">
+        <li><span class="term">Right-click to cycle</span><span class="desc">Right-click the menu bar icon to jump to the next output device without opening the panel.</span></li>
+        <li><span class="term">Lock a device</span><span class="desc">Pin the output or input you chose. When another app grabs it — conferencing apps are the usual offender — it is switched straight back. Stored by device UID, so it survives unplugging and reboots.</span></li>
+        <li><span class="term">Volume in dB</span><span class="desc">Sliders for both directions, with the level in decibels, converted through CoreAudio's own scalar-to-dB mapping rather than the property that some interfaces report wrong.</span></li>
+        <li><span class="term">Stays in sync</span><span class="desc">Change the volume with the volume keys, in System Settings, or from another app, and the panel and the icon follow immediately.</span></li>
+        <li><span class="term">Keyboard</span><span class="desc"><span class="kbd">⌘,</span> Sound Settings · <span class="kbd">⌘R</span> Refresh · <span class="kbd">⌘Q</span> Quit</span></li>
+        <li><span class="term">Three languages</span><span class="desc">English, 简体中文, 繁體中文, or follow the system — switched at runtime, no restart.</span></li>
+        <li><span class="term">Updates itself</span><span class="desc">Sparkle checks daily in the background and verifies an EdDSA signature on the download before anything is installed.</span></li>
+        <li><span class="term">Stays out of the way</span><span class="desc">No Dock icon, no window, no login-item unless you ask for one, no analytics, no network calls beyond the update check.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <div class="section-head rise">
+        <h2>Free, open source, and honest about its limits.</h2>
+      </div>
+
+      <p class="limits rise">
+        <strong>AirPlay targets are not listed.</strong> System Settings shows AirPlay speakers
+        alongside local devices; they are not reachable through public APIs, because macOS only
+        instantiates one after it has been selected. Use <em>Sound Settings…</em> in the panel to
+        pick an AirPlay target — once it is active, it appears in AudioSwitch like any other device.
+      </p>
+
+      <div class="actions rise">
+        <a class="btn" href="https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip">Download for macOS</a>
+        <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch/releases">All releases</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap footer-row">
+      <p>MIT licensed. Made by <a href="https://github.com/iamzifei">James</a>.</p>
+      <nav class="footer-links">
+        <a href="https://github.com/iamzifei/audioswitch">GitHub</a>
+        <a href="https://github.com/iamzifei/audioswitch/blob/main/README.md">中文说明</a>
+        <a href="https://github.com/iamzifei/audioswitch/issues">Report an issue</a>
+        <a href="https://ko-fi.com/H2T024VDBG">Buy me a coffee</a>
+      </nav>
+    </div>
+  </footer>
+</main>
+
+<script>
+// Entrance reveal. Everything is visible without JS — the class is only added
+// once the observer runs, and the reduced-motion query opts out entirely.
+(function () {
+  var items = document.querySelectorAll('.rise');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach(function (el) { el.classList.add('seen'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('seen');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  items.forEach(function (el) { io.observe(el); });
+
+  // Don't decode video frames for a hero nobody is looking at.
+  var video = document.querySelector('.panel-video');
+  if (video) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { video.play().catch(function () {}); }
+        else { video.pause(); }
+      });
+    }, { threshold: 0.15 }).observe(video);
+  }
+})();
+</script>
+
+</body>
+</html>

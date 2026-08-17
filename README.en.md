@@ -10,9 +10,11 @@
 
 Native, Apple Silicon, zero dependencies. Interface in English · 简体中文 · 繁體中文
 
-**English** · [中文](README.md)
+[**audioswitch.dev**](https://audioswitch.dev) · **English** · [中文](README.md)
 
-<img src="docs/panel.png" width="340" alt="AudioSwitch panel">
+<img src="docs/panel.png" width="300" alt="AudioSwitch panel">&nbsp;&nbsp;<img src="docs/demo.gif" width="300" alt="AudioSwitch in use: switching the output device, volume, locking a device, the microphone kill switch">
+
+<sub>▶ Watch the full minute at <a href="https://audioswitch.dev">audioswitch.dev</a></sub>
 
 </div>
 
@@ -187,6 +189,9 @@ Sources/AudioSwitch/         menu bar shell
   AppMetadata.swift          repository / version constants
 scripts/
   update_appcast.py          rewrites appcast.xml for one release
+docs/                        landing page (GitHub Pages → audioswitch.dev)
+  index.html                 one static page, no external requests
+  hero.mp4 / demo.gif        panel screen recording (cut in ChatCut)
 packaging/
   Info.plist                 LSUIElement bundle metadata
   make_icon.swift            draws AppIcon.icns (Apple squircle geometry)
