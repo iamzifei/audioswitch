@@ -13,21 +13,5 @@
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure url="https://github.com/iamzifei/audioswitch/releases/download/v1.4.1/AudioSwitch.zip" sparkle:edSignature="A7O9Q/Fp4G4ZIOBCXDLkMeASuFBQvPZDoSni3Kr9TjXg5uENDkNA6LWnoMh1CWvQwEWtcaXz2+PFf0AVoagNCg==" length="1858600" type="application/octet-stream"/>
     </item>
-    <item>
-      <title>1.4.0</title>
-      <pubDate>Mon, 17 Aug 2026 02:20:51 -0000</pubDate>
-      <sparkle:version>5</sparkle:version>
-      <sparkle:shortVersionString>1.4.0</sparkle:shortVersionString>
-      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-      <enclosure url="https://github.com/iamzifei/audioswitch/releases/download/v1.4.0/AudioSwitch.zip" sparkle:edSignature="R4O6GrzKfTb9z3VLEmHTGmHtVthlW9B8y/uv2ZsjiEBZh8w44w2LLdDHB9/q9IPa5YvmZRnuTgdHSZmiuFG3Dw==" length="1855933" type="application/octet-stream"/>
-    </item>
-    <item>
-      <title>1.3.0</title>
-      <pubDate>Tue, 11 Aug 2026 09:16:06 -0000</pubDate>
-      <sparkle:version>4</sparkle:version>
-      <sparkle:shortVersionString>1.3.0</sparkle:shortVersionString>
-      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-      <enclosure url="https://github.com/iamzifei/audioswitch/releases/download/v1.3.0/AudioSwitch.zip" sparkle:edSignature="nD4MYJ5jjBpIVvF5I71qQSXtS9yiV69ajXmMy1Thu+jrm487qouqBdqrWGKtLhrhkveoqcg6TITwtt6IJOd2BQ==" length="1850985" type="application/octet-stream"/>
-    </item>
   </channel>
 </rss>
