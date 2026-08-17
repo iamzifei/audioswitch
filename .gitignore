@@ -9,3 +9,6 @@ docs/plans/
 # Build products of packaging/make_icon.swift
 packaging/AppIcon.icns
 packaging/icon-preview.png
+
+# Playwright MCP scratch output
+.playwright-mcp/

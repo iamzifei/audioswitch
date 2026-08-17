@@ -10,6 +10,10 @@
 <link rel="icon" href="icon-256.png" sizes="256x256">
 <link rel="apple-touch-icon" href="icon-256.png">
 <link rel="canonical" href="https://audioswitch.dev/">
+<link rel="alternate" hreflang="en" href="https://audioswitch.dev/?lang=en">
+<link rel="alternate" hreflang="zh-Hans" href="https://audioswitch.dev/?lang=zh-Hans">
+<link rel="alternate" hreflang="zh-Hant" href="https://audioswitch.dev/?lang=zh-Hant">
+<link rel="alternate" hreflang="x-default" href="https://audioswitch.dev/">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://audioswitch.dev/">
@@ -407,10 +411,71 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
   .rise { opacity: 1; transform: none; transition: none; }
   .btn { transition: none; }
 }
+
+/* --- Language picker ------------------------------------------------------
+   Mirrors the app's own Language row — a globe and a popup whose first option
+   follows the system — so the site offers exactly what the panel offers. */
+
+.langbar {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: clamp(0.9rem, 2.5vw, 1.4rem);
+}
+
+.langpick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.35rem 0.3rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 980px;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--bg-raised) 70%, transparent);
+}
+
+.langpick svg { flex: none; opacity: 0.7; }
+
+.langpick select {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0.1rem 1.35rem 0.1rem 0.1rem;
+  border-radius: 980px;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 0.62rem center, right 0.35rem center;
+  background-size: 0.28rem 0.28rem, 0.28rem 0.28rem;
+  background-repeat: no-repeat;
+}
+
+.langpick select:hover { color: var(--ink); }
+.langpick option { color: initial; }
+
 </style>
 </head>
 
 <body>
+
+<div class="wrap langbar">
+  <label class="langpick">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.4"/><path d="M1.6 8h12.8M8 1.6a11 11 0 0 1 0 12.8 11 11 0 0 1 0-12.8"/>
+    </svg>
+    <span class="visually-hidden" hidden></span>
+    <select id="lang" aria-label="Language">
+      <option value="system">System</option>
+      <option value="en">English</option>
+      <option value="zh-Hans">简体中文</option>
+      <option value="zh-Hant">繁體中文</option>
+    </select>
+  </label>
+</div>
 
 <main>
   <header class="hero">
@@ -418,12 +483,12 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       <div>
         <p class="eyebrow rise" style="--i:0">
           <img src="icon-256.png" width="30" height="30" alt="" decoding="async">
-          AudioSwitch for macOS
+          <span data-i18n="brand">AudioSwitch for macOS</span>
         </p>
 
-        <h1 class="rise" style="--i:1">Every audio device, one click from the <span>menu&nbsp;bar</span>.</h1>
+        <h1 class="rise" style="--i:1" data-i18n-html="h1">Every audio device, one click from the <span>menu&nbsp;bar</span>.</h1>
 
-        <p class="lede rise" style="--i:2">
+        <p class="lede rise" style="--i:2" data-i18n="lede">
           macOS buries input switching several clicks deep in System Settings, and the built-in
           volume menu only covers output. AudioSwitch puts both in one panel — with volume, mute,
           a live microphone meter, and a hard kill switch for the mic.
@@ -435,13 +500,13 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
               <path d="M8 1a.75.75 0 0 1 .75.75v7.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06l2.22 2.22V1.75A.75.75 0 0 1 8 1Z"/>
               <path d="M2.75 10.5a.75.75 0 0 1 .75.75v1.25c0 .14.11.25.25.25h8.5a.25.25 0 0 0 .25-.25V11.25a.75.75 0 0 1 1.5 0v1.25c0 .97-.78 1.75-1.75 1.75h-8.5A1.75 1.75 0 0 1 2 12.5v-1.25a.75.75 0 0 1 .75-.75Z"/>
             </svg>
-            Download for macOS
+            <span data-i18n="cta.download">Download for macOS</span>
           </a>
-          <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch">Source on GitHub</a>
+          <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch" data-i18n="cta.source">Source on GitHub</a>
         </div>
 
-        <p class="fineprint rise" style="--i:4">
-          macOS 14 or later · Apple silicon · signed and notarised · MIT licensed · about 1.5&nbsp;MB
+        <p class="fineprint rise" style="--i:4" data-i18n="fineprint">
+          macOS 14 or later · Apple silicon · signed and notarised · MIT licensed · about 1.5 MB
         </p>
       </div>
 
@@ -469,10 +534,11 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
           <video class="panel-video" src="hero.mp4" poster="hero-poster.jpg"
                  width="620" height="1310"
                  autoplay muted loop playsinline preload="metadata"
+                 data-i18n-aria="video.alt"
                  aria-label="The AudioSwitch panel: switching the output device, changing volume, locking a device, and toggling the microphone kill switch."></video>
         </div>
 
-        <p class="caption">One panel. Both directions. No System Settings.</p>
+        <p class="caption" data-i18n="caption">One panel. Both directions. No System Settings.</p>
       </div>
     </div>
   </header>
@@ -482,8 +548,8 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
   <section>
     <div class="wrap">
       <div class="section-head rise">
-        <h2>It knows what your devices are.</h2>
-        <p>
+        <h2 data-i18n="s1.h2">It knows what your devices are.</h2>
+        <p data-i18n="s1.p">
           Not one glyph per connection type — a distinct icon per kind of device, the way the
           system Bluetooth menu does it.
         </p>
@@ -492,8 +558,8 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       <div class="features">
         <article class="feature wide rise">
           <div>
-            <h3>AirPods look like AirPods</h3>
-            <p>
+            <h3 data-i18n="f1.h3">AirPods look like AirPods</h3>
+            <p data-i18n="f1.p">
               AirPods and AirPods Pro/Max, Beats, headphones, a hi-fi speaker, your Mac's own
               speakers, a display, a microphone, a virtual device — each gets its own glyph,
               resolved from the device name, the CoreAudio data source, and the transport.
@@ -503,28 +569,29 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
             </p>
           </div>
           <img src="panel-web.jpg" width="760" height="1334" loading="lazy" decoding="async"
+               data-i18n-alt="panel.alt"
                alt="The AudioSwitch panel showing output and input devices, each with its own icon, volume sliders, a level meter, and the settings switches.">
         </article>
 
         <article class="feature rise">
-          <h3>The same list System Settings shows</h3>
-          <p>
+          <h3 data-i18n="f2.h3">The same list System Settings shows</h3>
+          <p data-i18n="f2.p">
             Devices are filtered on the CoreAudio property the system itself uses, so what you
             see here is exactly what Sound shows — the virtual devices macOS hides stay hidden.
           </p>
         </article>
 
         <article class="feature rise">
-          <h3>Alerts follow the device</h3>
-          <p>
+          <h3 data-i18n="f3.h3">Alerts follow the device</h3>
+          <p data-i18n="f3.p">
             Switching the output moves the system alert output too, so notification sounds do
             not stay behind on the speakers you just left.
           </p>
         </article>
 
         <article class="feature rise">
-          <h3>See whether your mic hears you</h3>
-          <p>
+          <h3 data-i18n="f4.h3">See whether your mic hears you</h3>
+          <p data-i18n="f4.p">
             A live input level meter, right under the input slider. The microphone is only
             tapped while the panel is open — the app never holds it in the background, and the
             recording indicator goes out when you close the panel.
@@ -532,8 +599,8 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
         </article>
 
         <article class="feature rise">
-          <h3>A hard off switch for the mic</h3>
-          <p>
+          <h3 data-i18n="f5.h3">A hard off switch for the mic</h3>
+          <p data-i18n="f5.p">
             Disable Microphone mutes the current input system-wide, re-mutes whichever device
             becomes default later, and survives a reboot. Devices without a mute switch get
             their gain zeroed instead.
@@ -548,19 +615,19 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
   <section>
     <div class="wrap">
       <div class="section-head rise">
-        <h2>Built for the way you actually use it.</h2>
-        <p>The parts you only notice when they are missing.</p>
+        <h2 data-i18n="s2.h2">Built for the way you actually use it.</h2>
+        <p data-i18n="s2.p">The parts you only notice when they are missing.</p>
       </div>
 
       <ul class="details rise">
-        <li><span class="term">Right-click to cycle</span><span class="desc">Right-click the menu bar icon to jump to the next output device without opening the panel.</span></li>
-        <li><span class="term">Lock a device</span><span class="desc">Pin the output or input you chose. When another app grabs it — conferencing apps are the usual offender — it is switched straight back. Stored by device UID, so it survives unplugging and reboots.</span></li>
-        <li><span class="term">Volume in dB</span><span class="desc">Sliders for both directions, with the level in decibels, converted through CoreAudio's own scalar-to-dB mapping rather than the property that some interfaces report wrong.</span></li>
-        <li><span class="term">Stays in sync</span><span class="desc">Change the volume with the volume keys, in System Settings, or from another app, and the panel and the icon follow immediately.</span></li>
-        <li><span class="term">Keyboard</span><span class="desc"><span class="kbd">⌘,</span> Sound Settings · <span class="kbd">⌘R</span> Refresh · <span class="kbd">⌘Q</span> Quit</span></li>
-        <li><span class="term">Three languages</span><span class="desc">English, 简体中文, 繁體中文, or follow the system — switched at runtime, no restart.</span></li>
-        <li><span class="term">Updates itself</span><span class="desc">Sparkle checks daily in the background and verifies an EdDSA signature on the download before anything is installed.</span></li>
-        <li><span class="term">Stays out of the way</span><span class="desc">No Dock icon, no window, no login-item unless you ask for one, no analytics, no network calls beyond the update check.</span></li>
+        <li><span class="term" data-i18n="d1.t">Right-click to cycle</span><span class="desc" data-i18n="d1.d">Right-click the menu bar icon to jump to the next output device without opening the panel.</span></li>
+        <li><span class="term" data-i18n="d2.t">Lock a device</span><span class="desc" data-i18n="d2.d">Pin the output or input you chose. When another app grabs it — conferencing apps are the usual offender — it is switched straight back. Stored by device UID, so it survives unplugging and reboots.</span></li>
+        <li><span class="term" data-i18n="d3.t">Volume in dB</span><span class="desc" data-i18n="d3.d">Sliders for both directions, with the level in decibels, converted through CoreAudio's own scalar-to-dB mapping rather than the property that some interfaces report wrong.</span></li>
+        <li><span class="term" data-i18n="d4.t">Stays in sync</span><span class="desc" data-i18n="d4.d">Change the volume with the volume keys, in System Settings, or from another app, and the panel and the icon follow immediately.</span></li>
+        <li><span class="term" data-i18n="d5.t">Keyboard</span><span class="desc" data-i18n-html="d5.d"><span class="kbd">⌘,</span> Sound Settings · <span class="kbd">⌘R</span> Refresh · <span class="kbd">⌘Q</span> Quit</span></li>
+        <li><span class="term" data-i18n="d6.t">Three languages</span><span class="desc" data-i18n="d6.d">English, 简体中文, 繁體中文, or follow the system — switched at runtime, no restart.</span></li>
+        <li><span class="term" data-i18n="d7.t">Updates itself</span><span class="desc" data-i18n="d7.d">Sparkle checks daily in the background and verifies an EdDSA signature on the download before anything is installed.</span></li>
+        <li><span class="term" data-i18n="d8.t">Stays out of the way</span><span class="desc" data-i18n="d8.d">No Dock icon, no window, no login-item unless you ask for one, no analytics, no network calls beyond the update check.</span></li>
       </ul>
     </div>
   </section>
@@ -568,10 +635,10 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
   <section class="closing">
     <div class="wrap">
       <div class="section-head rise">
-        <h2>Free, open source, and honest about its limits.</h2>
+        <h2 data-i18n="s3.h2">Free, open source, and honest about its limits.</h2>
       </div>
 
-      <p class="limits rise">
+      <p class="limits rise" data-i18n-html="limits">
         <strong>AirPlay targets are not listed.</strong> System Settings shows AirPlay speakers
         alongside local devices; they are not reachable through public APIs, because macOS only
         instantiates one after it has been selected. Use <em>Sound Settings…</em> in the panel to
@@ -579,33 +646,208 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       </p>
 
       <div class="actions rise">
-        <a class="btn" href="https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip">Download for macOS</a>
-        <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch/releases">All releases</a>
+        <a class="btn" href="https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip" data-i18n="cta.download">Download for macOS</a>
+        <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch/releases" data-i18n="cta.all">All releases</a>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="wrap footer-row">
-      <p>MIT licensed. Made by <a href="https://github.com/iamzifei">James</a>.</p>
+      <p data-i18n-html="footer.made">MIT licensed. Made by <a href="https://github.com/iamzifei">James</a>.</p>
       <nav class="footer-links">
         <a href="https://github.com/iamzifei/audioswitch">GitHub</a>
-        <a href="https://github.com/iamzifei/audioswitch/blob/main/README.md">中文说明</a>
-        <a href="https://github.com/iamzifei/audioswitch/issues">Report an issue</a>
-        <a href="https://ko-fi.com/H2T024VDBG">Buy me a coffee</a>
+        <a href="https://github.com/iamzifei/audioswitch/blob/main/README.en.md" data-i18n="footer.docs" data-i18n-href="footer.docs.href">Documentation</a>
+        <a href="https://github.com/iamzifei/audioswitch/issues" data-i18n="footer.issue">Report an issue</a>
+        <a href="https://ko-fi.com/H2T024VDBG" data-i18n="footer.kofi">Buy me a coffee</a>
       </nav>
     </div>
   </footer>
 </main>
 
 <script>
-// Entrance reveal. Everything is visible without JS — the class is only added
-// once the observer runs, and the reduced-motion query opts out entirely.
+/* ---------------------------------------------------------------------------
+   Language.
+
+   The page ships in English and swaps to Chinese in place: one file, one
+   request, no flash of the wrong language on a reload. The picker offers the
+   same four choices the app's own Language row does, System included, and the
+   choice is remembered. ?lang=zh-Hant forces one for a shared link.
+   --------------------------------------------------------------------------- */
+(function () {
+  var STRINGS = {
+    'zh-Hans': {
+      'html.lang': 'zh-Hans',
+      'doc.title': 'AudioSwitch —— 在 macOS 菜单栏里切换音频设备',
+      'doc.desc': '原生 macOS 菜单栏应用：所有音频输入和输出在同一个面板里，切换设备、调音量、静音、实时麦克风电平，还有一个麦克风硬开关。Apple Silicon、零依赖、MIT 开源。',
+      'brand': 'AudioSwitch for macOS',
+      'h1': '每一个音频设备，都在<span>菜单栏</span>里一键切换。',
+      'lede': 'macOS 把输入设备的切换埋在系统设置好几层之下，而菜单栏自带的音量菜单只管输出。AudioSwitch 把两边放进同一个面板 —— 音量、静音、实时麦克风电平，还有一个麦克风硬开关。',
+      'cta.download': '下载 macOS 版',
+      'cta.source': '在 GitHub 上看源码',
+      'cta.all': '全部版本',
+      'fineprint': 'macOS 14 或更高 · Apple Silicon · 已签名并公证 · MIT 许可 · 约 1.5 MB',
+      'caption': '一个面板，两个方向，不用打开系统设置。',
+      'video.alt': 'AudioSwitch 面板演示：切换输出设备、调整音量、锁定设备、开关麦克风。',
+      'panel.alt': 'AudioSwitch 面板：输出和输入设备各有图标，带音量滑块、电平表和设置开关。',
+      's1.h2': '它知道你的设备是什么。',
+      's1.p': '不是一种连接方式一个图标，而是每一类设备一个字形 —— 和系统蓝牙菜单的做法一致。',
+      'f1.h3': 'AirPods 就长得像 AirPods',
+      'f1.p': 'AirPods 和 AirPods Pro / Max、Beats、耳机、音箱、你 Mac 自己的扬声器、显示器、麦克风、虚拟设备，各有各的图标 —— 由设备名、CoreAudio 数据源和连接方式共同判断。菜单栏图标也跟着输出设备走：接上耳机，喇叭就变成耳机，不用打开任何东西就知道声音去了哪里。',
+      'f2.h3': '和「系统设置」里一模一样的列表',
+      'f2.p': '设备是按系统自己用的那个 CoreAudio 属性过滤的，所以这里显示的和「声音」里显示的完全一致 —— macOS 隐藏的虚拟设备，这里同样看不到。',
+      'f3.h3': '提示音跟着设备走',
+      'f3.p': '切换输出时会一并切换系统提示音的输出，通知声不会留在你刚离开的那对音箱上。',
+      'f4.h3': '一眼看出麦克风有没有收到你',
+      'f4.p': '输入滑块下面就是实时电平表。只在面板打开时占用麦克风 —— 关掉面板，录音指示灯就熄灭，不会常驻后台。',
+      'f5.h3': '给麦克风一个硬开关',
+      'f5.p': '「停用麦克风」在系统层面静音当前输入设备，之后成为默认的设备也会被自动重新静音，重启后依然保持。没有静音开关的设备则改为把增益归零。',
+      's2.h2': '按你真实的使用方式做的。',
+      's2.p': '那些只有缺了才会注意到的地方。',
+      'd1.t': '右键切换', 'd1.d': '右键点击菜单栏图标，直接跳到下一个输出设备，不用展开面板。',
+      'd2.t': '锁定设备', 'd2.d': '把选定的输出或输入钉住。别的 app 抢走它（会议软件是常见元凶）会被立刻切回来。按设备 UID 记录，拔插和重启都不失效。',
+      'd3.t': '音量以 dB 显示', 'd3.d': '两个方向各有滑块，数值以分贝显示，走的是 CoreAudio 自己的 scalar→dB 换算，而不是某些声卡会报错的那个属性。',
+      'd4.t': '始终同步', 'd4.d': '用音量键、在系统设置里、或在别的 app 里改音量，面板和图标都会立刻跟上。',
+      'd5.t': '键盘', 'd5.d': '<span class="kbd">⌘,</span> 声音设置 · <span class="kbd">⌘R</span> 刷新 · <span class="kbd">⌘Q</span> 退出',
+      'd6.t': '三种语言', 'd6.d': 'English、简体中文、繁體中文，或跟随系统 —— 运行时切换，不用重启。',
+      'd7.t': '自动更新', 'd7.d': 'Sparkle 每天在后台检查，下载包经 EdDSA 签名验证后才会安装。',
+      'd8.t': '不打扰你', 'd8.d': '没有 Dock 图标，没有窗口，不主动加登录项，没有任何统计，除了检查更新不发任何网络请求。',
+      's3.h2': '免费、开源，也坦白自己的限制。',
+      'limits': '<strong>不列出 AirPlay 设备。</strong>「系统设置 → 声音」会把 AirPlay 音箱和本地设备列在一起；公开 API 拿不到它们，因为 macOS 只在你选中之后才会实例化 AirPlay 设备。用面板里的<em>声音设置…</em>去选，选中之后它就会像普通设备一样出现在 AudioSwitch 里。',
+      'footer.made': 'MIT 许可。作者 <a href="https://github.com/iamzifei">James</a>。',
+      'footer.docs': '说明文档',
+      'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.md',
+      'footer.issue': '反馈问题',
+      'footer.kofi': '请我喝杯咖啡',
+      'lang.system': '跟随系统'
+    },
+    'zh-Hant': {
+      'html.lang': 'zh-Hant',
+      'doc.title': 'AudioSwitch —— 在 macOS 選單列切換音訊裝置',
+      'doc.desc': '原生 macOS 選單列 App：所有音訊輸入與輸出都在同一個面板，切換裝置、調音量、靜音、即時麥克風電平，還有一個麥克風硬開關。Apple Silicon、零相依、MIT 開源。',
+      'brand': 'AudioSwitch for macOS',
+      'h1': '每一個音訊裝置，都在<span>選單列</span>裡一鍵切換。',
+      'lede': 'macOS 把輸入裝置的切換埋在系統設定好幾層之下，而選單列內建的音量選單只管輸出。AudioSwitch 把兩邊放進同一個面板 —— 音量、靜音、即時麥克風電平，還有一個麥克風硬開關。',
+      'cta.download': '下載 macOS 版',
+      'cta.source': '在 GitHub 上看原始碼',
+      'cta.all': '所有版本',
+      'fineprint': 'macOS 14 或以上 · Apple Silicon · 已簽署並公證 · MIT 授權 · 約 1.5 MB',
+      'caption': '一個面板，兩個方向，不必打開系統設定。',
+      'video.alt': 'AudioSwitch 面板示範：切換輸出裝置、調整音量、鎖定裝置、開關麥克風。',
+      'panel.alt': 'AudioSwitch 面板：輸出與輸入裝置各有圖示，附音量滑桿、電平表與設定開關。',
+      's1.h2': '它知道你的裝置是什麼。',
+      's1.p': '不是一種連接方式一個圖示，而是每一類裝置一個字符 —— 和系統藍牙選單的做法一致。',
+      'f1.h3': 'AirPods 就長得像 AirPods',
+      'f1.p': 'AirPods 與 AirPods Pro / Max、Beats、耳機、喇叭、你 Mac 自己的揚聲器、顯示器、麥克風、虛擬裝置，各有各的圖示 —— 由裝置名稱、CoreAudio 資料來源與連接方式共同判斷。選單列圖示也跟著輸出裝置走：接上耳機，喇叭就變成耳機，不必打開任何東西就知道聲音去了哪裡。',
+      'f2.h3': '和「系統設定」裡一模一樣的清單',
+      'f2.p': '裝置是依系統自己使用的那個 CoreAudio 屬性過濾的，所以這裡顯示的和「聲音」裡顯示的完全一致 —— macOS 隱藏的虛擬裝置，這裡同樣看不到。',
+      'f3.h3': '提示音跟著裝置走',
+      'f3.p': '切換輸出時會一併切換系統提示音的輸出，通知聲不會留在你剛離開的那對喇叭上。',
+      'f4.h3': '一眼看出麥克風有沒有收到你',
+      'f4.p': '輸入滑桿下方就是即時電平表。只在面板打開時佔用麥克風 —— 關掉面板，錄音指示燈就熄滅，不會常駐背景。',
+      'f5.h3': '給麥克風一個硬開關',
+      'f5.p': '「停用麥克風」會在系統層級靜音目前的輸入裝置，之後成為預設的裝置也會被自動重新靜音，重新開機後依然保持。沒有靜音開關的裝置則改為把增益歸零。',
+      's2.h2': '照你真實的使用方式做的。',
+      's2.p': '那些只有缺了才會注意到的地方。',
+      'd1.t': '按右鍵切換', 'd1.d': '在選單列圖示上按右鍵，直接跳到下一個輸出裝置，不必展開面板。',
+      'd2.t': '鎖定裝置', 'd2.d': '把選定的輸出或輸入釘住。別的 App 搶走它（視訊會議軟體是常見元兇）會被立刻切回來。以裝置 UID 記錄，插拔和重新開機都不失效。',
+      'd3.t': '音量以 dB 顯示', 'd3.d': '兩個方向各有滑桿，數值以分貝顯示，走的是 CoreAudio 自己的 scalar→dB 換算，而不是某些音效介面會回報錯誤的那個屬性。',
+      'd4.t': '始終同步', 'd4.d': '用音量鍵、在系統設定裡、或在別的 App 裡改音量，面板和圖示都會立刻跟上。',
+      'd5.t': '鍵盤', 'd5.d': '<span class="kbd">⌘,</span> 聲音設定 · <span class="kbd">⌘R</span> 重新整理 · <span class="kbd">⌘Q</span> 結束',
+      'd6.t': '三種語言', 'd6.d': 'English、简体中文、繁體中文，或跟隨系統 —— 執行時切換，不必重新啟動。',
+      'd7.t': '自動更新', 'd7.d': 'Sparkle 每天在背景檢查，下載檔經 EdDSA 簽章驗證後才會安裝。',
+      'd8.t': '不打擾你', 'd8.d': '沒有 Dock 圖示，沒有視窗，不會擅自加入登入項目，沒有任何統計，除了檢查更新不發任何網路請求。',
+      's3.h2': '免費、開源，也坦白自己的限制。',
+      'limits': '<strong>不會列出 AirPlay 裝置。</strong>「系統設定 → 聲音」會把 AirPlay 喇叭和本機裝置列在一起；公開 API 取不到它們，因為 macOS 只在你選取之後才會實例化 AirPlay 裝置。用面板裡的<em>聲音設定…</em>去選，選取之後它就會像一般裝置一樣出現在 AudioSwitch 裡。',
+      'footer.made': 'MIT 授權。作者 <a href="https://github.com/iamzifei">James</a>。',
+      'footer.docs': '說明文件',
+      'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.md',
+      'footer.issue': '回報問題',
+      'footer.kofi': '請我喝杯咖啡',
+      'lang.system': '跟隨系統'
+    }
+  };
+
+  var select = document.getElementById('lang');
+  var english = {};   // filled from the markup, so English is never duplicated
+  var titleEl = document.querySelector('title');
+  var descEl = document.querySelector('meta[name="description"]');
+
+  english['doc.title'] = titleEl.textContent;
+  english['doc.desc'] = descEl.getAttribute('content');
+  english['html.lang'] = 'en';
+  english['lang.system'] = 'System';
+
+  function each(attr, fn) {
+    Array.prototype.forEach.call(document.querySelectorAll('[' + attr + ']'), function (el) {
+      fn(el, el.getAttribute(attr));
+    });
+  }
+
+  // Snapshot the English copy that is already in the document.
+  each('data-i18n', function (el, key) { english[key] = el.textContent.trim(); });
+  each('data-i18n-html', function (el, key) { english[key] = el.innerHTML.trim(); });
+  each('data-i18n-alt', function (el, key) { english[key] = el.getAttribute('alt'); });
+  each('data-i18n-aria', function (el, key) { english[key] = el.getAttribute('aria-label'); });
+  each('data-i18n-href', function (el, key) { english[key] = el.getAttribute('href'); });
+
+  function resolve(choice) {
+    if (choice !== 'system') return choice;
+    var wanted = navigator.languages || [navigator.language || 'en'];
+    // First *supported* entry wins, in the order the browser ranks them:
+    // someone who reads English first and Chinese second wants English.
+    for (var i = 0; i < wanted.length; i++) {
+      var tag = String(wanted[i]).toLowerCase();
+      // Hant is the exception, not the rule: Taiwan, Hong Kong and Macau.
+      if (tag.indexOf('zh') === 0) return /hant|tw|hk|mo/.test(tag) ? 'zh-Hant' : 'zh-Hans';
+      if (tag.indexOf('en') === 0) return 'en';
+    }
+    return 'en';
+  }
+
+  function apply(choice) {
+    var lang = resolve(choice);
+    var dict = STRINGS[lang] || english;
+    var get = function (key) {
+      return Object.prototype.hasOwnProperty.call(dict, key) ? dict[key] : english[key];
+    };
+
+    each('data-i18n', function (el, key) { el.textContent = get(key); });
+    each('data-i18n-html', function (el, key) { el.innerHTML = get(key); });
+    each('data-i18n-alt', function (el, key) { el.setAttribute('alt', get(key)); });
+    each('data-i18n-aria', function (el, key) { el.setAttribute('aria-label', get(key)); });
+    each('data-i18n-href', function (el, key) { el.setAttribute('href', get(key)); });
+
+    titleEl.textContent = get('doc.title');
+    descEl.setAttribute('content', get('doc.desc'));
+    document.documentElement.lang = get('html.lang');
+    select.options[0].textContent = get('lang.system');
+  }
+
+  var stored;
+  try { stored = localStorage.getItem('audioswitch.lang'); } catch (e) { stored = null; }
+  var forced = (location.search.match(/[?&]lang=([\w-]+)/) || [])[1];
+  var choice = forced || stored || 'system';
+  if (!/^(system|en|zh-Hans|zh-Hant)$/.test(choice)) choice = 'system';
+
+  select.value = choice;
+  apply(choice);
+
+  select.addEventListener('change', function () {
+    apply(select.value);
+    try { localStorage.setItem('audioswitch.lang', select.value); } catch (e) {}
+  });
+})();
+
+/* ---------------------------------------------------------------------------
+   Entrance reveal. Everything is visible without JS — the class is only added
+   once the observer runs, and the reduced-motion query opts out entirely.
+   --------------------------------------------------------------------------- */
 (function () {
   var items = document.querySelectorAll('.rise');
   if (!('IntersectionObserver' in window) ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    items.forEach(function (el) { el.classList.add('seen'); });
+    Array.prototype.forEach.call(items, function (el) { el.classList.add('seen'); });
     return;
   }
   var io = new IntersectionObserver(function (entries) {
@@ -615,7 +857,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       io.unobserve(entry.target);
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-  items.forEach(function (el) { io.observe(el); });
+  Array.prototype.forEach.call(items, function (el) { io.observe(el); });
 
   // Don't decode video frames for a hero nobody is looking at.
   var video = document.querySelector('.panel-video');
