@@ -503,6 +503,8 @@ section { padding-block: var(--section-gap); }
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
 }
 
+.sibling + .sibling { margin-top: clamp(0.9rem, 2.5vw, 1.25rem); }
+
 .sibling:hover .sibling-go { color: var(--accent); transform: translateX(3px); }
 
 .sibling-label {
@@ -850,6 +852,17 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
           <path d="M6 3.5 10.5 8 6 12.5"/>
         </svg>
       </a>
+
+      <a class="sibling" href="https://getclipstack.app" rel="noopener">
+        <img src="clipstack.png" width="52" height="52" alt="" loading="lazy" decoding="async">
+        <span class="sibling-text">
+          <strong data-i18n="clipstack.name">ClipStack</strong>
+          <span data-i18n="clipstack.desc">Everything you copied, still there — a searchable clipboard history a ⇧⌘V away, which never leaves the Mac.</span>
+        </span>
+        <svg class="sibling-go" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 3.5 10.5 8 6 12.5"/>
+        </svg>
+      </a>
     </div>
   </section>
 
@@ -891,9 +904,11 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'cta.source': '在 GitHub 上看源码',
       'cta.all': '全部版本',
       'cta.kofi': '在 Ko-fi 支持我',
-      'more.label': '同一条菜单栏上的另一个',
+      'more.label': '同一条菜单栏上的另外两个',
       'candela.name': 'Candela',
       'candela.desc': 'macOS 藏起来的显示器控制，全都放进一个菜单栏面板 —— 通过 DDC 调真实亮度、清晰的 HiDPI 缩放，还有在每一块屏幕上都好使的亮度键。',
+      'clipstack.name': 'ClipStack',
+      'clipstack.desc': '复制过的内容都还在 —— ⇧⌘V 呼出、可搜索的剪贴板历史，只留在这台 Mac 上。',
       'fineprint': 'macOS 14 或更高 · Apple Silicon · 已签名并公证 · MIT 许可 · 约 1.5 MB',
       'caption': '一个面板，两个方向，不用打开系统设置。',
       'video.alt': 'AudioSwitch 面板演示：切换输出设备、调整音量、锁定设备、开关麦克风。',
@@ -943,9 +958,11 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'cta.source': '在 GitHub 上看原始碼',
       'cta.all': '所有版本',
       'cta.kofi': '在 Ko-fi 支持我',
-      'more.label': '同一條選單列上的另一個',
+      'more.label': '同一條選單列上的另外兩個',
       'candela.name': 'Candela',
       'candela.desc': 'macOS 藏起來的顯示器控制，全都放進一個選單列面板 —— 透過 DDC 調真實亮度、清晰的 HiDPI 縮放，還有在每一塊螢幕上都好用的亮度鍵。',
+      'clipstack.name': 'ClipStack',
+      'clipstack.desc': '複製過的內容都還在 —— ⇧⌘V 叫出、可搜尋的剪貼簿歷史，只留在這台 Mac 上。',
       'fineprint': 'macOS 14 或以上 · Apple Silicon · 已簽署並公證 · MIT 授權 · 約 1.5 MB',
       'caption': '一個面板，兩個方向，不必打開系統設定。',
       'video.alt': 'AudioSwitch 面板示範：切換輸出裝置、調整音量、鎖定裝置、開關麥克風。',
@@ -1023,9 +1040,11 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'd8.t': '邪魔をしない', 'd8.d': 'Dock アイコンなし、ウィンドウなし、勝手にログイン項目に入らず、解析もなし。アップデート確認以外の通信は一切ありません。',
       's3.h2': '無料でオープンソース、限界についても正直に。',
       'limits': '<strong>AirPlay のデバイスは一覧に出ません。</strong>「システム設定 → サウンド」は AirPlay スピーカーをローカルデバイスと並べて表示しますが、これは公開 API からは取得できません。macOS が AirPlay デバイスを実体化するのは選択された後だからです。パネル内の<em>サウンド設定…</em>から選んでください。有効になれば、AudioSwitch にも通常のデバイスと同じように表示されます。',
-      'more.label': '同じメニューバーのもう 1 つ',
+      'more.label': '同じメニューバーのもう 2 つ',
       'candela.name': 'Candela',
       'candela.desc': 'macOS が隠しているディスプレイ設定を 1 つのメニューバーパネルに — DDC による実際の輝度調整、くっきりした HiDPI スケーリング、どのモニタでも効く輝度キー。',
+      'clipstack.name': 'ClipStack',
+      'clipstack.desc': 'コピーしたものはすべて残ります —— ⇧⌘V で開く検索可能なクリップボード履歴。Mac の外には出ません。',
       'footer.made': 'MIT ライセンス。制作 <a href="https://github.com/iamzifei">James</a>。',
       'footer.docs': 'ドキュメント',
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
@@ -1075,9 +1094,11 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'd8.t': '방해하지 않습니다', 'd8.d': 'Dock 아이콘 없음, 윈도우 없음, 요청하지 않으면 로그인 항목에 들어가지 않음, 분석 없음. 업데이트 확인 외에는 어떤 통신도 하지 않습니다.',
       's3.h2': '무료이고 오픈 소스이며, 한계도 솔직하게.',
       'limits': '<strong>AirPlay 장치는 목록에 없습니다.</strong> 시스템 설정 → 사운드는 AirPlay 스피커를 로컬 장치와 함께 보여주지만, 공개 API로는 가져올 수 없습니다. macOS는 선택된 뒤에야 AirPlay 장치를 만들기 때문입니다. 패널의 <em>사운드 설정…</em>에서 고르세요. 활성화되면 AudioSwitch에도 다른 장치처럼 나타납니다.',
-      'more.label': '같은 메뉴 막대의 다른 앱',
+      'more.label': '같은 메뉴 막대의 다른 두 앱',
       'candela.name': 'Candela',
       'candela.desc': 'macOS가 숨겨 둔 디스플레이 제어를 메뉴 막대 패널 하나에 — DDC로 실제 밝기 조절, 또렷한 HiDPI 스케일링, 모든 모니터에서 작동하는 밝기 키.',
+      'clipstack.name': 'ClipStack',
+      'clipstack.desc': '복사한 것은 모두 남습니다 —— ⇧⌘V로 여는 검색 가능한 클립보드 기록, Mac을 떠나지 않습니다.',
       'footer.made': 'MIT 라이선스. 만든 사람 <a href="https://github.com/iamzifei">James</a>.',
       'footer.docs': '문서',
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
@@ -1130,6 +1151,8 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'more.label': 'Auch aus derselben Menüleiste',
       'candela.name': 'Candela',
       'candela.desc': 'Alle Display-Regler, die macOS versteckt, in einem Menüleisten-Panel — echte Helligkeit über DDC, scharfe HiDPI-Skalierung und Helligkeitstasten, die an jedem Monitor funktionieren.',
+      'clipstack.name': 'ClipStack',
+      'clipstack.desc': 'Alles Kopierte bleibt da — ein durchsuchbarer Zwischenablage-Verlauf per ⇧⌘V, der den Mac nie verlässt.',
       'footer.made': 'MIT-Lizenz. Gemacht von <a href="https://github.com/iamzifei">James</a>.',
       'footer.docs': 'Dokumentation',
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
@@ -1182,6 +1205,8 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'more.label': 'Également depuis la même barre des menus',
       'candela.name': 'Candela',
       'candela.desc': 'Tous les réglages d\'écran que macOS cache, dans un panneau de barre des menus — luminosité réelle via DDC, mise à l\'échelle HiDPI nette et touches de luminosité qui fonctionnent sur chaque moniteur.',
+      'clipstack.name': 'ClipStack',
+      'clipstack.desc': 'Tout ce que vous avez copié est encore là — un historique du presse-papiers cherchable en ⇧⌘V, qui ne quitte jamais le Mac.',
       'footer.made': 'Sous licence MIT. Réalisé par <a href="https://github.com/iamzifei">James</a>.',
       'footer.docs': 'Documentation',
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
@@ -1234,6 +1259,8 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'more.label': 'También desde la misma barra de menús',
       'candela.name': 'Candela',
       'candela.desc': 'Todos los controles de pantalla que macOS esconde, en un panel de la barra de menús — brillo real por DDC, escalado HiDPI nítido y teclas de brillo que funcionan en cualquier monitor.',
+      'clipstack.name': 'ClipStack',
+      'clipstack.desc': 'Todo lo que copiaste sigue ahí — un historial del portapapeles con búsqueda en ⇧⌘V, que nunca sale del Mac.',
       'footer.made': 'Licencia MIT. Hecho por <a href="https://github.com/iamzifei">James</a>.',
       'footer.docs': 'Documentación',
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
