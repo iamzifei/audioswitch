@@ -202,6 +202,19 @@ a { color: inherit; }
 
 .btn-quiet:hover { text-decoration-color: var(--accent); filter: none; }
 
+/* Ko-fi sits next to the download as an outline button, not a filled one:
+   supporting the app is a real invitation, but it is not the thing the page
+   is for. */
+.btn-outline {
+  --btn-bg: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  padding-block: calc(0.78rem - 1px);
+}
+
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); filter: none; }
+.btn-outline svg { color: #ff5e5b; }
+
 .fineprint {
   margin-top: 1.1rem;
   font-size: 0.875rem;
@@ -354,6 +367,50 @@ section { padding-block: var(--section-gap); }
 .details dt, .details .term { font-weight: 590; }
 .details .desc { color: var(--ink-soft); }
 
+/* --- Sibling app --------------------------------------------------------- */
+
+.siblings { padding-block: clamp(2.5rem, 6vw, 4rem); }
+
+/* One quiet row rather than a card: the other app is worth knowing about, but
+   it is not what this reader came for. */
+.sibling {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 3vw, 1.4rem);
+  padding: clamp(1.1rem, 3vw, 1.5rem) 0 0;
+  border-top: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+}
+
+.sibling img {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  flex: none;
+}
+
+.sibling-text { min-width: 0; }
+.sibling-text strong { font-weight: 590; }
+.sibling-text span { display: block; color: var(--ink-soft); font-size: 0.9375rem; }
+
+.sibling-go {
+  margin-left: auto;
+  flex: none;
+  color: var(--ink-faint);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+}
+
+.sibling:hover .sibling-go { color: var(--accent); transform: translateX(3px); }
+
+.sibling-label {
+  font-size: 0.8125rem;
+  font-weight: 590;
+  letter-spacing: 0.01em;
+  color: var(--ink-faint);
+  margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
+}
+
 /* --- Closing ------------------------------------------------------------- */
 
 .closing {
@@ -502,6 +559,13 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
             </svg>
             <span data-i18n="cta.download">Download for macOS</span>
           </a>
+          <a class="btn btn-outline" href="https://ko-fi.com/iamzifei" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M2.4 3h8.2c.3 0 .5.2.5.5V5h1.3A2.6 2.6 0 0 1 15 7.6a2.6 2.6 0 0 1-2.6 2.6h-1.4a3.6 3.6 0 0 1-3.5 2.7H5.4A3.6 3.6 0 0 1 1.9 9.3V3.5c0-.3.2-.5.5-.5Zm8.7 3.3v2.6h1.3a1.3 1.3 0 0 0 0-2.6h-1.3Z"/>
+              <path d="M4.6 5.2c.5 0 .8.3 1 .5.3-.2.6-.4 1-.4.8 0 1.4.6 1.4 1.4 0 1.2-1.6 2.2-2.2 2.5-.1.1-.3.1-.4 0-.6-.3-2.2-1.3-2.2-2.5 0-.8.6-1.4 1.4-1.5Z" opacity=".55"/>
+            </svg>
+            <span data-i18n="cta.kofi">Support on Ko-fi</span>
+          </a>
           <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch" data-i18n="cta.source">Source on GitHub</a>
         </div>
 
@@ -647,8 +711,26 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
 
       <div class="actions rise">
         <a class="btn" href="https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip" data-i18n="cta.download">Download for macOS</a>
+        <a class="btn btn-outline" href="https://ko-fi.com/iamzifei" rel="noopener" data-i18n="cta.kofi">Support on Ko-fi</a>
         <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch/releases" data-i18n="cta.all">All releases</a>
       </div>
+    </div>
+  </section>
+
+  <section class="siblings">
+    <div class="wrap rise">
+      <p class="sibling-label" data-i18n="more.label">Also from the same menu bar</p>
+
+      <a class="sibling" href="https://getcandela.app" rel="noopener">
+        <img src="candela.png" width="52" height="52" alt="" loading="lazy" decoding="async">
+        <span class="sibling-text">
+          <strong data-i18n="candela.name">Candela</strong>
+          <span data-i18n="candela.desc">Every display control macOS hides, in one menu bar panel — real brightness over DDC, sharp HiDPI scaling, and brightness keys that work on every monitor.</span>
+        </span>
+        <svg class="sibling-go" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 3.5 10.5 8 6 12.5"/>
+        </svg>
+      </a>
     </div>
   </section>
 
@@ -686,6 +768,10 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'cta.download': '下载 macOS 版',
       'cta.source': '在 GitHub 上看源码',
       'cta.all': '全部版本',
+      'cta.kofi': '在 Ko-fi 支持我',
+      'more.label': '同一条菜单栏上的另一个',
+      'candela.name': 'Candela',
+      'candela.desc': 'macOS 藏起来的显示器控制，全都放进一个菜单栏面板 —— 通过 DDC 调真实亮度、清晰的 HiDPI 缩放，还有在每一块屏幕上都好使的亮度键。',
       'fineprint': 'macOS 14 或更高 · Apple Silicon · 已签名并公证 · MIT 许可 · 约 1.5 MB',
       'caption': '一个面板，两个方向，不用打开系统设置。',
       'video.alt': 'AudioSwitch 面板演示：切换输出设备、调整音量、锁定设备、开关麦克风。',
@@ -731,6 +817,10 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'cta.download': '下載 macOS 版',
       'cta.source': '在 GitHub 上看原始碼',
       'cta.all': '所有版本',
+      'cta.kofi': '在 Ko-fi 支持我',
+      'more.label': '同一條選單列上的另一個',
+      'candela.name': 'Candela',
+      'candela.desc': 'macOS 藏起來的顯示器控制，全都放進一個選單列面板 —— 透過 DDC 調真實亮度、清晰的 HiDPI 縮放，還有在每一塊螢幕上都好用的亮度鍵。',
       'fineprint': 'macOS 14 或以上 · Apple Silicon · 已簽署並公證 · MIT 授權 · 約 1.5 MB',
       'caption': '一個面板，兩個方向，不必打開系統設定。',
       'video.alt': 'AudioSwitch 面板示範：切換輸出裝置、調整音量、鎖定裝置、開關麥克風。',

@@ -252,6 +252,11 @@ appear as placeholders in rendered PNGs; everything else is accurate.
 
 ## Also by the same author
 
+**[Candela](https://getcandela.app)** — every display control macOS hides, in one
+menu bar panel: real brightness over DDC on external monitors, sharp HiDPI
+scaling, brightness keys that work on every screen, plus synced brightness and
+presets. Free and open source, with no Pro tier and no licence key.
+
 **[ClipStack](https://github.com/iamzifei/clipstack)** — a macOS menu bar
 clipboard history manager. ⇧⌘V brings up a searchable panel of everything you
 have copied, with a full preview pane; pressing return copies it back. Built to

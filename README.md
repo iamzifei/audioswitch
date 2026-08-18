@@ -232,6 +232,10 @@ AUDIOSWITCH_STICKY_PANEL=1 AudioSwitch.app/Contents/MacOS/AudioSwitch
 
 ## 同系列
 
+**[Candela](https://getcandela.app)** —— macOS 藏起来的显示器控制，全都放进一个菜单栏面板：
+通过 DDC 调外接屏的真实亮度、清晰的 HiDPI 缩放、在每一块屏幕上都好使的亮度键，
+还有跨屏同步和预设。免费、开源，没有 Pro 版也没有序列号。
+
 **[ClipStack](https://github.com/iamzifei/clipstack)** —— macOS 菜单栏剪贴板历史管理器。
 ⇧⌘V 呼出一个可搜索的面板，列出你复制过的所有内容，右侧带完整预览，回车即粘回。
 为配合 Claude Code 的剪贴板交付流程而写 —— 那种场景下会连续复制好几段，
