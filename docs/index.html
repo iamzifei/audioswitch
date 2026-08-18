@@ -123,10 +123,107 @@ a { color: inherit; }
   padding-inline: var(--gutter);
 }
 
+
+/* --- Navigation -----------------------------------------------------------
+   A thin bar that stays put, because the one thing a visitor may want at any
+   point on this page is the download. On a phone the section links go and the
+   download stays: hiding the action to keep the navigation would be exactly
+   backwards. */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.nav.scrolled { border-bottom-color: var(--rule); }
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 52px;
+  padding-block: 0.5rem;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 620;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  /* The mark yields before anything else: whatever the language does to the
+     labels, the row has to fit, and the download is what must survive. */
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.wordmark span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-links { flex: 0 0 auto; }
+
+.wordmark img { border-radius: 6px; }
+
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem 1.25rem;
+}
+
+.nav-secondary {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.5rem 0;
+}
+
+.nav-secondary:hover { color: var(--ink); }
+
+.btn-nav {
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 980px;
+}
+
+.nav .langpick { padding: 0.15rem 0.3rem 0.15rem 0.55rem; }
+.nav .langpick select { font-size: 0.8125rem; }
+
+/* Anchors land below the bar rather than under it. */
+:target { scroll-margin-top: 72px; }
+html { scroll-behavior: smooth; }
+
+@media (max-width: 44rem) {
+  .nav-secondary { display: none; }
+  .nav-inner { gap: 0.5rem; }
+  .nav-links { gap: 0.4rem; }
+  /* On a 375px screen the wordmark, the language menu and the download button
+     together were 33px wider than the viewport. The download is the reason the
+     page exists, so the other two give way: the picker shrinks to its first
+     characters and the mark drops to its icon on the narrowest phones. */
+  .nav .langpick { padding: 0.1rem 0.2rem 0.1rem 0.4rem; gap: 0.25rem; }
+  .nav .langpick select { max-width: 4.2rem; font-size: 0.75rem; padding-right: 1rem; }
+  .btn-nav { padding: 0.45rem 0.85rem; }
+}
+
+@media (max-width: 23rem) {
+  .wordmark span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .nav { transition: none; }
+}
+
 /* --- Hero ---------------------------------------------------------------- */
 
 .hero {
-  padding-block: clamp(3rem, 8vw, 6rem) 0;
+  padding-block: clamp(2rem, 6vw, 4rem) 0;
   overflow: clip;
 }
 
@@ -522,10 +619,19 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
 </style>
 </head>
 
-<body>
+<body id="top">
 
-<div class="wrap langbar">
-  <label class="langpick">
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="#top">
+      <img src="icon-256.png" width="26" height="26" alt="" decoding="async">
+      <span>AudioSwitch</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a class="nav-secondary" href="#devices" data-i18n="nav.devices">Devices</a>
+      <a class="nav-secondary" href="#details" data-i18n="nav.details">Details</a>
+      <a class="nav-secondary" href="https://github.com/iamzifei/audioswitch" rel="noopener">GitHub</a>
+      <label class="langpick">
     <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
       <circle cx="8" cy="8" r="6.4"/><path d="M1.6 8h12.8M8 1.6a11 11 0 0 1 0 12.8 11 11 0 0 1 0-12.8"/>
     </svg>
@@ -542,7 +648,10 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       <option value="es">Español</option>
     </select>
   </label>
-</div>
+      <a class="btn btn-nav" href="https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip" data-i18n="nav.download">Download</a>
+    </nav>
+  </div>
+</header>
 
 <main>
   <header class="hero">
@@ -619,7 +728,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
 
   <hr class="rule">
 
-  <section>
+  <section id="devices">
     <div class="wrap">
       <div class="section-head rise">
         <h2 data-i18n="s1.h2">It knows what your devices are.</h2>
@@ -686,7 +795,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
 
   <hr class="rule">
 
-  <section>
+  <section id="details">
     <div class="wrap">
       <div class="section-head rise">
         <h2 data-i18n="s2.h2">Built for the way you actually use it.</h2>
@@ -706,7 +815,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
     </div>
   </section>
 
-  <section class="closing">
+  <section class="closing" id="get">
     <div class="wrap">
       <div class="section-head rise">
         <h2 data-i18n="s3.h2">Free, open source, and honest about its limits.</h2>
@@ -772,6 +881,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'html.lang': 'zh-Hans',
       'doc.title': 'AudioSwitch —— 在 macOS 菜单栏里切换音频设备',
       'doc.desc': '原生 macOS 菜单栏应用：所有音频输入和输出在同一个面板里，切换设备、调音量、静音、实时麦克风电平，还有一个麦克风硬开关。Apple Silicon、零依赖、MIT 开源。',
+      'nav.devices': '设备',
+      'nav.details': '细节',
+      'nav.download': '下载',
       'brand': 'AudioSwitch for macOS',
       'h1': '每一个音频设备，都在<span>菜单栏</span>里一键切换。',
       'lede': 'macOS 把输入设备的切换埋在系统设置好几层之下，而菜单栏自带的音量菜单只管输出。AudioSwitch 把两边放进同一个面板 —— 音量、静音、实时麦克风电平，还有一个麦克风硬开关。',
@@ -821,6 +933,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'html.lang': 'zh-Hant',
       'doc.title': 'AudioSwitch —— 在 macOS 選單列切換音訊裝置',
       'doc.desc': '原生 macOS 選單列 App：所有音訊輸入與輸出都在同一個面板，切換裝置、調音量、靜音、即時麥克風電平，還有一個麥克風硬開關。Apple Silicon、零相依、MIT 開源。',
+      'nav.devices': '裝置',
+      'nav.details': '細節',
+      'nav.download': '下載',
       'brand': 'AudioSwitch for macOS',
       'h1': '每一個音訊裝置，都在<span>選單列</span>裡一鍵切換。',
       'lede': 'macOS 把輸入裝置的切換埋在系統設定好幾層之下，而選單列內建的音量選單只管輸出。AudioSwitch 把兩邊放進同一個面板 —— 音量、靜音、即時麥克風電平，還有一個麥克風硬開關。',
@@ -870,6 +985,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'html.lang': 'ja',
       'doc.title': 'AudioSwitch — macOS のメニューバーからオーディオデバイスを切り替える',
       'doc.desc': 'すべてのオーディオ入力と出力を 1 つのパネルにまとめた macOS メニューバーアプリ。デバイスの切り替え、音量、ミュート、リアルタイムのマイクレベルメーター、マイクの完全オフスイッチ。Apple シリコンネイティブ、依存ゼロ、MIT ライセンス。',
+      'nav.devices': 'デバイス',
+      'nav.details': '詳細',
+      'nav.download': 'ダウンロード',
       'brand': 'AudioSwitch for macOS',
       'h1': 'すべてのオーディオデバイスを、<span>メニューバー</span>から 1 クリックで。',
       'lede': 'macOS は入力デバイスの切り替えをシステム設定の奥深くに隠し、標準の音量メニューは出力しか扱いません。AudioSwitch は両方を 1 つのパネルにまとめます — 音量、ミュート、リアルタイムのマイクレベルメーター、そしてマイクを完全に切るスイッチ。',
@@ -919,6 +1037,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'html.lang': 'ko',
       'doc.title': 'AudioSwitch — macOS 메뉴 막대에서 오디오 장치 전환',
       'doc.desc': '모든 오디오 입력과 출력을 한 패널에 담은 macOS 메뉴 막대 앱. 장치 전환, 음량, 음소거, 실시간 마이크 레벨 미터, 마이크 완전 차단 스위치. Apple 실리콘 네이티브, 의존성 없음, MIT 라이선스.',
+      'nav.devices': '장치',
+      'nav.details': '세부',
+      'nav.download': '다운로드',
       'brand': 'AudioSwitch for macOS',
       'h1': '모든 오디오 장치를 <span>메뉴 막대</span>에서 한 번에.',
       'lede': 'macOS는 입력 장치 전환을 시스템 설정 깊숙이 숨겨 두었고, 기본 음량 메뉴는 출력만 다룹니다. AudioSwitch는 둘을 한 패널에 모읍니다 — 음량, 음소거, 실시간 마이크 레벨 미터, 그리고 마이크를 완전히 끄는 스위치까지.',
@@ -968,6 +1089,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'html.lang': 'de',
       'doc.title': 'AudioSwitch — Audiogeräte aus der macOS-Menüleiste umschalten',
       'doc.desc': 'Eine native macOS-Menüleisten-App, die alle Audioein- und -ausgänge in einem Panel zusammenfasst: Geräte wechseln, Lautstärke, Stummschaltung, eine Live-Mikrofonanzeige und ein harter Aus-Schalter fürs Mikrofon. Apple Silicon, keine Abhängigkeiten, MIT.',
+      'nav.devices': 'Geräte',
+      'nav.details': 'Details',
+      'nav.download': 'Laden',
       'brand': 'AudioSwitch für macOS',
       'h1': 'Jedes Audiogerät, ein Klick von der <span>Menüleiste</span> entfernt.',
       'lede': 'macOS vergräbt den Wechsel des Eingabegeräts mehrere Klicks tief in den Systemeinstellungen, und das eingebaute Lautstärkemenü kennt nur die Ausgabe. AudioSwitch bringt beides in ein Panel — mit Lautstärke, Stummschaltung, einer Live-Mikrofonanzeige und einem harten Aus-Schalter fürs Mikrofon.',
@@ -1017,6 +1141,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'html.lang': 'fr',
       'doc.title': 'AudioSwitch — changer de périphérique audio depuis la barre des menus macOS',
       'doc.desc': 'Une app macOS native pour la barre des menus qui réunit toutes les entrées et sorties audio dans un seul panneau : changer d\'appareil, régler le volume, couper le son, suivre le niveau du micro en direct et couper le micro pour de bon. Apple silicon, sans dépendances, MIT.',
+      'nav.devices': 'Appareils',
+      'nav.details': 'Détails',
+      'nav.download': 'Télécharger',
       'brand': 'AudioSwitch pour macOS',
       'h1': 'Chaque périphérique audio, à un clic de la <span>barre des menus</span>.',
       'lede': 'macOS enfouit le changement de périphérique d\'entrée à plusieurs clics dans les Réglages Système, et le menu de volume intégré ne gère que la sortie. AudioSwitch réunit les deux dans un seul panneau — avec le volume, la coupure du son, un indicateur de niveau du micro en direct et un vrai interrupteur pour couper le micro.',
@@ -1066,6 +1193,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'html.lang': 'es',
       'doc.title': 'AudioSwitch — cambia de dispositivo de audio desde la barra de menús de macOS',
       'doc.desc': 'Una app nativa de la barra de menús de macOS que reúne todas las entradas y salidas de audio en un panel: cambiar de dispositivo, volumen, silencio, un medidor de nivel del micrófono en vivo y un interruptor para apagar el micrófono del todo. Apple silicon, sin dependencias, MIT.',
+      'nav.devices': 'Dispositivos',
+      'nav.details': 'Detalles',
+      'nav.download': 'Descargar',
       'brand': 'AudioSwitch para macOS',
       'h1': 'Cada dispositivo de audio, a un clic de la <span>barra de menús</span>.',
       'lede': 'macOS entierra el cambio de dispositivo de entrada varios clics dentro de Ajustes del Sistema, y el menú de volumen integrado solo cubre la salida. AudioSwitch pone ambos en un mismo panel — con volumen, silencio, un medidor de nivel del micrófono en vivo y un interruptor real para apagar el micrófono.',
