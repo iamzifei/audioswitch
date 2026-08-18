@@ -4,7 +4,7 @@
 
 # AudioSwitch
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2T024VDBG)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/iamzifei)
 
 **Switch macOS audio devices from the menu bar.**
 

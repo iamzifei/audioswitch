@@ -40,6 +40,7 @@
 "about.author" = "Made by %@";
 "about.github" = "View on GitHub";
 "about.version" = "Version %@ (%@)";
+"about.support" = "Support on Ko-fi";
 "about.back" = "Back";
 
 /* Updates */

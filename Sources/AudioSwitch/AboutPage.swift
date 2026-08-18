@@ -52,6 +52,16 @@ struct AboutPage: View {
                     }
                     .disabled(!updater.canCheckForUpdates)
                 }
+
+                // The app is free and asks for nothing anywhere else; this is
+                // the one place it mentions that support is possible, which is
+                // why it sits on the About page rather than in the panel.
+                LinkButton(
+                    title: l10n("about.support"),
+                    symbol: "cup.and.saucer"
+                ) {
+                    NSWorkspace.shared.open(AppMetadata.supportURL)
+                }
             }
             .padding(.horizontal, 18)
             .padding(.bottom, 18)

@@ -40,6 +40,7 @@
 "about.author" = "作者：%@";
 "about.github" = "在 GitHub 上查看";
 "about.version" = "版本 %@（%@）";
+"about.support" = "在 Ko-fi 支持我";
 "about.back" = "返回";
 
 /* Updates */
