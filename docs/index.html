@@ -13,6 +13,11 @@
 <link rel="alternate" hreflang="en" href="https://audioswitch.dev/?lang=en">
 <link rel="alternate" hreflang="zh-Hans" href="https://audioswitch.dev/?lang=zh-Hans">
 <link rel="alternate" hreflang="zh-Hant" href="https://audioswitch.dev/?lang=zh-Hant">
+<link rel="alternate" hreflang="ja" href="https://audioswitch.dev/?lang=ja">
+<link rel="alternate" hreflang="ko" href="https://audioswitch.dev/?lang=ko">
+<link rel="alternate" hreflang="de" href="https://audioswitch.dev/?lang=de">
+<link rel="alternate" hreflang="fr" href="https://audioswitch.dev/?lang=fr">
+<link rel="alternate" hreflang="es" href="https://audioswitch.dev/?lang=es">
 <link rel="alternate" hreflang="x-default" href="https://audioswitch.dev/">
 
 <meta property="og:type" content="website">
@@ -530,6 +535,11 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       <option value="en">English</option>
       <option value="zh-Hans">简体中文</option>
       <option value="zh-Hant">繁體中文</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+      <option value="de">Deutsch</option>
+      <option value="fr">Français</option>
+      <option value="es">Español</option>
     </select>
   </label>
 </div>
@@ -855,8 +865,256 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.issue': '回報問題',
       'footer.kofi': '請我喝杯咖啡',
       'lang.system': '跟隨系統'
+    },
+    'ja': {
+      'html.lang': 'ja',
+      'doc.title': 'AudioSwitch — macOS のメニューバーからオーディオデバイスを切り替える',
+      'doc.desc': 'すべてのオーディオ入力と出力を 1 つのパネルにまとめた macOS メニューバーアプリ。デバイスの切り替え、音量、ミュート、リアルタイムのマイクレベルメーター、マイクの完全オフスイッチ。Apple シリコンネイティブ、依存ゼロ、MIT ライセンス。',
+      'brand': 'AudioSwitch for macOS',
+      'h1': 'すべてのオーディオデバイスを、<span>メニューバー</span>から 1 クリックで。',
+      'lede': 'macOS は入力デバイスの切り替えをシステム設定の奥深くに隠し、標準の音量メニューは出力しか扱いません。AudioSwitch は両方を 1 つのパネルにまとめます — 音量、ミュート、リアルタイムのマイクレベルメーター、そしてマイクを完全に切るスイッチ。',
+      'cta.download': 'macOS 版をダウンロード',
+      'cta.kofi': 'Ko-fi で支援する',
+      'cta.source': 'GitHub でソースを見る',
+      'cta.all': 'すべてのリリース',
+      'fineprint': 'macOS 14 以降 · Apple シリコン · 署名・公証済み · MIT ライセンス · 約 1.5 MB',
+      'caption': '1 つのパネルで、入力も出力も。システム設定は不要。',
+      'video.alt': 'AudioSwitch のパネル操作: 出力デバイスの切り替え、音量調整、デバイスのロック、マイクスイッチの切り替え。',
+      'panel.alt': 'AudioSwitch のパネル。出力と入力のデバイスがそれぞれのアイコン付きで並び、音量スライダー、レベルメーター、設定スイッチが表示されている。',
+      's1.h2': 'デバイスの「種類」を理解します。',
+      's1.p': '接続方式ごとに 1 つのアイコンではなく、デバイスの種類ごとに固有のアイコン — システムの Bluetooth メニューと同じ流儀です。',
+      'f1.h3': 'AirPods は AirPods の形で表示',
+      'f1.p': 'AirPods と AirPods Pro / Max、Beats、ヘッドフォン、スピーカー、Mac 内蔵スピーカー、ディスプレイ、マイク、仮想デバイス — それぞれに専用のアイコンがあり、デバイス名・CoreAudio のデータソース・接続方式から判定されます。メニューバーのアイコンも出力に追従し、ヘッドフォンを接続するとスピーカーがヘッドフォンに変わるので、パネルを開かなくても音の行き先が分かります。',
+      'f2.h3': 'システム設定とまったく同じ一覧',
+      'f2.p': 'システム自身が使う CoreAudio のプロパティで絞り込んでいるため、「サウンド」に出るものとここに出るものは完全に一致します — macOS が隠す仮想デバイスは、ここでも隠れたままです。',
+      'f3.h3': '警告音もデバイスに追従',
+      'f3.p': '出力を切り替えるとシステム警告音の出力も一緒に移動するので、通知音だけが元のスピーカーに取り残されることはありません。',
+      'f4.h3': 'マイクが自分の声を拾っているか一目で分かる',
+      'f4.p': '入力スライダーのすぐ下にリアルタイムのレベルメーター。マイクを使うのはパネルを開いている間だけで、バックグラウンドで押さえ続けることはありません。パネルを閉じれば録音インジケータも消えます。',
+      'f5.h3': 'マイクの物理スイッチに相当する機能',
+      'f5.p': '「マイクを無効化」はシステム全体で現在の入力デバイスをミュートし、後からデフォルトになったデバイスも自動的に再ミュートし、再起動後も維持されます。ミュートスイッチのないデバイスはゲインをゼロにします。',
+      's2.h2': '実際の使い方に合わせて作りました。',
+      's2.p': 'なくなって初めて気づく部分です。',
+      'd1.t': '右クリックで切り替え', 'd1.d': 'メニューバーのアイコンを右クリックすると、パネルを開かずに次の出力デバイスへ移動します。',
+      'd2.t': 'デバイスを固定', 'd2.d': '選んだ出力・入力を固定します。他のアプリ（ビデオ会議アプリが典型です）に奪われても即座に戻します。デバイス UID で記録するので、抜き差しや再起動でも失われません。',
+      'd3.t': '音量を dB で表示', 'd3.d': '入出力それぞれにスライダーがあり、値はデシベル表示。CoreAudio のスカラー→dB 変換を使っているので、一部のオーディオインターフェイスが誤った値を返すプロパティには依存しません。',
+      'd4.t': '常に同期', 'd4.d': '音量キー、システム設定、他のアプリ — どこで音量を変えても、パネルとアイコンがすぐ追従します。',
+      'd5.t': 'キーボード', 'd5.d': '<span class="kbd">⌘,</span> サウンド設定 · <span class="kbd">⌘R</span> 更新 · <span class="kbd">⌘Q</span> 終了',
+      'd6.t': '8 つの言語', 'd6.d': 'アプリの表示は English・简体中文・繁體中文、またはシステムに追従 — 再起動なしで切り替わります。',
+      'd7.t': '自動アップデート', 'd7.d': 'Sparkle が毎日バックグラウンドで確認し、ダウンロードは EdDSA 署名を検証してからインストールされます。',
+      'd8.t': '邪魔をしない', 'd8.d': 'Dock アイコンなし、ウィンドウなし、勝手にログイン項目に入らず、解析もなし。アップデート確認以外の通信は一切ありません。',
+      's3.h2': '無料でオープンソース、限界についても正直に。',
+      'limits': '<strong>AirPlay のデバイスは一覧に出ません。</strong>「システム設定 → サウンド」は AirPlay スピーカーをローカルデバイスと並べて表示しますが、これは公開 API からは取得できません。macOS が AirPlay デバイスを実体化するのは選択された後だからです。パネル内の<em>サウンド設定…</em>から選んでください。有効になれば、AudioSwitch にも通常のデバイスと同じように表示されます。',
+      'more.label': '同じメニューバーのもう 1 つ',
+      'candela.name': 'Candela',
+      'candela.desc': 'macOS が隠しているディスプレイ設定を 1 つのメニューバーパネルに — DDC による実際の輝度調整、くっきりした HiDPI スケーリング、どのモニタでも効く輝度キー。',
+      'footer.made': 'MIT ライセンス。制作 <a href="https://github.com/iamzifei">James</a>。',
+      'footer.docs': 'ドキュメント',
+      'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
+      'footer.issue': '問題を報告',
+      'footer.kofi': 'コーヒーを奢る',
+      'lang.system': 'システムに合わせる'
+    },
+    'ko': {
+      'html.lang': 'ko',
+      'doc.title': 'AudioSwitch — macOS 메뉴 막대에서 오디오 장치 전환',
+      'doc.desc': '모든 오디오 입력과 출력을 한 패널에 담은 macOS 메뉴 막대 앱. 장치 전환, 음량, 음소거, 실시간 마이크 레벨 미터, 마이크 완전 차단 스위치. Apple 실리콘 네이티브, 의존성 없음, MIT 라이선스.',
+      'brand': 'AudioSwitch for macOS',
+      'h1': '모든 오디오 장치를 <span>메뉴 막대</span>에서 한 번에.',
+      'lede': 'macOS는 입력 장치 전환을 시스템 설정 깊숙이 숨겨 두었고, 기본 음량 메뉴는 출력만 다룹니다. AudioSwitch는 둘을 한 패널에 모읍니다 — 음량, 음소거, 실시간 마이크 레벨 미터, 그리고 마이크를 완전히 끄는 스위치까지.',
+      'cta.download': 'macOS용 다운로드',
+      'cta.kofi': 'Ko-fi에서 후원하기',
+      'cta.source': 'GitHub에서 소스 보기',
+      'cta.all': '모든 릴리스',
+      'fineprint': 'macOS 14 이상 · Apple 실리콘 · 서명 및 공증 완료 · MIT 라이선스 · 약 1.5 MB',
+      'caption': '패널 하나로 입력과 출력 모두. 시스템 설정은 필요 없습니다.',
+      'video.alt': 'AudioSwitch 패널 시연: 출력 장치 전환, 음량 조절, 장치 잠금, 마이크 차단 스위치 전환.',
+      'panel.alt': 'AudioSwitch 패널. 출력과 입력 장치가 각자의 아이콘과 함께 나열되고 음량 슬라이더, 레벨 미터, 설정 스위치가 보입니다.',
+      's1.h2': '어떤 종류의 장치인지 압니다.',
+      's1.p': '연결 방식마다 아이콘 하나가 아니라, 장치 종류마다 고유한 아이콘 — 시스템 블루투스 메뉴와 같은 방식입니다.',
+      'f1.h3': 'AirPods는 AirPods처럼 보입니다',
+      'f1.p': 'AirPods와 AirPods Pro / Max, Beats, 헤드폰, 스피커, Mac 내장 스피커, 디스플레이, 마이크, 가상 장치 — 각각 고유한 아이콘이 있고 장치 이름, CoreAudio 데이터 소스, 연결 방식으로 판별합니다. 메뉴 막대 아이콘도 출력을 따라갑니다. 헤드폰을 연결하면 스피커가 헤드폰으로 바뀌어, 아무것도 열지 않고도 소리가 어디로 가는지 알 수 있습니다.',
+      'f2.h3': '시스템 설정과 똑같은 목록',
+      'f2.p': '시스템이 직접 쓰는 CoreAudio 속성으로 걸러내기 때문에 여기 보이는 목록은 «사운드»에 보이는 것과 정확히 같습니다 — macOS가 숨기는 가상 장치는 여기서도 숨겨집니다.',
+      'f3.h3': '경고음도 장치를 따라갑니다',
+      'f3.p': '출력을 바꾸면 시스템 경고음 출력도 함께 옮겨지므로, 알림 소리만 이전 스피커에 남지 않습니다.',
+      'f4.h3': '마이크가 내 목소리를 듣는지 바로 확인',
+      'f4.p': '입력 슬라이더 바로 아래에 실시간 레벨 미터가 있습니다. 마이크는 패널이 열려 있는 동안에만 사용하며, 백그라운드에서 붙잡고 있지 않습니다. 패널을 닫으면 녹음 표시등도 꺼집니다.',
+      'f5.h3': '마이크를 위한 확실한 차단 스위치',
+      'f5.p': '«마이크 비활성화»는 현재 입력 장치를 시스템 전체에서 음소거하고, 이후 기본이 되는 장치도 자동으로 다시 음소거하며, 재시동 후에도 유지됩니다. 음소거 스위치가 없는 장치는 게인을 0으로 만듭니다.',
+      's2.h2': '실제로 쓰는 방식에 맞춰 만들었습니다.',
+      's2.p': '없을 때에야 비로소 눈에 띄는 부분들.',
+      'd1.t': '오른쪽 클릭으로 전환', 'd1.d': '메뉴 막대 아이콘을 오른쪽 클릭하면 패널을 열지 않고 다음 출력 장치로 넘어갑니다.',
+      'd2.t': '장치 고정', 'd2.d': '선택한 출력이나 입력을 고정합니다. 다른 앱이 가져가면(회의 앱이 대표적입니다) 곧바로 되돌립니다. 장치 UID로 기억하므로 분리나 재시동에도 유지됩니다.',
+      'd3.t': '음량을 dB로 표시', 'd3.d': '입력과 출력 각각에 슬라이더가 있고 값은 데시벨로 표시됩니다. CoreAudio의 스칼라→dB 변환을 쓰기 때문에 일부 오디오 인터페이스가 잘못 보고하는 속성에 의존하지 않습니다.',
+      'd4.t': '항상 동기화', 'd4.d': '음량 키, 시스템 설정, 다른 앱 — 어디서 음량을 바꿔도 패널과 아이콘이 즉시 따라갑니다.',
+      'd5.t': '키보드', 'd5.d': '<span class="kbd">⌘,</span> 사운드 설정 · <span class="kbd">⌘R</span> 새로고침 · <span class="kbd">⌘Q</span> 종료',
+      'd6.t': '세 가지 언어', 'd6.d': '앱 화면은 English · 简体中文 · 繁體中文, 또는 시스템 설정을 따릅니다 — 재시동 없이 바로 전환됩니다.',
+      'd7.t': '자동 업데이트', 'd7.d': 'Sparkle이 매일 백그라운드에서 확인하고, 내려받은 파일은 EdDSA 서명을 검증한 뒤에만 설치합니다.',
+      'd8.t': '방해하지 않습니다', 'd8.d': 'Dock 아이콘 없음, 윈도우 없음, 요청하지 않으면 로그인 항목에 들어가지 않음, 분석 없음. 업데이트 확인 외에는 어떤 통신도 하지 않습니다.',
+      's3.h2': '무료이고 오픈 소스이며, 한계도 솔직하게.',
+      'limits': '<strong>AirPlay 장치는 목록에 없습니다.</strong> 시스템 설정 → 사운드는 AirPlay 스피커를 로컬 장치와 함께 보여주지만, 공개 API로는 가져올 수 없습니다. macOS는 선택된 뒤에야 AirPlay 장치를 만들기 때문입니다. 패널의 <em>사운드 설정…</em>에서 고르세요. 활성화되면 AudioSwitch에도 다른 장치처럼 나타납니다.',
+      'more.label': '같은 메뉴 막대의 다른 앱',
+      'candela.name': 'Candela',
+      'candela.desc': 'macOS가 숨겨 둔 디스플레이 제어를 메뉴 막대 패널 하나에 — DDC로 실제 밝기 조절, 또렷한 HiDPI 스케일링, 모든 모니터에서 작동하는 밝기 키.',
+      'footer.made': 'MIT 라이선스. 만든 사람 <a href="https://github.com/iamzifei">James</a>.',
+      'footer.docs': '문서',
+      'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
+      'footer.issue': '문제 신고',
+      'footer.kofi': '커피 사주기',
+      'lang.system': '시스템 설정 따르기'
+    },
+    'de': {
+      'html.lang': 'de',
+      'doc.title': 'AudioSwitch — Audiogeräte aus der macOS-Menüleiste umschalten',
+      'doc.desc': 'Eine native macOS-Menüleisten-App, die alle Audioein- und -ausgänge in einem Panel zusammenfasst: Geräte wechseln, Lautstärke, Stummschaltung, eine Live-Mikrofonanzeige und ein harter Aus-Schalter fürs Mikrofon. Apple Silicon, keine Abhängigkeiten, MIT.',
+      'brand': 'AudioSwitch für macOS',
+      'h1': 'Jedes Audiogerät, ein Klick von der <span>Menüleiste</span> entfernt.',
+      'lede': 'macOS vergräbt den Wechsel des Eingabegeräts mehrere Klicks tief in den Systemeinstellungen, und das eingebaute Lautstärkemenü kennt nur die Ausgabe. AudioSwitch bringt beides in ein Panel — mit Lautstärke, Stummschaltung, einer Live-Mikrofonanzeige und einem harten Aus-Schalter fürs Mikrofon.',
+      'cta.download': 'Für macOS laden',
+      'cta.kofi': 'Auf Ko-fi unterstützen',
+      'cta.source': 'Quellcode auf GitHub',
+      'cta.all': 'Alle Versionen',
+      'fineprint': 'macOS 14 oder neuer · Apple Silicon · signiert und notarisiert · MIT-Lizenz · rund 1,5 MB',
+      'caption': 'Ein Panel. Beide Richtungen. Keine Systemeinstellungen.',
+      'video.alt': 'Das AudioSwitch-Panel: Ausgabegerät wechseln, Lautstärke ändern, ein Gerät sperren und den Mikrofonschalter umlegen.',
+      'panel.alt': 'Das AudioSwitch-Panel mit Ausgabe- und Eingabegeräten, jedes mit eigenem Symbol, dazu Lautstärkeregler, Pegelanzeige und die Schalter.',
+      's1.h2': 'Es weiß, was für Geräte das sind.',
+      's1.p': 'Kein Symbol pro Anschlussart, sondern ein eigenes Symbol pro Geräteart — so wie es das Bluetooth-Menü des Systems macht.',
+      'f1.h3': 'AirPods sehen aus wie AirPods',
+      'f1.p': 'AirPods und AirPods Pro/Max, Beats, Kopfhörer, ein HiFi-Lautsprecher, die eingebauten Lautsprecher Ihres Mac, ein Display, ein Mikrofon, ein virtuelles Gerät — jedes bekommt sein eigenes Symbol, ermittelt aus dem Gerätenamen, der CoreAudio-Datenquelle und der Anschlussart. Das Symbol in der Menüleiste folgt der Ausgabe: Kopfhörer eingesteckt, und aus dem Lautsprecher werden Kopfhörer — Sie sehen also, wohin der Ton geht, ohne irgendetwas zu öffnen.',
+      'f2.h3': 'Dieselbe Liste wie in den Systemeinstellungen',
+      'f2.p': 'Geräte werden über dieselbe CoreAudio-Eigenschaft gefiltert, die auch das System verwendet. Was hier steht, steht genauso unter „Ton" — die virtuellen Geräte, die macOS versteckt, bleiben auch hier versteckt.',
+      'f3.h3': 'Warntöne folgen dem Gerät',
+      'f3.p': 'Beim Wechsel der Ausgabe wandert auch die Ausgabe der Systemwarntöne mit. Mitteilungstöne bleiben nicht auf den Lautsprechern zurück, die Sie gerade verlassen haben.',
+      'f4.h3': 'Sehen, ob das Mikrofon Sie hört',
+      'f4.p': 'Eine Live-Pegelanzeige direkt unter dem Eingaberegler. Auf das Mikrofon wird nur zugegriffen, solange das Panel offen ist — im Hintergrund hält die App es nie, und die Aufnahmeanzeige erlischt, sobald Sie das Panel schließen.',
+      'f5.h3': 'Ein harter Aus-Schalter fürs Mikrofon',
+      'f5.p': '„Mikrofon deaktivieren" schaltet das aktuelle Eingabegerät systemweit stumm, schaltet auch jedes später zum Standard werdende Gerät wieder stumm und übersteht einen Neustart. Geräten ohne Stummschaltung wird stattdessen der Pegel auf null gesetzt.',
+      's2.h2': 'Gebaut für die Art, wie man es wirklich benutzt.',
+      's2.p': 'Die Dinge, die erst auffallen, wenn sie fehlen.',
+      'd1.t': 'Rechtsklick wechselt weiter', 'd1.d': 'Ein Rechtsklick auf das Menüleistensymbol springt zum nächsten Ausgabegerät, ohne das Panel zu öffnen.',
+      'd2.t': 'Gerät sperren', 'd2.d': 'Fixiert die gewählte Ausgabe oder Eingabe. Schnappt sich eine andere App sie — Konferenz-Apps sind die üblichen Verdächtigen —, wird sofort zurückgeschaltet. Gespeichert wird die Geräte-UID, das übersteht Abziehen und Neustart.',
+      'd3.t': 'Lautstärke in dB', 'd3.d': 'Regler für beide Richtungen, der Pegel in Dezibel, umgerechnet über CoreAudios eigene Skalar-zu-dB-Zuordnung statt über die Eigenschaft, die manche Interfaces falsch melden.',
+      'd4.t': 'Bleibt synchron', 'd4.d': 'Ob Lautstärketasten, Systemeinstellungen oder eine andere App — Panel und Symbol folgen sofort.',
+      'd5.t': 'Tastatur', 'd5.d': '<span class="kbd">⌘,</span> Toneinstellungen · <span class="kbd">⌘R</span> Aktualisieren · <span class="kbd">⌘Q</span> Beenden',
+      'd6.t': 'Drei Sprachen in der App', 'd6.d': 'English, 简体中文, 繁體中文 oder der Systemsprache folgen — zur Laufzeit umgestellt, ohne Neustart.',
+      'd7.t': 'Aktualisiert sich selbst', 'd7.d': 'Sparkle prüft täglich im Hintergrund und verifiziert eine EdDSA-Signatur des Downloads, bevor irgendetwas installiert wird.',
+      'd8.t': 'Bleibt aus dem Weg', 'd8.d': 'Kein Dock-Symbol, kein Fenster, kein Anmeldeobjekt ohne Ihr Zutun, keine Analytik, keine Netzwerkzugriffe außer der Update-Prüfung.',
+      's3.h2': 'Kostenlos, quelloffen und ehrlich über seine Grenzen.',
+      'limits': '<strong>AirPlay-Ziele werden nicht aufgelistet.</strong> Die Systemeinstellungen zeigen AirPlay-Lautsprecher neben lokalen Geräten; über öffentliche APIs sind sie nicht erreichbar, weil macOS ein AirPlay-Gerät erst anlegt, nachdem es ausgewählt wurde. Wählen Sie ein AirPlay-Ziel über <em>Toneinstellungen…</em> im Panel — sobald es aktiv ist, erscheint es in AudioSwitch wie jedes andere Gerät.',
+      'more.label': 'Auch aus derselben Menüleiste',
+      'candela.name': 'Candela',
+      'candela.desc': 'Alle Display-Regler, die macOS versteckt, in einem Menüleisten-Panel — echte Helligkeit über DDC, scharfe HiDPI-Skalierung und Helligkeitstasten, die an jedem Monitor funktionieren.',
+      'footer.made': 'MIT-Lizenz. Gemacht von <a href="https://github.com/iamzifei">James</a>.',
+      'footer.docs': 'Dokumentation',
+      'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
+      'footer.issue': 'Problem melden',
+      'footer.kofi': 'Einen Kaffee spendieren',
+      'lang.system': 'System'
+    },
+    'fr': {
+      'html.lang': 'fr',
+      'doc.title': 'AudioSwitch — changer de périphérique audio depuis la barre des menus macOS',
+      'doc.desc': 'Une app macOS native pour la barre des menus qui réunit toutes les entrées et sorties audio dans un seul panneau : changer d\'appareil, régler le volume, couper le son, suivre le niveau du micro en direct et couper le micro pour de bon. Apple silicon, sans dépendances, MIT.',
+      'brand': 'AudioSwitch pour macOS',
+      'h1': 'Chaque périphérique audio, à un clic de la <span>barre des menus</span>.',
+      'lede': 'macOS enfouit le changement de périphérique d\'entrée à plusieurs clics dans les Réglages Système, et le menu de volume intégré ne gère que la sortie. AudioSwitch réunit les deux dans un seul panneau — avec le volume, la coupure du son, un indicateur de niveau du micro en direct et un vrai interrupteur pour couper le micro.',
+      'cta.download': 'Télécharger pour macOS',
+      'cta.kofi': 'Soutenir sur Ko-fi',
+      'cta.source': 'Code source sur GitHub',
+      'cta.all': 'Toutes les versions',
+      'fineprint': 'macOS 14 ou ultérieur · Apple silicon · signée et notarisée · licence MIT · environ 1,5 Mo',
+      'caption': 'Un panneau. Les deux sens. Sans passer par les Réglages Système.',
+      'video.alt': 'Le panneau AudioSwitch : changement de périphérique de sortie, réglage du volume, verrouillage d\'un appareil et bascule de l\'interrupteur du micro.',
+      'panel.alt': 'Le panneau AudioSwitch affichant les périphériques de sortie et d\'entrée, chacun avec son icône, les curseurs de volume, l\'indicateur de niveau et les réglages.',
+      's1.h2': 'Il sait quel genre d\'appareil vous branchez.',
+      's1.p': 'Pas une icône par type de connexion, mais une icône distincte par type d\'appareil — comme le fait le menu Bluetooth du système.',
+      'f1.h3': 'Les AirPods ressemblent à des AirPods',
+      'f1.p': 'AirPods et AirPods Pro/Max, Beats, casque, enceinte hi-fi, haut-parleurs intégrés du Mac, écran, microphone, périphérique virtuel — chacun a son icône, déduite du nom de l\'appareil, de la source de données CoreAudio et du type de connexion. L\'icône de la barre des menus suit la sortie : branchez un casque et le haut-parleur devient un casque, vous voyez donc où va le son sans rien ouvrir.',
+      'f2.h3': 'La même liste que les Réglages Système',
+      'f2.p': 'Les périphériques sont filtrés sur la propriété CoreAudio qu\'utilise le système lui-même : ce que vous voyez ici est exactement ce qu\'affiche « Son » — les périphériques virtuels que macOS masque restent masqués.',
+      'f3.h3': 'Les alertes suivent l\'appareil',
+      'f3.p': 'Changer la sortie déplace aussi la sortie des alertes système : les sons de notification ne restent pas sur les enceintes que vous venez de quitter.',
+      'f4.h3': 'Voir si votre micro vous entend',
+      'f4.p': 'Un indicateur de niveau en direct, juste sous le curseur d\'entrée. Le micro n\'est utilisé que pendant que le panneau est ouvert — l\'app ne le garde jamais en arrière-plan, et le voyant d\'enregistrement s\'éteint dès que vous fermez le panneau.',
+      'f5.h3': 'Un vrai interrupteur pour le micro',
+      'f5.p': '« Désactiver le microphone » coupe le périphérique d\'entrée courant au niveau du système, recoupe automatiquement celui qui deviendra le périphérique par défaut ensuite, et survit à un redémarrage. Les appareils sans coupure voient leur gain mis à zéro.',
+      's2.h2': 'Pensé pour la façon dont on s\'en sert vraiment.',
+      's2.p': 'Les détails qu\'on ne remarque que lorsqu\'ils manquent.',
+      'd1.t': 'Clic droit pour enchaîner', 'd1.d': 'Un clic droit sur l\'icône de la barre des menus passe au périphérique de sortie suivant sans ouvrir le panneau.',
+      'd2.t': 'Verrouiller un appareil', 'd2.d': 'Épingle la sortie ou l\'entrée choisie. Si une autre app s\'en empare — les apps de visioconférence sont les coupables habituelles — le réglage revient aussitôt. Mémorisé par UID d\'appareil : cela survit au débranchement et au redémarrage.',
+      'd3.t': 'Volume en dB', 'd3.d': 'Des curseurs dans les deux sens, avec le niveau en décibels, converti par la correspondance scalaire→dB de CoreAudio plutôt que par la propriété que certaines interfaces rapportent de travers.',
+      'd4.t': 'Toujours synchronisé', 'd4.d': 'Touches de volume, Réglages Système ou autre app : le panneau et l\'icône suivent immédiatement.',
+      'd5.t': 'Clavier', 'd5.d': '<span class="kbd">⌘,</span> Réglages Son · <span class="kbd">⌘R</span> Actualiser · <span class="kbd">⌘Q</span> Quitter',
+      'd6.t': 'Trois langues dans l\'app', 'd6.d': 'English, 简体中文, 繁體中文, ou suivre le système — changement à chaud, sans redémarrage.',
+      'd7.t': 'Se met à jour seule', 'd7.d': 'Sparkle vérifie chaque jour en arrière-plan et valide une signature EdDSA du téléchargement avant toute installation.',
+      'd8.t': 'Ne vous encombre pas', 'd8.d': 'Pas d\'icône dans le Dock, pas de fenêtre, aucun élément d\'ouverture sans votre accord, aucune analytique, aucun appel réseau en dehors de la vérification des mises à jour.',
+      's3.h2': 'Gratuite, open source, et honnête sur ses limites.',
+      'limits': '<strong>Les destinations AirPlay ne sont pas listées.</strong> Les Réglages Système affichent les enceintes AirPlay à côté des appareils locaux ; elles ne sont pas accessibles via les API publiques, car macOS n\'instancie une destination AirPlay qu\'une fois sélectionnée. Choisissez-la via <em>Réglages Son…</em> dans le panneau — une fois active, elle apparaît dans AudioSwitch comme n\'importe quel appareil.',
+      'more.label': 'Également depuis la même barre des menus',
+      'candela.name': 'Candela',
+      'candela.desc': 'Tous les réglages d\'écran que macOS cache, dans un panneau de barre des menus — luminosité réelle via DDC, mise à l\'échelle HiDPI nette et touches de luminosité qui fonctionnent sur chaque moniteur.',
+      'footer.made': 'Sous licence MIT. Réalisé par <a href="https://github.com/iamzifei">James</a>.',
+      'footer.docs': 'Documentation',
+      'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
+      'footer.issue': 'Signaler un problème',
+      'footer.kofi': 'Offrir un café',
+      'lang.system': 'Système'
+    },
+    'es': {
+      'html.lang': 'es',
+      'doc.title': 'AudioSwitch — cambia de dispositivo de audio desde la barra de menús de macOS',
+      'doc.desc': 'Una app nativa de la barra de menús de macOS que reúne todas las entradas y salidas de audio en un panel: cambiar de dispositivo, volumen, silencio, un medidor de nivel del micrófono en vivo y un interruptor para apagar el micrófono del todo. Apple silicon, sin dependencias, MIT.',
+      'brand': 'AudioSwitch para macOS',
+      'h1': 'Cada dispositivo de audio, a un clic de la <span>barra de menús</span>.',
+      'lede': 'macOS entierra el cambio de dispositivo de entrada varios clics dentro de Ajustes del Sistema, y el menú de volumen integrado solo cubre la salida. AudioSwitch pone ambos en un mismo panel — con volumen, silencio, un medidor de nivel del micrófono en vivo y un interruptor real para apagar el micrófono.',
+      'cta.download': 'Descargar para macOS',
+      'cta.kofi': 'Apoyar en Ko-fi',
+      'cta.source': 'Código en GitHub',
+      'cta.all': 'Todas las versiones',
+      'fineprint': 'macOS 14 o posterior · Apple silicon · firmada y notarizada · licencia MIT · unos 1,5 MB',
+      'caption': 'Un panel. Las dos direcciones. Sin abrir Ajustes del Sistema.',
+      'video.alt': 'El panel de AudioSwitch: cambio del dispositivo de salida, ajuste del volumen, bloqueo de un dispositivo y el interruptor del micrófono.',
+      'panel.alt': 'El panel de AudioSwitch con los dispositivos de salida y entrada, cada uno con su icono, los deslizadores de volumen, el medidor de nivel y los interruptores.',
+      's1.h2': 'Sabe qué clase de dispositivo tienes.',
+      's1.p': 'No un icono por tipo de conexión, sino un icono propio para cada clase de dispositivo — como hace el menú Bluetooth del sistema.',
+      'f1.h3': 'Los AirPods parecen AirPods',
+      'f1.p': 'AirPods y AirPods Pro/Max, Beats, auriculares, un altavoz hi-fi, los altavoces del propio Mac, una pantalla, un micrófono, un dispositivo virtual — cada uno recibe su icono, deducido del nombre del dispositivo, la fuente de datos de CoreAudio y el tipo de conexión. El icono de la barra de menús sigue a la salida: conecta unos auriculares y el altavoz se convierte en auriculares, así ves adónde va el sonido sin abrir nada.',
+      'f2.h3': 'La misma lista que muestra Ajustes del Sistema',
+      'f2.p': 'Los dispositivos se filtran con la propiedad de CoreAudio que usa el propio sistema, así que lo que ves aquí es exactamente lo que muestra «Sonido» — los dispositivos virtuales que macOS oculta siguen ocultos.',
+      'f3.h3': 'Las alertas siguen al dispositivo',
+      'f3.p': 'Cambiar la salida mueve también la salida de las alertas del sistema, de modo que los sonidos de notificación no se quedan en los altavoces que acabas de dejar.',
+      'f4.h3': 'Comprueba si el micrófono te oye',
+      'f4.p': 'Un medidor de nivel en vivo, justo bajo el deslizador de entrada. El micrófono solo se usa mientras el panel está abierto — la app nunca lo retiene en segundo plano, y el indicador de grabación se apaga al cerrar el panel.',
+      'f5.h3': 'Un interruptor de verdad para el micrófono',
+      'f5.p': '«Desactivar micrófono» silencia el dispositivo de entrada actual en todo el sistema, vuelve a silenciar el que pase a ser predeterminado más tarde y sobrevive a un reinicio. A los dispositivos sin silencio se les pone la ganancia a cero.',
+      's2.h2': 'Hecha para cómo se usa de verdad.',
+      's2.p': 'Las piezas que solo se notan cuando faltan.',
+      'd1.t': 'Clic derecho para ir pasando', 'd1.d': 'Haz clic derecho en el icono de la barra de menús para saltar al siguiente dispositivo de salida sin abrir el panel.',
+      'd2.t': 'Bloquear un dispositivo', 'd2.d': 'Fija la salida o la entrada elegida. Si otra app se la lleva —las de videoconferencia son las habituales—, se recupera al instante. Se guarda por UID del dispositivo, así que sobrevive a desconexiones y reinicios.',
+      'd3.t': 'Volumen en dB', 'd3.d': 'Deslizadores en ambas direcciones, con el nivel en decibelios, convertido con la correspondencia escalar→dB de CoreAudio en lugar de la propiedad que algunas interfaces reportan mal.',
+      'd4.t': 'Siempre sincronizado', 'd4.d': 'Cambia el volumen con las teclas, en Ajustes del Sistema o desde otra app: el panel y el icono lo siguen al momento.',
+      'd5.t': 'Teclado', 'd5.d': '<span class="kbd">⌘,</span> Ajustes de sonido · <span class="kbd">⌘R</span> Actualizar · <span class="kbd">⌘Q</span> Salir',
+      'd6.t': 'Tres idiomas en la app', 'd6.d': 'English, 简体中文, 繁體中文, o seguir al sistema — se cambia en caliente, sin reiniciar.',
+      'd7.t': 'Se actualiza sola', 'd7.d': 'Sparkle comprueba a diario en segundo plano y verifica una firma EdDSA de la descarga antes de instalar nada.',
+      'd8.t': 'No estorba', 'd8.d': 'Sin icono en el Dock, sin ventana, sin ítem de inicio salvo que lo pidas, sin analítica y sin más conexiones que la comprobación de actualizaciones.',
+      's3.h2': 'Gratis, de código abierto y honesta sobre sus límites.',
+      'limits': '<strong>Los destinos AirPlay no aparecen en la lista.</strong> Ajustes del Sistema muestra los altavoces AirPlay junto a los locales; no son accesibles por API públicas, porque macOS solo crea un dispositivo AirPlay después de seleccionarlo. Elígelo con <em>Ajustes de sonido…</em> desde el panel — una vez activo, aparece en AudioSwitch como cualquier otro dispositivo.',
+      'more.label': 'También desde la misma barra de menús',
+      'candela.name': 'Candela',
+      'candela.desc': 'Todos los controles de pantalla que macOS esconde, en un panel de la barra de menús — brillo real por DDC, escalado HiDPI nítido y teclas de brillo que funcionan en cualquier monitor.',
+      'footer.made': 'Licencia MIT. Hecho por <a href="https://github.com/iamzifei">James</a>.',
+      'footer.docs': 'Documentación',
+      'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
+      'footer.issue': 'Informar de un problema',
+      'footer.kofi': 'Invítame a un café',
+      'lang.system': 'Sistema'
     }
   };
+
+  // Languages whose BCP 47 tag needs no script subtag to disambiguate.
+  var SIMPLE = ['en', 'ja', 'ko', 'de', 'fr', 'es'];
 
   var select = document.getElementById('lang');
   var english = {};   // filled from the markup, so English is never duplicated
@@ -890,7 +1148,9 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       var tag = String(wanted[i]).toLowerCase();
       // Hant is the exception, not the rule: Taiwan, Hong Kong and Macau.
       if (tag.indexOf('zh') === 0) return /hant|tw|hk|mo/.test(tag) ? 'zh-Hant' : 'zh-Hans';
-      if (tag.indexOf('en') === 0) return 'en';
+      for (var j = 0; j < SIMPLE.length; j++) {
+        if (tag.indexOf(SIMPLE[j]) === 0) return SIMPLE[j];
+      }
     }
     return 'en';
   }
@@ -918,7 +1178,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
   try { stored = localStorage.getItem('audioswitch.lang'); } catch (e) { stored = null; }
   var forced = (location.search.match(/[?&]lang=([\w-]+)/) || [])[1];
   var choice = forced || stored || 'system';
-  if (!/^(system|en|zh-Hans|zh-Hant)$/.test(choice)) choice = 'system';
+  if (!/^(system|en|zh-Hans|zh-Hant|ja|ko|de|fr|es)$/.test(choice)) choice = 'system';
 
   select.value = choice;
   apply(choice);
