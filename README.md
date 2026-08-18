@@ -4,7 +4,7 @@
 
 # AudioSwitch
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/iamzifei)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/james_ai/tip)
 
 **在 macOS 菜单栏里切换音频设备。**
 
