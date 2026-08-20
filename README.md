@@ -246,3 +246,14 @@ AUDIOSWITCH_STICKY_PANEL=1 AudioSwitch.app/Contents/MacOS/AudioSwitch
 MIT，见 [LICENSE](LICENSE)。
 
 由 [James](https://github.com/iamzifei) 制作。
+
+## Also from the same hand
+
+Four small native Mac apps, each doing one thing. Someone who liked one is
+the likeliest person to want another.
+
+| App | | |
+| --- | --- | --- |
+| **[Candela](https://getcandela.app)** | Every display control macOS hides, in one menu bar panel — real brightness over DDC, HiDPI scaling, and brightness keys that work on every monitor. | [source](https://github.com/iamzifei/Candela) |
+| **[ClipStack](https://getclipstack.app)** | Everything you copied is still there — a searchable clipboard history on ⇧⌘V, kept on this Mac. | [source](https://github.com/iamzifei/clipstack) |
+| **[Inkstone](https://inkslab.app)** | Markdown notes that stay plain files in a folder you choose — wikilinks, a graph, a canvas, on macOS and iOS. | [source](https://github.com/iamzifei/inkstone) |
