@@ -11,6 +11,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let levelMeter = InputLevelMeter()
     private let localization = Localization()
     private let updater = Updater()
+    private lazy var onboarding = OnboardingWindowController(l10n: localization)
     private var statusItem: NSStatusItem?
     private var popover: NSPopover?
     private var cancellables: Set<AnyCancellable> = []
@@ -96,6 +97,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             .store(in: &cancellables)
+
+        // First launch (or first launch after the guide gained content).
+        onboarding.onOpenPanel = { [weak self] in self?.togglePopover() }
+        onboarding.showIfNeeded()
 
         // Development aid: open the panel straight away so it can be captured
         // without synthesising a click on the status item.
@@ -236,7 +241,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             levelMeter: levelMeter,
             l10n: localization,
             updater: updater,
-            onSelect: { [weak self] in self?.closePopover() }
+            onSelect: { [weak self] in self?.closePopover() },
+            onShowGuide: { [weak self] in
+                self?.closePopover()
+                self?.onboarding.show()
+            }
         )
         let hosting = NSHostingController(rootView: panel)
         // Let the SwiftUI layout drive the popover size, so the panel grows and

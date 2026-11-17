@@ -60,3 +60,20 @@
 "error.cannot_be_default" = "%@ 无法作为默认%@设备。";
 "error.switch_failed" = "无法将%1$@切换到 %2$@（OSStatus %3$d）。";
 "error.microphone_cannot_be_disabled" = "该麦克风无法通过软件关闭。";
+
+/* Welcome guide */
+"command.welcome_guide" = "新手引导";
+"onboarding.window_title" = "欢迎使用 AudioSwitch";
+"onboarding.title.1" = "常驻菜单栏";
+"onboarding.body.1" = "AudioSwitch 不占 Dock 图标。点击菜单栏里的喇叭图标打开面板；右键点击图标，可直接切换到下一个输出设备。";
+"onboarding.title.2" = "选择声音从哪里播放";
+"onboarding.body.2" = "点击一个设备，就把它设为系统输出，打勾的是当前设备。输出和输入各有独立的音量滑块和静音按钮。";
+"onboarding.title.3" = "选择并查看麦克风";
+"onboarding.body.3" = "输入设备的用法一样，还带实时电平表，能看到麦克风有没有听到你。macOS 会请求一次麦克风权限，仅用于在面板打开时绘制这个电平表。";
+"onboarding.title.4" = "开关与设置";
+"onboarding.body.4" = "可以关闭麦克风、锁定设备让它不会自己切走、开机自启，或更改语言。下方图标依次是：打开声音设置、刷新列表、关于。问号图标可以随时重新打开本引导。";
+"onboarding.back" = "上一步";
+"onboarding.next" = "下一步";
+"onboarding.skip" = "跳过";
+"onboarding.done" = "打开面板";
+"onboarding.page_of" = "第 %1$d 页，共 %2$d 页";

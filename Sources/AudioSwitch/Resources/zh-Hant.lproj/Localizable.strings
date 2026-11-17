@@ -60,3 +60,20 @@
 "error.cannot_be_default" = "%@ 無法作為預設%@裝置。";
 "error.switch_failed" = "無法將%1$@切換至 %2$@（OSStatus %3$d）。";
 "error.microphone_cannot_be_disabled" = "此麥克風無法透過軟體關閉。";
+
+/* Welcome guide */
+"command.welcome_guide" = "新手引導";
+"onboarding.window_title" = "歡迎使用 AudioSwitch";
+"onboarding.title.1" = "常駐在選單列";
+"onboarding.body.1" = "AudioSwitch 不佔用 Dock 圖示。點按選單列的喇叭圖示即可開啟面板；按右鍵點圖示，可直接切換到下一個輸出裝置。";
+"onboarding.title.2" = "選擇聲音從哪裡播放";
+"onboarding.body.2" = "點按一個裝置，就把它設為系統輸出，打勾的是目前的裝置。輸出和輸入各有獨立的音量滑桿與靜音按鈕。";
+"onboarding.title.3" = "選擇並查看麥克風";
+"onboarding.body.3" = "輸入裝置的用法相同，還附有即時電平表，能看到麥克風有沒有收到你的聲音。macOS 會詢問一次麥克風權限，僅用於在面板開啟時繪製這個電平表。";
+"onboarding.title.4" = "開關與設定";
+"onboarding.body.4" = "可以停用麥克風、鎖定裝置讓它不會自己切走、登入時啟動，或變更語言。下方圖示依序是：開啟聲音設定、重新整理清單、關於。問號圖示可隨時重新開啟本引導。";
+"onboarding.back" = "上一步";
+"onboarding.next" = "下一步";
+"onboarding.skip" = "略過";
+"onboarding.done" = "開啟面板";
+"onboarding.page_of" = "第 %1$d 頁，共 %2$d 頁";

@@ -49,6 +49,12 @@ else
     exit 1
 fi
 
+# Localised permission prompt: the microphone usage text the system shows comes
+# from InfoPlist.strings in the app's own Resources (not SwiftPM's bundle).
+for lproj in packaging/*.lproj; do
+    cp -R "${lproj}" "${APP_BUNDLE}/Contents/Resources/"
+done
+
 # Bundle Sparkle.framework. SwiftPM fetches it as a binary XCFramework, so the
 # macOS slice has to be copied into the app for the runtime to resolve it
 # against the @executable_path/../Frameworks rpath set in Package.swift.

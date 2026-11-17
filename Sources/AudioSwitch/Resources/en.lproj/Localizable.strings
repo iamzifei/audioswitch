@@ -60,3 +60,20 @@
 "error.cannot_be_default" = "%@ cannot be the default %@ device.";
 "error.switch_failed" = "Could not switch %1$@ to %2$@ (OSStatus %3$d).";
 "error.microphone_cannot_be_disabled" = "This microphone cannot be switched off from software.";
+
+/* Welcome guide */
+"command.welcome_guide" = "Welcome Guide";
+"onboarding.window_title" = "Welcome to AudioSwitch";
+"onboarding.title.1" = "Lives in your menu bar";
+"onboarding.body.1" = "AudioSwitch has no Dock icon. Click the speaker icon in the menu bar to open the panel. Right-click it to jump straight to the next output device.";
+"onboarding.title.2" = "Pick where sound plays";
+"onboarding.body.2" = "Click a device to make it the system output. The checkmark shows the current one. Each direction has its own volume slider and mute button.";
+"onboarding.title.3" = "Choose and watch your microphone";
+"onboarding.body.3" = "Inputs work the same way, with a live level meter so you can see the mic is hearing you. macOS asks for microphone access once, only to draw that meter while the panel is open.";
+"onboarding.title.4" = "Switches and settings";
+"onboarding.body.4" = "Turn the microphone off, lock a device so it never changes by itself, start at login, or change the language. The icons below open Sound Settings, refresh the list and show About. The question mark brings this guide back.";
+"onboarding.back" = "Back";
+"onboarding.next" = "Next";
+"onboarding.skip" = "Skip";
+"onboarding.done" = "Open the panel";
+"onboarding.page_of" = "Page %1$d of %2$d";

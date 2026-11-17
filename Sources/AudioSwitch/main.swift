@@ -87,6 +87,32 @@ if let renderPath = ProcessInfo.processInfo.environment["AUDIOSWITCH_RENDER_PANE
     exit(0)
 }
 
+// Development aid: `AUDIOSWITCH_RENDER_GUIDE=<dir>` renders every welcome-guide
+// page, in every language, to PNGs in <dir> and exits.
+if let dir = ProcessInfo.processInfo.environment["AUDIOSWITCH_RENDER_GUIDE"] {
+    MainActor.assumeIsolated {
+        let scratch = Preferences(defaults: UserDefaults(suiteName: "audioswitch.renderguide") ?? .standard)
+        for language in AppLanguage.allCases where language != .system {
+            let l10n = Localization(preferences: scratch)
+            l10n.setLanguage(language)
+            for page in 0..<Onboarding.pageCount {
+                let model = OnboardingModel()
+                model.page = page
+                let view = OnboardingView(model: model, l10n: l10n, onFinish: {}, onClose: {})
+                    .background(Color(nsColor: .windowBackgroundColor))
+                let renderer = ImageRenderer(content: view)
+                renderer.scale = 2
+                if let tiff = renderer.nsImage?.tiffRepresentation,
+                   let png = NSBitmapImageRep(data: tiff)?.representation(using: .png, properties: [:]) {
+                    try? png.write(to: URL(fileURLWithPath: "\(dir)/guide-\(language.rawValue)-\(page + 1).png"))
+                }
+            }
+        }
+        print("rendered guide to \(dir)")
+    }
+    exit(0)
+}
+
 // Entry point.
 //
 // The app is built around AppKit's NSStatusItem rather than SwiftUI's

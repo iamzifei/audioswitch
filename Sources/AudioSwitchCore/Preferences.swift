@@ -24,6 +24,13 @@ public final class Preferences: @unchecked Sendable {
         static let isInputDisabled = "isInputDisabled"
         static let languageCode = "languageCode"
         static let lastUpdateCheck = "lastUpdateCheck"
+        static let onboardingSeenVersion = "onboardingSeenVersion"
+    }
+
+    /// Last welcome-guide version the user was shown; 0 when never shown.
+    public var onboardingSeenVersion: Int {
+        get { defaults.integer(forKey: Key.onboardingSeenVersion) }
+        set { defaults.set(newValue, forKey: Key.onboardingSeenVersion) }
     }
 
     /// When the update check last completed, so the panel does not hit the

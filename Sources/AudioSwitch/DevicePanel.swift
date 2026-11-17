@@ -17,6 +17,9 @@ struct DevicePanel: View {
     /// Called after the user picks a device, so the host can dismiss the popover.
     let onSelect: () -> Void
 
+    /// Reopens the welcome guide (the question-mark button in the footer).
+    var onShowGuide: () -> Void = {}
+
     /// False only for offline snapshot rendering: `ImageRenderer` draws nothing
     /// inside a `ScrollView`, so the snapshot mode lays the cards out directly.
     var scrollable: Bool = true
@@ -62,7 +65,7 @@ struct DevicePanel: View {
             )
             .padding(.horizontal, Metrics.panelPadding)
 
-            FooterBar(manager: manager, l10n: l10n) { isShowingAbout = true }
+            FooterBar(manager: manager, l10n: l10n, onAbout: { isShowingAbout = true }, onShowGuide: onShowGuide)
                 .padding(.horizontal, Metrics.panelPadding)
                 .padding(.bottom, Metrics.panelPadding)
 
@@ -570,6 +573,7 @@ private struct FooterBar: View {
     @ObservedObject var manager: AudioDeviceManager
     @ObservedObject var l10n: Localization
     let onAbout: () -> Void
+    let onShowGuide: () -> Void
 
     var body: some View {
         HStack(spacing: 4) {
@@ -584,6 +588,8 @@ private struct FooterBar: View {
             .keyboardShortcut("r", modifiers: .command)
 
             FooterButton(title: l10n("command.about"), symbol: "info.circle", action: onAbout)
+
+            FooterButton(title: l10n("command.welcome_guide"), symbol: "questionmark.circle", action: onShowGuide)
 
             Spacer(minLength: 0)
 
