@@ -264,6 +264,12 @@ pair with Claude Code's clipboard-delivery workflow, where several snippets get
 copied in sequence and you need all of them, not just the last one. Same
 approach: native Apple Silicon, zero third-party dependencies.
 
+**[Veil](https://jamesai.dev/veil/)** — keeps the window you're working in sharp and
+softly blurs everything behind it. Free, MIT.
+
+**[Tapper](https://jamesai.dev/tapper/)** — turns your pointer into a cartoon glove on a
+long stick, for demos and screen recordings. Free, MIT.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

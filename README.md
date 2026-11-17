@@ -249,7 +249,7 @@ MIT，见 [LICENSE](LICENSE)。
 
 ## Also from the same hand
 
-Four small native Mac apps, each doing one thing. Someone who liked one is
+Six small native Mac apps, each doing one thing. Someone who liked one is
 the likeliest person to want another.
 
 | App | | |
@@ -257,3 +257,5 @@ the likeliest person to want another.
 | **[Candela](https://getcandela.app)** | Every display control macOS hides, in one menu bar panel — real brightness over DDC, HiDPI scaling, and brightness keys that work on every monitor. | [source](https://github.com/iamzifei/Candela) |
 | **[ClipStack](https://getclipstack.app)** | Everything you copied is still there — a searchable clipboard history on ⇧⌘V, kept on this Mac. | [source](https://github.com/iamzifei/clipstack) |
 | **[Inkstone](https://inkslab.app)** | Markdown notes that stay plain files in a folder you choose — wikilinks, a graph, a canvas, on macOS and iOS. | [source](https://github.com/iamzifei/inkstone) |
+| **[Veil](https://jamesai.dev/veil/)** | Keeps the window you're working in sharp and softly blurs everything behind it. Free, MIT. | [source](https://github.com/iamzifei/veil) |
+| **[Tapper](https://jamesai.dev/tapper/)** | Turns your pointer into a cartoon glove on a long stick, for demos and screen recordings. Free, MIT. | [source](https://github.com/iamzifei/tapper) |
