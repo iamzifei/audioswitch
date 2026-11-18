@@ -39,6 +39,13 @@ public final class InputLevelMeter: ObservableObject {
         isAuthorized = AVCaptureDevice.authorizationStatus(for: .audio) == .authorized
     }
 
+    /// A meter frozen at a fixed reading, for demo screenshots only.
+    public init(demoLevel: Float, decibels: Float) {
+        self.level = demoLevel
+        self.decibels = decibels
+        self.isAuthorized = true
+    }
+
     deinit {
         // Tear down without hopping actors; the engine is safe to stop here.
         engine?.stop()

@@ -39,8 +39,9 @@ final class OnboardingTests: XCTestCase {
             .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appendingPathComponent("Sources/AudioSwitch/Resources")
         for n in 1...Onboarding.pageCount {
-            XCTAssertTrue(FileManager.default.fileExists(atPath: root.appendingPathComponent("onboarding-\(n).jpg").path))
             for lang in ["en", "zh-Hans", "zh-Hant"] {
+                XCTAssertTrue(FileManager.default.fileExists(
+                    atPath: root.appendingPathComponent("onboarding-\(n)-\(lang).jpg").path), "\(lang) screenshot \(n)")
                 let text = try String(contentsOf: root.appendingPathComponent("\(lang).lproj/Localizable.strings"), encoding: .utf8)
                 XCTAssertTrue(text.contains("\"onboarding.title.\(n)\""), "\(lang) title \(n)")
                 XCTAssertTrue(text.contains("\"onboarding.body.\(n)\""), "\(lang) body \(n)")

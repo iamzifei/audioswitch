@@ -130,8 +130,13 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
 
     private static let symbols = ["menubar.rectangle", "speaker.wave.2", "mic", "switch.2"]
 
-    static func image(_ n: Int) -> NSImage? {
-        Localization.resourceBundle.url(forResource: "onboarding-\(n)", withExtension: "jpg")
+    /// Screenshot for page `n` in the language the guide is showing. While the
+    /// app is still on "System" that is the system-detected language, the same
+    /// one the picker displays.
+    static func image(_ n: Int, language: AppLanguage) -> NSImage? {
+        let effective = language == .system ? AppLanguage.suggested() : language
+        let code = effective.localeCode ?? "en"
+        return Localization.resourceBundle.url(forResource: "onboarding-\(n)-\(code)", withExtension: "jpg")
             .flatMap(NSImage.init(contentsOf:))
     }
 
@@ -141,7 +146,7 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
             GuidePage(symbol: symbols[n - 1],
                       title: l10n("onboarding.title.\(n)"),
                       body: l10n("onboarding.body.\(n)"),
-                      image: image(n))
+                      image: image(n, language: l10n.language))
         }
     }
 }

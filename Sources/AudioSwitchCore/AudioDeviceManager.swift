@@ -77,6 +77,28 @@ public final class AudioDeviceManager: ObservableObject {
     private var systemListeners: [(AudioObjectPropertyAddress, AudioObjectPropertyListenerBlock)] = []
     private var deviceListeners: [(AudioObjectID, AudioObjectPropertyAddress, AudioObjectPropertyListenerBlock)] = []
 
+    /// A manager frozen on a fixed device list: no CoreAudio reads, no
+    /// listeners, nothing written to the system. Used only to render the
+    /// welcome-guide screenshots with demo data.
+    public init(
+        demoDevices: [AudioDevice],
+        defaultOutputID: AudioObjectID,
+        defaultInputID: AudioObjectID,
+        outputVolume: VolumeState,
+        inputVolume: VolumeState,
+        preferences: Preferences
+    ) {
+        self.preferences = preferences
+        self.isOutputLocked = false
+        self.isInputLocked = false
+        self.isInputDisabled = false
+        self.devices = demoDevices
+        self.defaultOutputID = defaultOutputID
+        self.defaultInputID = defaultInputID
+        self.outputVolume = outputVolume
+        self.inputVolume = inputVolume
+    }
+
     public init(preferences: Preferences = .standard) {
         self.preferences = preferences
         self.isOutputLocked = preferences.isOutputLocked

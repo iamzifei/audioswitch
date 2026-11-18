@@ -15,6 +15,14 @@ public struct VolumeState: Equatable, Sendable {
     /// False when the device has no mute switch, so the UI can hide the button.
     public var isMuteSupported: Bool
 
+    public init(scalar: Float, decibels: Float?, isMuted: Bool, isSettable: Bool, isMuteSupported: Bool) {
+        self.scalar = scalar
+        self.decibels = decibels
+        self.isMuted = isMuted
+        self.isSettable = isSettable
+        self.isMuteSupported = isMuteSupported
+    }
+
     public static let unavailable = VolumeState(
         scalar: 0, decibels: nil, isMuted: false, isSettable: false, isMuteSupported: false
     )

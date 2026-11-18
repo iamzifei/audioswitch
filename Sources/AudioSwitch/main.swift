@@ -113,6 +113,13 @@ if let dir = ProcessInfo.processInfo.environment["AUDIOSWITCH_RENDER_GUIDE"] {
     exit(0)
 }
 
+// Development aid: `AUDIOSWITCH_RENDER_GUIDE_SHOTS=<dir>` renders the welcome
+// guide's screenshots (real panel, demo devices, every language) and exits.
+if let dir = ProcessInfo.processInfo.environment["AUDIOSWITCH_RENDER_GUIDE_SHOTS"] {
+    MainActor.assumeIsolated { GuideScreenshots.renderAll(to: dir) }
+    exit(0)
+}
+
 // Entry point.
 //
 // The app is built around AppKit's NSStatusItem rather than SwiftUI's
