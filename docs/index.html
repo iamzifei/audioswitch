@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AudioSwitch — switch macOS audio devices from the menu bar</title>
-<meta name="description" content="A native macOS menu bar app that puts every audio input and output in one panel: switch devices, set volume, mute, watch a live microphone meter, and kill the mic outright. Apple silicon, zero dependencies, MIT.">
+<title>AudioSwitch: Free Audio Device Switcher for Mac Menu Bar</title>
+<meta name="description" content="Free, open-source Mac menu bar app: switch audio output and input devices in one click, with volume, mute, a live mic meter and a mic kill switch.">
+<meta name="keywords" content="mac audio switcher, switch audio output mac, change microphone input mac, menu bar audio app, macOS sound output, mute microphone mac">
+<meta name="author" content="James">
 <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#101215" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="icon-256.png" sizes="256x256">
@@ -21,11 +23,100 @@
 <link rel="alternate" hreflang="x-default" href="https://audioswitch.dev/">
 
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="AudioSwitch">
 <meta property="og:url" content="https://audioswitch.dev/">
-<meta property="og:title" content="AudioSwitch — switch macOS audio devices from the menu bar">
-<meta property="og:description" content="Every input and output in one panel: switch, set volume, mute, watch a live mic meter. Native, Apple silicon, MIT.">
+<meta property="og:title" content="AudioSwitch: Free Audio Device Switcher for Mac Menu Bar">
+<meta property="og:description" content="Switch audio output and input devices on your Mac from the menu bar: volume, mute, a live mic meter and a mic kill switch. Free, open source, MIT.">
 <meta property="og:image" content="https://audioswitch.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AudioSwitch: every Mac audio device in one menu bar panel">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@JamesAI">
+<meta name="twitter:creator" content="@JamesAI">
+<meta name="twitter:title" content="AudioSwitch: Free Audio Device Switcher for Mac Menu Bar">
+<meta name="twitter:description" content="Switch audio output and input devices on your Mac from the menu bar: volume, mute, a live mic meter and a mic kill switch. Free, open source, MIT.">
+<meta name="twitter:image" content="https://audioswitch.dev/og.png">
+<meta name="twitter:image:alt" content="AudioSwitch: every Mac audio device in one menu bar panel">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://audioswitch.dev/#app",
+      "name": "AudioSwitch",
+      "description": "A free, open-source macOS menu bar app that switches the default audio output and input device in one click, with volume in dB, mute, a live microphone level meter, a system-wide microphone kill switch and device locking.",
+      "url": "https://audioswitch.dev/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS 14.0 or later (Apple silicon)",
+      "processorRequirements": "Apple silicon (arm64)",
+      "softwareVersion": "1.5.2",
+      "downloadUrl": "https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip",
+      "installUrl": "https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip",
+      "releaseNotes": "https://github.com/iamzifei/audioswitch/releases",
+      "image": "https://audioswitch.dev/og.png",
+      "screenshot": "https://audioswitch.dev/panel-web.jpg",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "inLanguage": [
+        "en",
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "featureList": [
+        "Switch the default audio output and input device from the menu bar",
+        "Output and input volume sliders shown in decibels",
+        "Live microphone input level meter",
+        "System-wide microphone kill switch that survives a reboot",
+        "Lock an output or input device so other apps cannot change it",
+        "Right-click the menu bar icon to cycle to the next output",
+        "Per-device icons for AirPods, Beats, headphones, speakers and displays",
+        "Automatic updates via Sparkle with EdDSA-signed downloads"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "James",
+        "url": "https://github.com/iamzifei",
+        "sameAs": [
+          "https://github.com/iamzifei",
+          "https://x.com/JamesAI"
+        ]
+      },
+      "codeRepository": "https://github.com/iamzifei/audioswitch",
+      "sameAs": [
+        "https://github.com/iamzifei/audioswitch"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://audioswitch.dev/#website",
+      "name": "AudioSwitch",
+      "url": "https://audioswitch.dev/",
+      "inLanguage": [
+        "en",
+        "zh-Hans",
+        "zh-Hant",
+        "ja",
+        "ko",
+        "de",
+        "fr",
+        "es"
+      ],
+      "about": {
+        "@id": "https://audioswitch.dev/#app"
+      }
+    }
+  ]
+}
+</script>
 
 <style>
 /* ---------------------------------------------------------------------------
@@ -618,6 +709,62 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
 .langpick select:hover { color: var(--ink); }
 .langpick option { color: initial; }
 
+/* --- Homebrew line ---------------------------------------------------------
+   A secondary way in, set under the buttons rather than beside them. The
+   command scrolls inside its own box on a narrow phone; the page never does. */
+
+/* inline-size containment keeps the unbroken command from widening the hero
+   grid column on a phone; the box then caps at the column and scrolls. */
+.brew { margin-top: 1.1rem; max-width: 100%; contain: inline-size; }
+
+.brew-label {
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.45rem;
+}
+
+.brew-box {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--bg-sunken);
+  overflow: hidden;
+}
+
+.brew-cmd {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0.7rem 0.9rem;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--ink);
+  align-self: center;
+}
+
+.brew-copy {
+  flex: none;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 590;
+  cursor: pointer;
+}
+
+.brew-copy:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+.closing .brew { margin-top: 0; }
+
 </style>
 </head>
 
@@ -664,10 +811,10 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
           <span data-i18n="brand">AudioSwitch for macOS</span>
         </p>
 
-        <h1 class="rise" style="--i:1" data-i18n-html="h1">Every audio device, one click from the <span>menu&nbsp;bar</span>.</h1>
+        <h1 class="rise" style="--i:1" data-i18n-html="h1">Every Mac audio device, one click from the <span>menu&nbsp;bar</span>.</h1>
 
         <p class="lede rise" style="--i:2" data-i18n="lede">
-          macOS buries input switching several clicks deep in System Settings, and the built-in
+          AudioSwitch is a free, open-source menu bar app for anyone who switches between speakers, headphones and microphones on a Mac. macOS buries input switching several clicks deep in System Settings, and the built-in
           volume menu only covers output. AudioSwitch puts both in one panel — with volume, mute,
           a live microphone meter, and a hard kill switch for the mic.
         </p>
@@ -690,8 +837,16 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
           <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch" data-i18n="cta.source">Source on GitHub</a>
         </div>
 
+        <div class="brew rise" style="--i:4">
+          <p class="brew-label" data-i18n="brew.label">Or install with Homebrew</p>
+          <div class="brew-box">
+            <code class="brew-cmd">brew install --cask iamzifei/tap/audioswitch</code>
+            <button type="button" class="brew-copy" data-copy="brew install --cask iamzifei/tap/audioswitch" data-i18n="brew.copy" data-i18n-aria="brew.aria" aria-label="Copy the Homebrew command">Copy</button>
+          </div>
+        </div>
+
         <p class="fineprint rise" style="--i:4" data-i18n="fineprint">
-          macOS 14 or later · Apple silicon · signed and notarised · MIT licensed · about 1.5 MB
+          macOS 14 or later · Apple silicon · signed and notarised · MIT licensed · about 2 MB
         </p>
       </div>
 
@@ -835,6 +990,14 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
         <a class="btn btn-outline" href="https://ko-fi.com/james_ai/tip" rel="noopener" data-i18n="cta.kofi">Support on Ko-fi</a>
         <a class="btn btn-quiet" href="https://github.com/iamzifei/audioswitch/releases" data-i18n="cta.all">All releases</a>
       </div>
+
+      <div class="brew rise">
+        <p class="brew-label" data-i18n="brew.label">Or install with Homebrew</p>
+        <div class="brew-box">
+          <code class="brew-cmd">brew install --cask iamzifei/tap/audioswitch</code>
+          <button type="button" class="brew-copy" data-copy="brew install --cask iamzifei/tap/audioswitch" data-i18n="brew.copy" data-i18n-aria="brew.aria" aria-label="Copy the Homebrew command">Copy</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -924,14 +1087,14 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
   var STRINGS = {
     'zh-Hans': {
       'html.lang': 'zh-Hans',
-      'doc.title': 'AudioSwitch —— 在 macOS 菜单栏里切换音频设备',
-      'doc.desc': '原生 macOS 菜单栏应用：所有音频输入和输出在同一个面板里，切换设备、调音量、静音、实时麦克风电平，还有一个麦克风硬开关。Apple Silicon、零依赖、MIT 开源。',
+      'doc.title': 'AudioSwitch：免费的 Mac 菜单栏音频设备切换工具',
+      'doc.desc': '免费开源的 Mac 菜单栏应用：一键切换音频输出和输入设备，带音量、静音、实时麦克风电平和麦克风硬开关。macOS 14 及以上，Apple Silicon。',
       'nav.devices': '设备',
       'nav.details': '细节',
       'nav.download': '下载',
       'brand': 'AudioSwitch for macOS',
       'h1': '每一个音频设备，都在<span>菜单栏</span>里一键切换。',
-      'lede': 'macOS 把输入设备的切换埋在系统设置好几层之下，而菜单栏自带的音量菜单只管输出。AudioSwitch 把两边放进同一个面板 —— 音量、静音、实时麦克风电平，还有一个麦克风硬开关。',
+      'lede': 'AudioSwitch 是一款免费、开源的 Mac 菜单栏应用，给经常在音箱、耳机和麦克风之间来回切换的人用。macOS 把输入设备的切换埋在系统设置好几层之下，而菜单栏自带的音量菜单只管输出。AudioSwitch 把两边放进同一个面板 —— 音量、静音、实时麦克风电平，还有一个麦克风硬开关。',
       'cta.download': '下载 macOS 版',
       'cta.source': '在 GitHub 上看源码',
       'cta.all': '全部版本',
@@ -947,7 +1110,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'veil.desc': '正在用的窗口保持清晰，后面的一切柔和地模糊掉。免费，MIT 开源。',
       'tap.name': '敲黑板 Tapper',
       'tap.desc': '把鼠标指针变成长杆上的卡通手套，演示和录屏时一眼看清你指哪儿。免费，MIT 开源。',
-      'fineprint': 'macOS 14 或更高 · Apple Silicon · 已签名并公证 · MIT 许可 · 约 1.5 MB',
+      'fineprint': 'macOS 14 或更高 · Apple Silicon · 已签名并公证 · MIT 许可 · 约 2 MB',
       'caption': '一个面板，两个方向，不用打开系统设置。',
       'video.alt': 'AudioSwitch 面板演示：切换输出设备、调整音量、锁定设备、开关麦克风。',
       'panel.alt': 'AudioSwitch 面板：输出和输入设备各有图标，带音量滑块、电平表和设置开关。',
@@ -980,18 +1143,22 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.md',
       'footer.issue': '反馈问题',
       'footer.kofi': '请我喝杯咖啡',
-      'lang.system': '跟随系统'
+      'lang.system': '跟随系统',
+      'brew.label': '或者用 Homebrew 安装',
+      'brew.copy': '复制',
+      'brew.copied': '已复制',
+      'brew.aria': '复制 Homebrew 安装命令'
     },
     'zh-Hant': {
       'html.lang': 'zh-Hant',
-      'doc.title': 'AudioSwitch —— 在 macOS 選單列切換音訊裝置',
-      'doc.desc': '原生 macOS 選單列 App：所有音訊輸入與輸出都在同一個面板，切換裝置、調音量、靜音、即時麥克風電平，還有一個麥克風硬開關。Apple Silicon、零相依、MIT 開源。',
+      'doc.title': 'AudioSwitch：免費的 Mac 選單列音訊裝置切換工具',
+      'doc.desc': '免費開源的 Mac 選單列 App：一鍵切換音訊輸出與輸入裝置，附音量、靜音、即時麥克風電平與麥克風硬開關。macOS 14 以上，Apple Silicon。',
       'nav.devices': '裝置',
       'nav.details': '細節',
       'nav.download': '下載',
       'brand': 'AudioSwitch for macOS',
       'h1': '每一個音訊裝置，都在<span>選單列</span>裡一鍵切換。',
-      'lede': 'macOS 把輸入裝置的切換埋在系統設定好幾層之下，而選單列內建的音量選單只管輸出。AudioSwitch 把兩邊放進同一個面板 —— 音量、靜音、即時麥克風電平，還有一個麥克風硬開關。',
+      'lede': 'AudioSwitch 是一款免費、開源的 Mac 選單列 App，給經常在喇叭、耳機和麥克風之間來回切換的人使用。macOS 把輸入裝置的切換埋在系統設定好幾層之下，而選單列內建的音量選單只管輸出。AudioSwitch 把兩邊放進同一個面板 —— 音量、靜音、即時麥克風電平，還有一個麥克風硬開關。',
       'cta.download': '下載 macOS 版',
       'cta.source': '在 GitHub 上看原始碼',
       'cta.all': '所有版本',
@@ -1007,7 +1174,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'veil.desc': '正在用的視窗保持清晰，後面的一切柔和地模糊掉。免費，MIT 開源。',
       'tap.name': '敲黑板 Tapper',
       'tap.desc': '把滑鼠游標變成長桿上的卡通手套，簡報和錄影時一眼看清你指哪裡。免費，MIT 開源。',
-      'fineprint': 'macOS 14 或以上 · Apple Silicon · 已簽署並公證 · MIT 授權 · 約 1.5 MB',
+      'fineprint': 'macOS 14 或以上 · Apple Silicon · 已簽署並公證 · MIT 授權 · 約 2 MB',
       'caption': '一個面板，兩個方向，不必打開系統設定。',
       'video.alt': 'AudioSwitch 面板示範：切換輸出裝置、調整音量、鎖定裝置、開關麥克風。',
       'panel.alt': 'AudioSwitch 面板：輸出與輸入裝置各有圖示，附音量滑桿、電平表與設定開關。',
@@ -1040,23 +1207,27 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.md',
       'footer.issue': '回報問題',
       'footer.kofi': '請我喝杯咖啡',
-      'lang.system': '跟隨系統'
+      'lang.system': '跟隨系統',
+      'brew.label': '或用 Homebrew 安裝',
+      'brew.copy': '複製',
+      'brew.copied': '已複製',
+      'brew.aria': '複製 Homebrew 安裝指令'
     },
     'ja': {
       'html.lang': 'ja',
-      'doc.title': 'AudioSwitch — macOS のメニューバーからオーディオデバイスを切り替える',
-      'doc.desc': 'すべてのオーディオ入力と出力を 1 つのパネルにまとめた macOS メニューバーアプリ。デバイスの切り替え、音量、ミュート、リアルタイムのマイクレベルメーター、マイクの完全オフスイッチ。Apple シリコンネイティブ、依存ゼロ、MIT ライセンス。',
+      'doc.title': 'AudioSwitch — Mac のメニューバーでオーディオ出力・入力を切り替え',
+      'doc.desc': 'Mac のオーディオ出力と入力をメニューバーからワンクリックで切り替える無料のオープンソースアプリ。音量、ミュート、マイクレベルメーター、マイクのオフスイッチ付き。',
       'nav.devices': 'デバイス',
       'nav.details': '詳細',
       'nav.download': 'ダウンロード',
       'brand': 'AudioSwitch for macOS',
       'h1': 'すべてのオーディオデバイスを、<span>メニューバー</span>から 1 クリックで。',
-      'lede': 'macOS は入力デバイスの切り替えをシステム設定の奥深くに隠し、標準の音量メニューは出力しか扱いません。AudioSwitch は両方を 1 つのパネルにまとめます — 音量、ミュート、リアルタイムのマイクレベルメーター、そしてマイクを完全に切るスイッチ。',
+      'lede': 'AudioSwitch は、スピーカー、ヘッドフォン、マイクをよく切り替える Mac ユーザーのための、無料でオープンソースのメニューバーアプリです。macOS は入力デバイスの切り替えをシステム設定の奥深くに隠し、標準の音量メニューは出力しか扱いません。AudioSwitch は両方を 1 つのパネルにまとめます — 音量、ミュート、リアルタイムのマイクレベルメーター、そしてマイクを完全に切るスイッチ。',
       'cta.download': 'macOS 版をダウンロード',
       'cta.kofi': 'Ko-fi で支援する',
       'cta.source': 'GitHub でソースを見る',
       'cta.all': 'すべてのリリース',
-      'fineprint': 'macOS 14 以降 · Apple シリコン · 署名・公証済み · MIT ライセンス · 約 1.5 MB',
+      'fineprint': 'macOS 14 以降 · Apple シリコン · 署名・公証済み · MIT ライセンス · 約 2 MB',
       'caption': '1 つのパネルで、入力も出力も。システム設定は不要。',
       'video.alt': 'AudioSwitch のパネル操作: 出力デバイスの切り替え、音量調整、デバイスのロック、マイクスイッチの切り替え。',
       'panel.alt': 'AudioSwitch のパネル。出力と入力のデバイスがそれぞれのアイコン付きで並び、音量スライダー、レベルメーター、設定スイッチが表示されている。',
@@ -1100,23 +1271,27 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
       'footer.issue': '問題を報告',
       'footer.kofi': 'コーヒーを奢る',
-      'lang.system': 'システムに合わせる'
+      'lang.system': 'システムに合わせる',
+      'brew.label': 'Homebrew でもインストールできます',
+      'brew.copy': 'コピー',
+      'brew.copied': 'コピーしました',
+      'brew.aria': 'Homebrew のインストールコマンドをコピー'
     },
     'ko': {
       'html.lang': 'ko',
-      'doc.title': 'AudioSwitch — macOS 메뉴 막대에서 오디오 장치 전환',
-      'doc.desc': '모든 오디오 입력과 출력을 한 패널에 담은 macOS 메뉴 막대 앱. 장치 전환, 음량, 음소거, 실시간 마이크 레벨 미터, 마이크 완전 차단 스위치. Apple 실리콘 네이티브, 의존성 없음, MIT 라이선스.',
+      'doc.title': 'AudioSwitch — Mac 메뉴 막대용 무료 오디오 장치 전환 앱',
+      'doc.desc': 'Mac의 오디오 출력과 입력 장치를 메뉴 막대에서 클릭 한 번으로 전환하는 무료 오픈 소스 앱. 음량, 음소거, 실시간 마이크 레벨 미터, 마이크 차단 스위치 제공.',
       'nav.devices': '장치',
       'nav.details': '세부',
       'nav.download': '다운로드',
       'brand': 'AudioSwitch for macOS',
       'h1': '모든 오디오 장치를 <span>메뉴 막대</span>에서 한 번에.',
-      'lede': 'macOS는 입력 장치 전환을 시스템 설정 깊숙이 숨겨 두었고, 기본 음량 메뉴는 출력만 다룹니다. AudioSwitch는 둘을 한 패널에 모읍니다 — 음량, 음소거, 실시간 마이크 레벨 미터, 그리고 마이크를 완전히 끄는 스위치까지.',
+      'lede': 'AudioSwitch는 스피커, 헤드폰, 마이크를 자주 바꿔 쓰는 Mac 사용자를 위한 무료 오픈 소스 메뉴 막대 앱입니다. macOS는 입력 장치 전환을 시스템 설정 깊숙이 숨겨 두었고, 기본 음량 메뉴는 출력만 다룹니다. AudioSwitch는 둘을 한 패널에 모읍니다 — 음량, 음소거, 실시간 마이크 레벨 미터, 그리고 마이크를 완전히 끄는 스위치까지.',
       'cta.download': 'macOS용 다운로드',
       'cta.kofi': 'Ko-fi에서 후원하기',
       'cta.source': 'GitHub에서 소스 보기',
       'cta.all': '모든 릴리스',
-      'fineprint': 'macOS 14 이상 · Apple 실리콘 · 서명 및 공증 완료 · MIT 라이선스 · 약 1.5 MB',
+      'fineprint': 'macOS 14 이상 · Apple 실리콘 · 서명 및 공증 완료 · MIT 라이선스 · 약 2 MB',
       'caption': '패널 하나로 입력과 출력 모두. 시스템 설정은 필요 없습니다.',
       'video.alt': 'AudioSwitch 패널 시연: 출력 장치 전환, 음량 조절, 장치 잠금, 마이크 차단 스위치 전환.',
       'panel.alt': 'AudioSwitch 패널. 출력과 입력 장치가 각자의 아이콘과 함께 나열되고 음량 슬라이더, 레벨 미터, 설정 스위치가 보입니다.',
@@ -1160,23 +1335,27 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
       'footer.issue': '문제 신고',
       'footer.kofi': '커피 사주기',
-      'lang.system': '시스템 설정 따르기'
+      'lang.system': '시스템 설정 따르기',
+      'brew.label': '또는 Homebrew로 설치',
+      'brew.copy': '복사',
+      'brew.copied': '복사됨',
+      'brew.aria': 'Homebrew 설치 명령 복사'
     },
     'de': {
       'html.lang': 'de',
-      'doc.title': 'AudioSwitch — Audiogeräte aus der macOS-Menüleiste umschalten',
-      'doc.desc': 'Eine native macOS-Menüleisten-App, die alle Audioein- und -ausgänge in einem Panel zusammenfasst: Geräte wechseln, Lautstärke, Stummschaltung, eine Live-Mikrofonanzeige und ein harter Aus-Schalter fürs Mikrofon. Apple Silicon, keine Abhängigkeiten, MIT.',
+      'doc.title': 'AudioSwitch – Audiogeräte am Mac in der Menüleiste wechseln',
+      'doc.desc': 'Kostenlose Open-Source-App für die Mac-Menüleiste: Audioausgabe und -eingabe mit einem Klick wechseln, mit Lautstärke, Stumm, Mikrofonpegel und Mikro-Aus.',
       'nav.devices': 'Geräte',
       'nav.details': 'Details',
       'nav.download': 'Laden',
       'brand': 'AudioSwitch für macOS',
       'h1': 'Jedes Audiogerät, ein Klick von der <span>Menüleiste</span> entfernt.',
-      'lede': 'macOS vergräbt den Wechsel des Eingabegeräts mehrere Klicks tief in den Systemeinstellungen, und das eingebaute Lautstärkemenü kennt nur die Ausgabe. AudioSwitch bringt beides in ein Panel — mit Lautstärke, Stummschaltung, einer Live-Mikrofonanzeige und einem harten Aus-Schalter fürs Mikrofon.',
+      'lede': 'AudioSwitch ist eine kostenlose Open-Source-App für die Menüleiste – für alle, die am Mac oft zwischen Lautsprechern, Kopfhörern und Mikrofonen wechseln. macOS vergräbt den Wechsel des Eingabegeräts mehrere Klicks tief in den Systemeinstellungen, und das eingebaute Lautstärkemenü kennt nur die Ausgabe. AudioSwitch bringt beides in ein Panel — mit Lautstärke, Stummschaltung, einer Live-Mikrofonanzeige und einem harten Aus-Schalter fürs Mikrofon.',
       'cta.download': 'Für macOS laden',
       'cta.kofi': 'Auf Ko-fi unterstützen',
       'cta.source': 'Quellcode auf GitHub',
       'cta.all': 'Alle Versionen',
-      'fineprint': 'macOS 14 oder neuer · Apple Silicon · signiert und notarisiert · MIT-Lizenz · rund 1,5 MB',
+      'fineprint': 'macOS 14 oder neuer · Apple Silicon · signiert und notarisiert · MIT-Lizenz · rund 2 MB',
       'caption': 'Ein Panel. Beide Richtungen. Keine Systemeinstellungen.',
       'video.alt': 'Das AudioSwitch-Panel: Ausgabegerät wechseln, Lautstärke ändern, ein Gerät sperren und den Mikrofonschalter umlegen.',
       'panel.alt': 'Das AudioSwitch-Panel mit Ausgabe- und Eingabegeräten, jedes mit eigenem Symbol, dazu Lautstärkeregler, Pegelanzeige und die Schalter.',
@@ -1220,23 +1399,27 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
       'footer.issue': 'Problem melden',
       'footer.kofi': 'Einen Kaffee spendieren',
-      'lang.system': 'System'
+      'lang.system': 'System',
+      'brew.label': 'Oder mit Homebrew installieren',
+      'brew.copy': 'Kopieren',
+      'brew.copied': 'Kopiert',
+      'brew.aria': 'Homebrew-Befehl kopieren'
     },
     'fr': {
       'html.lang': 'fr',
-      'doc.title': 'AudioSwitch — changer de périphérique audio depuis la barre des menus macOS',
-      'doc.desc': 'Une app macOS native pour la barre des menus qui réunit toutes les entrées et sorties audio dans un seul panneau : changer d\'appareil, régler le volume, couper le son, suivre le niveau du micro en direct et couper le micro pour de bon. Apple silicon, sans dépendances, MIT.',
+      'doc.title': 'AudioSwitch – changer de sortie audio sur Mac en un clic',
+      'doc.desc': 'App gratuite et open source pour la barre des menus du Mac : changez de sortie et d\'entrée audio en un clic, avec volume, sourdine et niveau du micro.',
       'nav.devices': 'Appareils',
       'nav.details': 'Détails',
       'nav.download': 'Télécharger',
       'brand': 'AudioSwitch pour macOS',
       'h1': 'Chaque périphérique audio, à un clic de la <span>barre des menus</span>.',
-      'lede': 'macOS enfouit le changement de périphérique d\'entrée à plusieurs clics dans les Réglages Système, et le menu de volume intégré ne gère que la sortie. AudioSwitch réunit les deux dans un seul panneau — avec le volume, la coupure du son, un indicateur de niveau du micro en direct et un vrai interrupteur pour couper le micro.',
+      'lede': 'AudioSwitch est une app gratuite et open source pour la barre des menus, pensée pour qui passe souvent des haut-parleurs au casque ou d\'un micro à l\'autre sur Mac. macOS enfouit le changement de périphérique d\'entrée à plusieurs clics dans les Réglages Système, et le menu de volume intégré ne gère que la sortie. AudioSwitch réunit les deux dans un seul panneau — avec le volume, la coupure du son, un indicateur de niveau du micro en direct et un vrai interrupteur pour couper le micro.',
       'cta.download': 'Télécharger pour macOS',
       'cta.kofi': 'Soutenir sur Ko-fi',
       'cta.source': 'Code source sur GitHub',
       'cta.all': 'Toutes les versions',
-      'fineprint': 'macOS 14 ou ultérieur · Apple silicon · signée et notarisée · licence MIT · environ 1,5 Mo',
+      'fineprint': 'macOS 14 ou ultérieur · Apple silicon · signée et notarisée · licence MIT · environ 2 Mo',
       'caption': 'Un panneau. Les deux sens. Sans passer par les Réglages Système.',
       'video.alt': 'Le panneau AudioSwitch : changement de périphérique de sortie, réglage du volume, verrouillage d\'un appareil et bascule de l\'interrupteur du micro.',
       'panel.alt': 'Le panneau AudioSwitch affichant les périphériques de sortie et d\'entrée, chacun avec son icône, les curseurs de volume, l\'indicateur de niveau et les réglages.',
@@ -1280,23 +1463,27 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
       'footer.issue': 'Signaler un problème',
       'footer.kofi': 'Offrir un café',
-      'lang.system': 'Système'
+      'lang.system': 'Système',
+      'brew.label': 'Ou installez-la avec Homebrew',
+      'brew.copy': 'Copier',
+      'brew.copied': 'Copié',
+      'brew.aria': 'Copier la commande Homebrew'
     },
     'es': {
       'html.lang': 'es',
-      'doc.title': 'AudioSwitch — cambia de dispositivo de audio desde la barra de menús de macOS',
-      'doc.desc': 'Una app nativa de la barra de menús de macOS que reúne todas las entradas y salidas de audio en un panel: cambiar de dispositivo, volumen, silencio, un medidor de nivel del micrófono en vivo y un interruptor para apagar el micrófono del todo. Apple silicon, sin dependencias, MIT.',
+      'doc.title': 'AudioSwitch – cambia la salida de audio del Mac en un clic',
+      'doc.desc': 'App gratuita y de código abierto para la barra de menús del Mac: cambia la salida y la entrada de audio en un clic, con volumen, silencio y medidor del micro.',
       'nav.devices': 'Dispositivos',
       'nav.details': 'Detalles',
       'nav.download': 'Descargar',
       'brand': 'AudioSwitch para macOS',
       'h1': 'Cada dispositivo de audio, a un clic de la <span>barra de menús</span>.',
-      'lede': 'macOS entierra el cambio de dispositivo de entrada varios clics dentro de Ajustes del Sistema, y el menú de volumen integrado solo cubre la salida. AudioSwitch pone ambos en un mismo panel — con volumen, silencio, un medidor de nivel del micrófono en vivo y un interruptor real para apagar el micrófono.',
+      'lede': 'AudioSwitch es una app gratuita y de código abierto para la barra de menús, pensada para quien cambia a menudo entre altavoces, auriculares y micrófonos en el Mac. macOS entierra el cambio de dispositivo de entrada varios clics dentro de Ajustes del Sistema, y el menú de volumen integrado solo cubre la salida. AudioSwitch pone ambos en un mismo panel — con volumen, silencio, un medidor de nivel del micrófono en vivo y un interruptor real para apagar el micrófono.',
       'cta.download': 'Descargar para macOS',
       'cta.kofi': 'Apoyar en Ko-fi',
       'cta.source': 'Código en GitHub',
       'cta.all': 'Todas las versiones',
-      'fineprint': 'macOS 14 o posterior · Apple silicon · firmada y notarizada · licencia MIT · unos 1,5 MB',
+      'fineprint': 'macOS 14 o posterior · Apple silicon · firmada y notarizada · licencia MIT · unos 2 MB',
       'caption': 'Un panel. Las dos direcciones. Sin abrir Ajustes del Sistema.',
       'video.alt': 'El panel de AudioSwitch: cambio del dispositivo de salida, ajuste del volumen, bloqueo de un dispositivo y el interruptor del micrófono.',
       'panel.alt': 'El panel de AudioSwitch con los dispositivos de salida y entrada, cada uno con su icono, los deslizadores de volumen, el medidor de nivel y los interruptores.',
@@ -1340,7 +1527,11 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
       'footer.docs.href': 'https://github.com/iamzifei/audioswitch/blob/main/README.en.md',
       'footer.issue': 'Informar de un problema',
       'footer.kofi': 'Invítame a un café',
-      'lang.system': 'Sistema'
+      'lang.system': 'Sistema',
+      'brew.label': 'O instálala con Homebrew',
+      'brew.copy': 'Copiar',
+      'brew.copied': 'Copiado',
+      'brew.aria': 'Copiar el comando de Homebrew'
     }
   };
 
@@ -1356,6 +1547,7 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
   english['doc.desc'] = descEl.getAttribute('content');
   english['html.lang'] = 'en';
   english['lang.system'] = 'System';
+  english['brew.copied'] = 'Copied';
 
   function each(attr, fn) {
     Array.prototype.forEach.call(document.querySelectorAll('[' + attr + ']'), function (el) {
@@ -1403,7 +1595,25 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
     descEl.setAttribute('content', get('doc.desc'));
     document.documentElement.lang = get('html.lang');
     select.options[0].textContent = get('lang.system');
+    current = get;
   }
+
+  var current = function (key) { return english[key]; };
+
+  // Homebrew copy buttons: write the command, confirm for 1.5 s, restore.
+  Array.prototype.forEach.call(document.querySelectorAll('.brew-copy'), function (btn) {
+    var timer;
+    btn.addEventListener('click', function () {
+      var done = function () {
+        btn.textContent = current('brew.copied');
+        clearTimeout(timer);
+        timer = setTimeout(function () { btn.textContent = current('brew.copy'); }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(done, function () {});
+      }
+    });
+  });
 
   var stored;
   try { stored = localStorage.getItem('audioswitch.lang'); } catch (e) { stored = null; }
@@ -1413,6 +1623,13 @@ footer a:hover { color: var(--ink); text-decoration: underline; text-underline-o
 
   select.value = choice;
   apply(choice);
+
+  // A ?lang= link is the language-specific URL the hreflang alternates name,
+  // so it canonicalises to itself rather than to the bare homepage.
+  if (forced && choice !== 'system') {
+    var canon = document.querySelector('link[rel="canonical"]');
+    if (canon) canon.setAttribute('href', 'https://audioswitch.dev/?lang=' + choice);
+  }
 
   select.addEventListener('change', function () {
     apply(select.value);

@@ -1,0 +1,39 @@
+# AudioSwitch
+
+> AudioSwitch is a free, open-source macOS menu bar app that switches your Mac's audio output and input devices in one click, with volume, mute, a live microphone level meter and a microphone kill switch.
+
+macOS hides input-device switching several clicks deep in System Settings, and the built-in Sound menu only covers output. AudioSwitch puts every output and input device in one menu bar panel. It is for anyone who moves between speakers, headphones, AirPods, USB microphones and audio interfaces during the day.
+
+Facts:
+
+- Price: free. Licence: MIT. Source code: https://github.com/iamzifei/audioswitch
+- Requirements: macOS 14 (Sonoma) or later, Apple silicon (arm64) only.
+- Current version: 1.5.2. Download is a signed and notarised AudioSwitch.zip of about 2 MB.
+- Install with Homebrew: `brew install --cask iamzifei/tap/audioswitch`
+- Interface languages: English, Simplified Chinese, Traditional Chinese, or follow the system. The website is also available in Japanese, Korean, German, French and Spanish.
+- Author: James (GitHub @iamzifei).
+
+Features:
+
+- Switch the default output and input device from the menu bar; switching output also moves the system alert sound output.
+- Output and input volume sliders shown in decibels, kept in sync with the volume keys and System Settings.
+- Live input level meter. The microphone is only opened while the panel is open.
+- Disable Microphone: mutes the current input system-wide, re-mutes whichever device becomes default later, and survives a reboot.
+- Lock a device: if another app (often a conferencing app) changes the default output or input, AudioSwitch switches it straight back. Stored by device UID.
+- Right-click the menu bar icon to cycle to the next output device.
+- Distinct icons per device kind (AirPods, AirPods Pro/Max, Beats, headphones, speakers, displays, microphones, virtual devices); the menu bar icon follows the current output.
+- Automatic updates through Sparkle, with EdDSA-signed downloads.
+- No Dock icon, no window, no analytics; the only network call is the update check.
+
+Known limit: AirPlay speakers are not listed until one is active. macOS only instantiates an AirPlay target after it has been selected (for example via Sound Settings in the panel), so it is not reachable through public APIs before that; once active it appears like any other device.
+
+## Links
+
+- [Homepage](https://audioswitch.dev/)
+- [Download the latest release (AudioSwitch.zip)](https://github.com/iamzifei/audioswitch/releases/latest/download/AudioSwitch.zip)
+- [All releases and release notes](https://github.com/iamzifei/audioswitch/releases)
+- [Source code on GitHub](https://github.com/iamzifei/audioswitch)
+- [Documentation (English README)](https://github.com/iamzifei/audioswitch/blob/main/README.en.md)
+- [Documentation (Chinese README)](https://github.com/iamzifei/audioswitch/blob/main/README.md)
+- [Report an issue](https://github.com/iamzifei/audioswitch/issues)
+- Homebrew: `brew install --cask iamzifei/tap/audioswitch`

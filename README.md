@@ -64,6 +64,14 @@ AudioSwitch 把两边放进同一个面板：所有输入和输出设备、各�
 到 [Releases](https://github.com/iamzifei/audioswitch/releases/latest) 下载
 `AudioSwitch.zip`，解压后把 `AudioSwitch.app` 拖进 `/Applications`。
 
+也可以用 [Homebrew](https://brew.sh) 安装：
+
+```bash
+brew install --cask iamzifei/tap/audioswitch
+```
+
+需要 macOS 14 或更高版本、Apple Silicon。
+
 发布版经过 Developer ID 签名与 Apple 公证，**双击即可打开**，不需要右键→打开，
 也不用改 `xattr`。
 

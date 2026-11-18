@@ -77,6 +77,14 @@ Download the latest `AudioSwitch.zip` from
 [Releases](https://github.com/iamzifei/audioswitch/releases/latest), unzip, and
 drag `AudioSwitch.app` to `/Applications`.
 
+Or install with [Homebrew](https://brew.sh):
+
+```bash
+brew install --cask iamzifei/tap/audioswitch
+```
+
+Requires macOS 14 or later on Apple silicon.
+
 > **First launch.** Releases are signed with a Developer ID and, once
 > notarised, open normally. If you get "cannot be opened because the developer
 > cannot be verified", the build you downloaded was not notarised —
