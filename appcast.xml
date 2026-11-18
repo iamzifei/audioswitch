@@ -6,6 +6,14 @@
     <description>Most recent AudioSwitch updates.</description>
     <language>en</language>
     <item>
+      <title>1.5.2</title>
+      <pubDate>Wed, 18 Nov 2026 00:35:51 -0000</pubDate>
+      <sparkle:version>10</sparkle:version>
+      <sparkle:shortVersionString>1.5.2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/iamzifei/audioswitch/releases/download/v1.5.2/AudioSwitch.zip" sparkle:edSignature="rSnH4FDyN6Wcn7NArqX/GS0BYPTNV7q4fjPSnvPp2kMWdbt+9rIRYUsMd5iOiHRj2d0YTONXCl/YYzh4V/fSBw==" length="2172557" type="application/octet-stream"/>
+    </item>
+    <item>
       <title>1.5.1</title>
       <pubDate>Wed, 18 Nov 2026 00:07:10 -0000</pubDate>
       <sparkle:version>9</sparkle:version>
