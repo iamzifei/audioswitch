@@ -21,6 +21,15 @@ enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
+    /// The shipped language that best matches the system's preferences.
+    static func suggested(preferred: [String] = Locale.preferredLanguages) -> AppLanguage {
+        switch Onboarding.suggestedLanguageCode(preferred: preferred) {
+        case "zh-Hant": return .traditionalChinese
+        case "zh-Hans": return .simplifiedChinese
+        default: return .english
+        }
+    }
+
     var titleKey: String {
         switch self {
         case .system: return "language.system"

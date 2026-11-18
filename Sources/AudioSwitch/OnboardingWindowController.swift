@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import AudioSwitchCore
 import SwiftUI
 
@@ -28,6 +29,7 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
     private let model = OnboardingModel()
     private var window: NSWindow?
     private var keyMonitor: Any?
+    private var languageObserver: AnyCancellable?
 
     init(l10n: Localization, preferences: Preferences = .standard) {
         self.l10n = l10n
@@ -65,6 +67,10 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
             window = w
         }
         window?.title = l10n("onboarding.window_title")
+        // The title is not SwiftUI, so follow language changes by hand.
+        languageObserver = l10n.$language.dropFirst().sink { [weak self] _ in
+            DispatchQueue.main.async { self?.window?.title = self?.l10n("onboarding.window_title") ?? "" }
+        }
         window?.contentView = NSHostingView(rootView: OnboardingView(
             model: model,
             l10n: l10n,
@@ -74,6 +80,9 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
         window?.center()
         NSApp.activate(ignoringOtherApps: true)
         window?.makeKeyAndOrderFront(nil)
+        // A menu-bar (accessory) app is never frontmost at launch, so
+        // activation alone can leave the window behind other apps.
+        window?.orderFrontRegardless()
         installKeyMonitor()
     }
 
@@ -180,6 +189,9 @@ struct OnboardingView: View {
                     .font(.system(size: 13))
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+                if model.page == 0 {
+                    languagePicker
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(.horizontal, 32)
@@ -219,6 +231,28 @@ struct OnboardingView: View {
             .padding(.vertical, 14)
         }
         .frame(width: Self.size.width, height: Self.size.height)
+    }
+
+    /// Shows the language in effect: the user's choice, or, while the app is
+    /// still on "System", what the system language resolves to. Picking one
+    /// writes the app's Language setting; never touching it leaves "System".
+    private var languagePicker: some View {
+        let choices: [AppLanguage] = [.english, .simplifiedChinese, .traditionalChinese]
+        let shown = choices.contains(l10n.language)
+            ? l10n.language
+            : AppLanguage.suggested()
+        return HStack(spacing: 10) {
+            Image(systemName: "globe").foregroundStyle(.secondary)
+            Picker(l10n("option.language"), selection: Binding(
+                get: { shown },
+                set: { l10n.setLanguage($0) }
+            )) {
+                ForEach(choices) { Text(l10n($0.titleKey)).tag($0) }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+        }
+        .padding(.top, 4)
     }
 
     /// 576 pt content width (640 - 2x32) at the screenshots' 2:1 ratio.

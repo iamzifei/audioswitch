@@ -47,4 +47,33 @@ final class OnboardingTests: XCTestCase {
             }
         }
     }
+
+    /// A truly fresh install has no defaults at all and must show the guide.
+    func testFreshInstallWithNoDefaultsShowsGuide() {
+        let suite = "com.iamzifei.audioswitch.tests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        XCTAssertNil(defaults.object(forKey: "onboardingSeenVersion"))
+        XCTAssertTrue(Onboarding.shouldShow(seenVersion: Preferences(defaults: defaults).onboardingSeenVersion))
+        // The language setting must also start on System.
+        XCTAssertEqual(Preferences(defaults: defaults).languageCode, "system")
+    }
+
+    /// Upgrade from 1.5.0, which stored version 1: nothing new to show in 1.5.1.
+    func testUpgradeFromEarlierGuideVersionDoesNotReshow() {
+        XCTAssertFalse(Onboarding.shouldShow(seenVersion: 1))
+    }
+
+    func testSuggestedLanguage() {
+        let cases: [([String], String)] = [
+            (["zh-Hant-TW"], "zh-Hant"), (["zh-TW"], "zh-Hant"), (["zh-HK"], "zh-Hant"),
+            (["zh-Hant"], "zh-Hant"), (["zh-Hant-HK", "en"], "zh-Hant"),
+            (["zh-Hans-CN"], "zh-Hans"), (["zh-CN"], "zh-Hans"), (["zh"], "zh-Hans"),
+            (["zh-SG"], "zh-Hans"), (["en-AU"], "en"), (["ja-JP"], "en"),
+            (["en-US", "zh-Hans"], "en"), ([], "en"),
+        ]
+        for (preferred, expected) in cases {
+            XCTAssertEqual(Onboarding.suggestedLanguageCode(preferred: preferred), expected, "\(preferred)")
+        }
+    }
 }
